@@ -167,11 +167,11 @@ class ChecklistController extends Controller
                 
                 $schools = $query->get();
             }else
-            $schools = School::all();
+            $schools = School::where([['hide_at',0],['deleted_at',null]])->get();
 
 
         }else{
-            $schools = School::all();
+            $schools = School::where([['hide_at',0],['deleted_at',null]])->get();
         }
 
         $data = [];

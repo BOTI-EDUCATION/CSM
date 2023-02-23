@@ -9,17 +9,23 @@
                 <label for="" class="">Category</label>
               </div>
               <div class="col-12 col-md-8">
-                {{document?document.title:'-'}}
+                {{ document ? document.title : "-" }}
               </div>
             </div>
+
             <div class="row mb-3">
               <div class="col-12 col-md-4">
                 <label for="" class="">Title</label>
               </div>
               <div class="col-12 col-md-8">
-                <input type="text" v-model="formControls.title" class="form-control">
+                <input
+                  type="text"
+                  v-model="formControls.title"
+                  class="form-control"
+                />
               </div>
             </div>
+
             <div class="row mb-3">
               <div class="col-12 col-md-4">
                 <label for="" class="">Roles</label>
@@ -36,20 +42,51 @@
                 ></vue-select>
               </div>
             </div>
+
+            <div class="row mb-3">
+              <div class="col-12 col-md-4">
+                <label for="types">Type</label>
+              </div>
+              <div class="col-12 col-md-8">
+                <vue-select
+                  multiple
+                  :reduce="(type) => type.alias"
+                  label="label"
+                  :options="types"
+                  v-model="formControls.types"
+                  placeholder="Types"
+                  searchable
+                >
+
+                </vue-select>
+              </div>
+            </div>
             <div class="row mb-3">
               <div class="col-12 col-md-4">
                 <label for="" class="">Details</label>
               </div>
               <div class="col-12 col-md-8">
-                <vue-editor 
-                    id="details"
-                    v-model="formControls.details">
+                <vue-editor id="details" v-model="formControls.details">
                 </vue-editor>
               </div>
             </div>
             <div class="row">
               <div class="col-12 text-right">
-                <button @click="saveDocumentation" class="btn btn-primary">Enregistrer</button>
+
+                <button class="btn btn-primary" @click="$router.back()">Cancel</button>
+
+                <button @click="saveDocumentation" class="btn btn-info" v-if="!formControls.id">
+                    Enregister
+                </button>
+
+                <button @click="saveDocumentation" class="btn btn-warning text-dark" v-if="formControls.id">
+                    Modifier
+                </button>
+              
+                <button @click="deleteDoc" class="btn btn-danger" v-if="formControls.id">
+                  Supprimer
+                </button>
+
               </div>
             </div>
           </div>
@@ -67,25 +104,43 @@ import { VueEditor } from "vue2-editor";
 
 export default {
   components: {
-    'vue-select' : vSelect,
-    'vue-editor' : VueEditor,
+    "vue-select": vSelect,
+    "vue-editor": VueEditor,
   },
   data() {
     return {
       document: {},
       roles: [
-          {
-            'id': 'responsable-pedagogique',
-            'label': 'Responsable pédagogique'
-          },
-          {
-            'id': 'responsable-financier',
-            'label': 'Responsable financier'
-          },
-          {
-            'id': 'account_manager',
-            'label': 'Account Manager'
-          },
+        {
+          id: "responsable-pedagogique",
+          label: "Responsable pédagogique",
+        },
+        {
+          id: "responsable-financier",
+          label: "Responsable financier",
+        },
+        {
+          id: "account_manager",
+          label: "Account Manager",
+        },
+        {
+          id:"enseignant",
+          label: "Enseignant",
+        }
+      ],
+      types: [
+        {
+          alias: "kinder",
+          label: "Kinder",
+        },
+        {
+          alias: "school",
+          label: "School",
+        },
+        {
+          alias: "british",
+          label: "British",
+        },
       ],
       formControls: {
         parent: null,
@@ -93,6 +148,7 @@ export default {
         title: "",
         details: "",
         roles: [],
+        types:[]
       },
     };
   },
@@ -106,35 +162,34 @@ export default {
               Authorization: "Bearer " + token,
             },
           })
-          .then( (result) => {
+          .then((result) => {
             if (this.$route.path.includes("/add/")) {
-
-              this.document =  result.data;
+              this.document = result.data;
               this.formControls = {
-                parent:  result.data.id,
+                parent: result.data.id,
                 id: null,
                 title: "",
                 details: "",
                 roles: [],
+                types: [],
               };
+            } else if (this.$route.path.includes("/edit/")) {
+              this.document = result.data.parent;
 
-            } else if(this.$route.path.includes("/edit/")) {
-              this.document =  result.data.parent;
-              
               this.formControls = {
-                parent:  (result.data.parent?result.data.parent.id:null),
-                id:  result.data.id,
-                title:  result.data.title,
-                details:  result.data.details,
-                roles:  result.data.roles,
+                parent: result.data.parent ? result.data.parent.id : null,
+                id: result.data.id,
+                title: result.data.title,
+                details: result.data.details,
+                roles: result.data.roles,
+                types: result.data.types,
               };
-
             }
           })
           .catch(function (err) {});
       }
     },
-    getRole: async function(){
+    getRole: async function () {
       // const token = localStorage.getItem("auth-token");
       // if (token) {
       //   await axios
@@ -149,19 +204,46 @@ export default {
       //     .catch(function (err) {});
       // }
     },
-    saveDocumentation : async function(){
+    saveDocumentation: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
         await axios
-          .post("/api/saveDocumentation", this.formControls , {
+          .post("/api/saveDocumentation", this.formControls, {
             headers: {
               Authorization: "Bearer " + token,
             },
           })
-          .then( (result) => {
+          .then((result) => {
             this.$router.back();
           })
           .catch(function (err) {});
+      }
+    },
+    deleteDoc: async function (e){
+      e.preventDefault();
+      const token = localStorage.getItem("auth-token");
+      if(token){
+        this.$swal({
+          title:`Are you sure to delete this Doc ${this.formControls.title} ?`,
+          icon:'warning',
+          showConfirmButton: false,
+          showDenyButton: true,
+          showCancelButton: true,
+          denyButtonText: `Delete`,
+          cancelButtonText: `Cancel`,
+        }).then(async (result) => {
+          if(result.isDenied){
+            await axios.post("/api/doc/delete/" + this.formControls.id,{},
+            {
+              headers: {
+                    Authorization: "Bearer " + token,
+                  },
+            }
+            ).then( () => {
+              this.$router.push("/documentation");
+            })
+          }
+        })
       }
     }
   },

@@ -31,10 +31,16 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $userData = [
-            'nom' => $user->nom,
-            'prenom' => $user->prenom,
-            'role' => $user->role->Alias,
-            'img' => $user->getPicture()
+            'id'        => $user->id,
+            'nom'       => $user->nom,
+            'prenom'    => $user->prenom,
+            'adresse'   => $user->adresse,
+            'telephone' => $user->telephone,
+            'email'     => $user->email,
+            'fonction'  => $user->fonction,
+            'role'      => $user->role->Alias,
+            'role_id'   => $user->role->id,
+            'img'       => $user->getPicture()
         ];
 
         return response()->json([

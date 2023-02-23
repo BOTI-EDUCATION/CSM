@@ -5,7 +5,12 @@
       <div class="app-header header fixed-header visible-title">
         <div class="container-fluid main-container">
           <div class="d-flex">
-            <a aria-label="Hide Sidebar" class="app-sidebar__toggle" @click="toggleSideBar" href="javascript:void(0)"></a>
+            <a
+              aria-label="Hide Sidebar"
+              class="app-sidebar__toggle"
+              @click="toggleSideBar"
+              href="javascript:void(0)"
+            ></a>
             <!-- sidebar-toggle-->
             <router-link exact class="logo-horizontal" to="/">
               <img
@@ -112,7 +117,11 @@
                               <button class="btn btn-link"><i class="fa fa-plus"></i></button>
                             </div> -->
                             <div class="ms-auto">
-                              <a ref="btnAddTicket" @click="showModalAddTicket = !showModalAddTicket"
+                              <a
+                                ref="btnAddTicket"
+                                @click="
+                                  showModalAddTicket = !showModalAddTicket
+                                "
                                 href="javascript:void(0)"
                                 class="text-white bg-success px-2 py-1 bradius"
                                 ><i class="fa fa-plus"></i
@@ -120,12 +129,17 @@
                             </div>
                           </div>
                         </div>
-                        <div v-if="tickets.length > 0" class="notifications-menu" style="max-height: 400px; overflow-y:scroll">
-                          <template v-for="ticket in tickets" > 
+                        <div
+                          v-if="tickets.length > 0"
+                          class="notifications-menu"
+                          style="max-height: 400px; overflow-y: scroll"
+                        >
+                          <template v-for="ticket in tickets">
                             <router-link
-                              v-if="ticket.school" :key="ticket.id"
+                              v-if="ticket.school"
+                              :key="ticket.id"
                               class="dropdown-item d-flex"
-                              :to="'schools/view/'+ticket.school.id"
+                              :to="'schools/view/' + ticket.school.id"
                             >
                               <div
                                 class="
@@ -135,21 +149,23 @@
                                   box-shadow-primary
                                 "
                               >
-                                <img :src="ticket.school.img" alt="">
+                                <img :src="ticket.school.img" alt="" />
                               </div>
                               <div class="mt-1">
                                 <h5 class="notification-label mb-1">
-                                  {{ticket.label}}
+                                  {{ ticket.label }}
                                 </h5>
-                                <span class="notification-subtext"
-                                  >{{ticket.date}}</span
-                                >
+                                <span class="notification-subtext">{{
+                                  ticket.date
+                                }}</span>
                               </div>
                             </router-link>
                           </template>
                         </div>
                         <div v-else class="notifications-menu text-center">
-                          <div class=" dropdown-item  text-muted">Aucun Ticket</div>
+                          <div class="dropdown-item text-muted">
+                            Aucun Ticket
+                          </div>
                         </div>
                         <div class="dropdown-divider m-0"></div>
                         <router-link
@@ -159,6 +175,7 @@
                         >
                       </div>
                     </div>
+
                     <div class="dropdown d-flex notifications">
                       <a class="nav-link icon" data-bs-toggle="dropdown"
                         ><i class="fa fa-calendar"></i>
@@ -178,7 +195,12 @@
                               <button class="btn btn-link"><i class="fa fa-plus"></i></button>
                             </div> -->
                             <div class="ms-auto">
-                              <a ref="btnAddIntervention" @click="showModalAddIntervention = !showModalAddIntervention"
+                              <a
+                                ref="btnAddIntervention"
+                                @click="
+                                  showModalAddIntervention =
+                                    !showModalAddIntervention
+                                "
                                 href="javascript:void(0)"
                                 class="text-white bg-success px-2 py-1 bradius"
                                 ><i class="fa fa-plus"></i
@@ -186,12 +208,17 @@
                             </div>
                           </div>
                         </div>
-                        <div v-if="interventions.length > 0" class="notifications-menu">
+                        <div
+                          v-if="interventions.length > 0"
+                          class="notifications-menu"
+                          style="max-height: 400px; overflow-y: scroll"
+                        >
                           <template v-for="intervention in interventions">
                             <router-link
-                              v-if="intervention.school" :key="intervention.id"
+                              v-if="intervention.school"
+                              :key="intervention.id"
                               class="dropdown-item d-flex"
-                              :to="'schools/view/'+intervention.school.id"
+                              :to="'schools/view/' + intervention.school.id"
                             >
                               <div
                                 class="
@@ -201,21 +228,23 @@
                                   box-shadow-primary
                                 "
                               >
-                                <img :src="intervention.school.img" alt="">
+                                <img :src="intervention.school.img" alt="" />
                               </div>
                               <div class="mt-1">
                                 <h5 class="notification-label mb-1">
-                                  {{intervention.label}}
+                                  {{ intervention.label }}
                                 </h5>
-                                <span class="notification-subtext"
-                                  >{{intervention.date}}</span
-                                >
+                                <span class="notification-subtext">{{
+                                  intervention.date
+                                }}</span>
                               </div>
                             </router-link>
                           </template>
                         </div>
                         <div v-else class="notifications-menu text-center">
-                          <div class=" dropdown-item  text-muted">Aucune Intervention Plannifiée</div>
+                          <div class="dropdown-item text-muted">
+                            Aucune Intervention Plannifiée
+                          </div>
                         </div>
                         <div class="dropdown-divider m-0"></div>
                         <!-- <a
@@ -247,6 +276,7 @@
                           :src="user.img"
                           alt="profile-user"
                           class="avatar profile-user brround cover-image"
+                          style="object-fit: cover"
                         />
                       </a>
                       <div
@@ -263,9 +293,14 @@
                           </div>
                         </div>
                         <div class="dropdown-divider m-0"></div>
-                        <a class="dropdown-item" href="profile.html">
+
+                        <button
+                          class="dropdown-item"
+                          @click="showModalUser = true"
+                        >
                           <i class="dropdown-icon fe fe-user"></i> Profile
-                        </a>
+                        </button>
+
                         <button class="dropdown-item" @click="logout">
                           <i class="dropdown-icon fe fe-alert-circle"></i>
                           Sign out
@@ -369,21 +404,12 @@
                 </router-link>
                 <router-link
                   exact
-                  to="/schools"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                      <i class="side-menu__icon fe fe-home"></i
-                      ><span class="side-menu__label">Schools</span>
-                </router-link>
-                <router-link
-                  exact
                   to="/checkup"
                   class="side-menu__item"
                   data-bs-toggle="slide"
                 >
-                      <i class="side-menu__icon fe fe-check-circle"></i
-                      ><span class="side-menu__label">Checkup</span>
+                  <i class="side-menu__icon fe fe-check-circle"></i
+                  ><span class="side-menu__label">Checkup</span>
                 </router-link>
                 <router-link
                   exact
@@ -391,10 +417,55 @@
                   class="side-menu__item"
                   data-bs-toggle="slide"
                 >
-                      <i class="side-menu__icon fe fe-trending-up"></i
-                      ><span class="side-menu__label">Usage Tracking</span>
+                  <i class="side-menu__icon fe fe-trending-up"></i
+                  ><span class="side-menu__label">Usage Tracking</span>
                 </router-link>
               </li>
+
+              <li class="slide">
+                <a
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                  href="javascript:void(0)"
+                  ><i class="side-menu__icon fe fe-grid"></i
+                  ><span class="side-menu__label">Schools</span
+                  ><i class="angle fe fe-chevron-right"></i
+                ></a>
+                <ul class="slide-menu">
+                  <li class="side-menu-label1">
+                    <a href="javascript:void(0)">List Schools</a>
+                  </li>
+                  <li>
+                    <router-link exact to="/schools" class="slide-item">
+                      <i class="side-menu__icon fe fe-users"></i
+                      ><span class="side-menu__label">List Schools</span>
+                    </router-link>
+                  </li>
+                  <li class="side-menu-label1">
+                    <a href="javascript:void(0)">Deleted School</a>
+                  </li>
+                  <li>
+                    <router-link exact to="/deleted/schools" class="slide-item">
+                      <i class="side-menu__icon fe fe-users"></i
+                      ><span class="side-menu__label">Deleted School</span>
+                    </router-link>
+                  </li>
+                  <li class="side-menu-label1">
+                    <a href="javascript:void(0)">Disabled School</a>
+                  </li>
+                  <li>
+                    <router-link
+                      exact
+                      to="/disabled/schools"
+                      class="slide-item"
+                    >
+                      <i class="side-menu__icon fe fe-server"></i
+                      ><span class="side-menu__label">Disabled School</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </li>
+
               <li class="sub-category"><h3>School Jobs</h3></li>
               <li class="slide">
                 <router-link
@@ -426,7 +497,7 @@
                 </router-link>
               </li>
               <li class="sub-category"><h3>School Life</h3></li>
-                            <li class="slide">
+              <li class="slide">
                 <router-link
                   exact
                   to="/listeBlogs"
@@ -455,7 +526,21 @@
                   ><span class="side-menu__label">News</span>
                 </router-link>
               </li>
+              <li class="sub-category"><h3>FOUNDERS</h3></li>
+
+              <li class="slide">
+                <router-link
+                  exact
+                  to="/founder/connexion"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">Logs</span>
+                </router-link>
+              </li>
               <li class="sub-category"><h3>Gestion du contenu</h3></li>
+
               <li class="slide">
                 <router-link
                   exact
@@ -518,13 +603,42 @@
                     </router-link>
                   </li>
                   <li>
-                    <router-link
-                      exact
-                      to="/tracking"
-                      class="slide-item"
-                    >
+                    <router-link exact to="/tracking" class="slide-item">
                       <i class="side-menu__icon fe fe-server"></i
                       ><span class="side-menu__label">Matrice</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </li>
+              <li class="slide">
+                <a
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                  href="javascript:void(0)"
+                  ><i class="side-menu__icon fe fe-grid"></i
+                  ><span class="side-menu__label">Releases</span
+                  ><i class="angle fe fe-chevron-right"></i
+                ></a>
+                <ul class="slide-menu">
+                  <li class="side-menu-label1">
+                    <a href="javascript:void(0)">Releasses</a>
+                  </li>
+                  <li>
+                    <router-link exact to="/types" class="slide-item">
+                      <i class="side-menu__icon fe fe-server"></i
+                      ><span class="side-menu__label">Types</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link exact to="/teams" class="slide-item">
+                      <i class="side-menu__icon fe fe-users"></i
+                      ><span class="side-menu__label">Teams</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link exact to="/releases" class="slide-item">
+                      <i class="side-menu__icon fe fe-server"></i
+                      ><span class="side-menu__label">Release</span>
                     </router-link>
                   </li>
                 </ul>
@@ -610,6 +724,46 @@
                       ><span class="side-menu__label">Schools</span>
                     </router-link>
                   </li> -->
+                  <li class="slide">
+                    <a
+                      class="side-menu__item"
+                      data-bs-toggle="slide"
+                      href="javascript:void(0)"
+                      style="padding: 8px"
+                      ><i class="side-menu__icon fe fe-grid"></i
+                      ><span class="side-menu__label">Academy</span
+                      ><i class="angle fe fe-chevron-right"></i
+                    ></a>
+                    <ul class="slide-menu">
+                      <li class="side-menu-label1">
+                        <a href="javascript:void(0)">Themes</a>
+                      </li>
+                      <li>
+                        <router-link
+                          exact
+                          to="/academy/themes"
+                          class="slide-item"
+                        >
+                          <i class="side-menu__icon fe fe-layers"></i
+                          ><span class="side-menu__label">Themes</span>
+                        </router-link>
+                      </li>
+
+                      <li class="side-menu-label1">
+                        <a href="javascript:void(0)">Courses</a>
+                      </li>
+                      <li>
+                        <router-link
+                          exact
+                          to="/academy/courses"
+                          class="slide-item"
+                        >
+                          <i class="side-menu__icon fe fe-film"></i
+                          ><span class="side-menu__label">Courses</span>
+                        </router-link>
+                      </li>
+                    </ul>
+                  </li>
                   <li>
                     <router-link
                       exact
@@ -623,14 +777,14 @@
                 </ul>
               </li>
               <router-link
-                  exact
-                  to="/errorstracker"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                      <i class="side-menu__icon fe fe-alert-octagon"></i
-                      ><span class="side-menu__label">Errors Tracking</span>
-                </router-link>
+                exact
+                to="/errorstracker"
+                class="side-menu__item"
+                data-bs-toggle="slide"
+              >
+                <i class="side-menu__icon fe fe-alert-octagon"></i
+                ><span class="side-menu__label">Errors Tracking</span>
+              </router-link>
             </ul>
             <div class="slide-right" id="slide-right">
               <svg
@@ -1456,16 +1610,27 @@
               </div>
             </div> -->
             <div class="tab-pane active" id="side3">
-              <ul v-if="notifications.length > 0" class="task-list timeline-task mt-4">
-                <li v-for="notification in notifications" :key="notification.id" class="d-sm-flex">
+              <ul
+                v-if="notifications.length > 0"
+                class="task-list timeline-task mt-4"
+              >
+                <li
+                  v-for="notification in notifications"
+                  :key="notification.id"
+                  class="d-sm-flex"
+                >
                   <div>
                     <i class="task-icon1"></i>
                     <h6 class="fw-semibold">
-                      {{notification.label}} <br> <span class="text-muted fs-11 ms-2 fw-normal"
-                        >{{notification.date}}</span
-                      >
+                      {{ notification.label }} <br />
+                      <span class="text-muted fs-11 ms-2 fw-normal">{{
+                        notification.date
+                      }}</span>
                     </h6>
-                    <p class="text-muted fs-12" v-html="notification.details"></p>
+                    <p
+                      class="text-muted fs-12"
+                      v-html="notification.details"
+                    ></p>
                   </div>
                   <!-- <div class="ms-auto d-md-flex me-3">
                     <a href="javascript:void(0)" class="text-muted me-2"
@@ -1476,11 +1641,8 @@
                     ></a>
                   </div> -->
                 </li>
-        
               </ul>
-              <h4 v-else class="text-center mt-4">
-                Aucune notification.
-              </h4>
+              <h4 v-else class="text-center mt-4">Aucune notification.</h4>
             </div>
           </div>
         </div>
@@ -1513,6 +1675,7 @@
     </footer>
     <!-- FOOTER CLOSED -->
 
+    <!------------------------------  ADD TICKET ------------------------------>
     <transition
       @enter="startTransitionModal($refs.modalAddTicket)"
       @after-enter="endTransitionModal($refs.modalAddTicket)"
@@ -1522,31 +1685,40 @@
       <div class="modal fade" v-if="showModalAddTicket" ref="modalAddTicket">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
-              <form @submit="addTicket" enctype="multipart/form-data">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Ajouter un ticket
-              </h5>
-              <button
-                class="close btn"
-                @click="showModalAddTicket = !showModalAddTicket"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
+            <form @submit="addTicket" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Ajouter un ticket
+                </h5>
+                <button
+                  class="close btn"
+                  @click="showModalAddTicket = !showModalAddTicket"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
                 <div class="container">
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label class="form-label"> Titre </label>
-                        <input type="text" required name="label" class="form-control">
+                        <input
+                          type="text"
+                          required
+                          name="label"
+                          class="form-control"
+                        />
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label class="form-label"> School </label>
-                        <input type="hidden" name="school" :value="ticketSchool" >
+                        <input
+                          type="hidden"
+                          name="school"
+                          :value="ticketSchool"
+                        />
                         <vue-select
                           class="form-contro"
                           name="accountManager"
@@ -1558,13 +1730,35 @@
                           searchable
                         >
                         </vue-select>
-                        <!-- <select name="school"  required class="form-control">
-                          <option v-for="school in schools" :key="school.id" :value="school.id">{{school.name}}</option>
-                        </select> -->
+                       
                       </div>
                     </div>
+
+                    <div class="col-md-4" style="margin-top: 0.4rem">
+                     
+                      <div class="form-group">
+                        <label for="form-label"> Demandeur </label>
+                        <input
+                          type="hidden"
+                          name="contact_id"
+                          :value="demandeur"
+                        />
+                        <vue-select
+                          class="form-contro"
+                          name="contact_id"
+                          :reduce="(accMan) => accMan.id"
+                          label="name"
+                          :options="schoolContacts"
+                          v-model="demandeur"
+                          placeholder="Demandeur"
+                          searchable
+                        >
+                        </vue-select>
+                      </div>
+                    </div>
+
                     <div class="col-md-6">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Channel </label>
                         <select name="channel" class="form-control">
                           <option value="whatsapp">Whatsapp</option>
@@ -1573,28 +1767,48 @@
                         </select>
                       </div>
                     </div>
+
                     <div class="col-md-6">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Nature </label>
                         <select name="nature" class="form-control">
-                          <option value="incident">Incident</option>
-                          <option value="demande">Demande</option>
-                          <option value="evolution">Evolution</option>
+                         
+                          <option
+                            v-for="nature in natures"
+                            :value="nature.name"
+                            :key="nature.id"
+                          >
+                            {{ nature.name }}
+                          </option>
                         </select>
                       </div>
                     </div>
+
                     <div class="col-md-6">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Genre </label>
                         <select name="genre" class="form-control">
                           <option value="technique">Technique</option>
                           <option value="cs">CS</option>
                           <option value="marketing">Marketing</option>
+                          <option value="bug (Web)">Bug (Web)</option>
+                          <option value="bug (Mobile)">Bug (Mobile)</option>
+                          <option value="hosting & tools">
+                            Hosting & tools
+                          </option>
+                          <option value="mobile versioning & deployment">
+                            Mobile Versioning & Deployment
+                          </option>
+                          <option value="data">Data</option>
+                          <option value="assistance (faire à sa place)">
+                            Assistance (faire à sa place)
+                          </option>
                         </select>
                       </div>
                     </div>
+
                     <div class="col-md-6">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Priority </label>
                         <select name="priority" class="form-control">
                           <option value="high">High</option>
@@ -1603,71 +1817,153 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-12">
-                       <div class="form-group">
-                        <label class="form-label"> Détails </label>
-                        <textarea name="details" rows="2" class="form-control"></textarea>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="" class="form-label">Responsable </label>
+                        <select
+                          name="responsable_id"
+                          required
+                          class="form-control"
+                        >
+                          <option
+                            v-for="accMan in accountManagers"
+                            :key="accMan.id"
+                            :value="accMan.id"
+                          >
+                            {{ accMan.nom }}
+                          </option>
+                        </select>
                       </div>
                     </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="" class="form-label">Heure: </label>
+                        <input
+                          type="time"
+                          required
+                          name="hour"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="" class="form-label">
+                          Durée de traitement:
+                          <span class="text-info fw-bold">{{
+                            this.hourConverted
+                          }}</span>
+                        </label>
+                        <input
+                          type="time"
+                          v-model="getHour"
+                          @change="getValue"
+                          value="00:00"
+                          required
+                          name="duree"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Etat de traitement</label>
+                        <select name="status" class="form-control">
+                          <option value="traité">Traité</option>
+                          <option value="encours">Encours</option>
+                          <option value="annulé">Annulé</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="col-md-12">
-                       <div class="form-group">
+                      <vue-editor
+                        id="details"
+                        v-model="detailsTicket"
+                      ></vue-editor>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="form-group">
                         <label class="form-label"> Pièces Jointes </label>
-                        <input type="file" name="pieces[]" multiple class="form-control">
+                        <input
+                          type="file"
+                          name="pieces[]"
+                          multiple
+                          class="form-control"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                class="btn btn-secondary"
-                @click="showModalAddTicket = !showModalAddTicket"
-              >
-                Close
-              </button>
-              <button class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-              </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-secondary"
+                  @click="showModalAddTicket = !showModalAddTicket"
+                >
+                  Close
+                </button>
+                <button class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </transition>
+
+    <!------------------------------  ADD INTERVATION ------------------------------>
     <transition
       @enter="startTransitionModal($refs.modalAddIntervention)"
       @after-enter="endTransitionModal($refs.modalAddIntervention)"
       @before-leave="endTransitionModal($refs.modalAddIntervention)"
       @after-leave="startTransitionModal($refs.modalAddIntervention)"
     >
-      <div class="modal fade" v-if="showModalAddIntervention" ref="modalAddIntervention">
+      <div
+        class="modal fade"
+        v-if="showModalAddIntervention"
+        ref="modalAddIntervention"
+      >
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
-              <form @submit="addIntervention" enctype="multipart/form-data">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Ajouter une intervention
-              </h5>
-              <button
-                class="close btn"
-                @click="showModalAddIntervention = !showModalAddIntervention"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
+            <form @submit="addIntervention" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Ajouter une intervention
+                </h5>
+                <button
+                  class="close btn"
+                  @click="showModalAddIntervention = !showModalAddIntervention"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
                 <div class="container">
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="form-label"> Titre </label>
-                        <input type="text" required name="label" class="form-control">
+                        <input
+                          type="text"
+                          required
+                          name="label"
+                          class="form-control"
+                        />
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="form-label"> School </label>
-                        <input type="hidden" name="school" :value="interventionSchool" >
+                        <input
+                          type="hidden"
+                          name="school"
+                          :value="interventionSchool"
+                        />
                         <vue-select
                           class="form-contro"
                           name="accountManager"
@@ -1687,31 +1983,53 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="form-label"> Account Manager </label>
-                        <select name="account_manager"  required class="form-control">
-                          <option v-for="accMan in accountManagers" :key="accMan.id" :value="accMan.id">{{accMan.nom}}</option>
+                        <select
+                          name="account_manager"
+                          required
+                          class="form-control"
+                        >
+                          <option
+                            v-for="accMan in accountManagers"
+                            :key="accMan.id"
+                            :value="accMan.id"
+                          >
+                            {{ accMan.nom }}
+                          </option>
                         </select>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label"> Date </label>
-                        <Datepicker
+                        <input
+                          type="datetime-local"
+                          class="form-control"
+                          name="date"
+                          required
+                        />
+                        <!-- <Datepicker
                             :language="localfr"
                             format="yyyy-MM-dd"
                             class="form-control"
                             name="date"
                             :value="datePlanning"
-                        />
+                        /> -->
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label"> Duration </label>
-                        <input type="number" name="duration" min="1" value="1" class="form-control">
+                        <input
+                          type="number"
+                          name="duration"
+                          min="1"
+                          value="1"
+                          class="form-control"
+                        />
                       </div>
                     </div>
                     <div class="col-md-4">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Type </label>
                         <select name="type" class="form-control">
                           <option value="preventive">Preventive</option>
@@ -1720,7 +2038,7 @@
                       </div>
                     </div>
                     <div class="col-md-4">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Nature </label>
                         <select name="nature" class="form-control">
                           <option value="formation">Formation</option>
@@ -1730,7 +2048,7 @@
                       </div>
                     </div>
                     <div class="col-md-4">
-                       <div class="form-group">
+                      <div class="form-group">
                         <label class="form-label"> Channel </label>
                         <select name="channel" class="form-control">
                           <option value="online">Online</option>
@@ -1738,31 +2056,181 @@
                         </select>
                       </div>
                     </div>
+
                     <div class="col-md-12">
-                       <div class="form-group">
-                        <label class="form-label"> Détails </label>
-                        <textarea name="details" rows="2" class="form-control"></textarea>
-                      </div>
+                      <vue-editor
+                        id="details"
+                        v-model="detailsInter"
+                      ></vue-editor>
                     </div>
                   </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                class="btn btn-secondary"
-                @click="showModalAddIntervention = !showModalAddIntervention"
-              >
-                Close
-              </button>
-              <button class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-              </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-secondary"
+                  @click="showModalAddIntervention = !showModalAddIntervention"
+                >
+                  Close
+                </button>
+                <button class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </transition>
+
+    <!---------------------------- UPDATE PROFILE USER ---------------------------->
+
+    <transition
+      @enter="startTransitionModal($refs.modalUser)"
+      @after-enter="endTransitionModal($refs.modalUser)"
+      @before-leave="endTransitionModal($refs.modalUser)"
+      @after-leave="startTransitionModal($refs.modalUser)"
+    >
+      <div class="modal fade" v-if="showModalUser" ref="modalUser">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <form @submit="updateUser" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{ user.nom }} {{ user.prenom }}
+                </h5>
+                <button
+                  class="close btn"
+                  @click="showModalUser = !showModalUser"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Nom</label>
+                        <input
+                          type="text"
+                          v-model="user.nom"
+                          required
+                          name="nom"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Prenom</label>
+                        <input
+                          type="text"
+                          v-model="user.prenom"
+                          required
+                          name="prenom"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="">Email</label>
+                        <input
+                          type="text"
+                          v-model="user.email"
+                          required
+                          name="email"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="">Telephone</label>
+                        <input
+                          type="text"
+                          v-model="user.telephone"
+                          required
+                          name="telephone"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="">Adress</label>
+                        <input
+                          type="text"
+                          v-model="user.adresse"
+                          required
+                          name="adresse"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Role</label>
+                        <input
+                          type="text"
+                          v-model="user.role"
+                          class="form-control"
+                          disabled
+                        />
+                        <input
+                          type="hidden"
+                          v-model="user.role_id"
+                          name="role_id"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Fonction</label>
+                        <input type="hidden" name="user" v-model="user.id" />
+                        <input
+                          type="text"
+                          v-model="user.fonction"
+                          class="form-control"
+                          disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <input
+                          type="file"
+                          @change="onFile"
+                          name="image"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  class="btn btn-secondary"
+                  @click="showModalUser = !showModalUser"
+                >
+                  Close
+                </button>
+                <button class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </transition>
+
     <div class="modal-backdrop fade d-none" ref="backdrop"></div>
   </div>
 </template>
@@ -1773,15 +2241,19 @@ import Datepicker from "vuejs-datepicker";
 import { fr } from "vuejs-datepicker/dist/locale";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import { VueEditor } from "vue2-editor";
 
 export default {
-  components:{
+  components: {
     "vue-select": vSelect,
-    Datepicker
+    "vue-editor": VueEditor,
+    Datepicker,
   },
-  emits:[ 'ticket-added' , 'intervention-added' ],
+  emits: ["ticket-added", "intervention-added"],
   data() {
     return {
+      getHour: null,
+      hourConverted: null,
       user: {
         nom: "",
         prenom: "",
@@ -1789,6 +2261,7 @@ export default {
         img: "",
       },
       ticketSchool: null,
+      demandeur: null,
       interventionSchool: null,
       interventions: [],
       tickets: [],
@@ -1797,11 +2270,25 @@ export default {
       accountManagers: [],
       showModalAddTicket: false,
       showModalAddIntervention: false,
-      datePlanning : new Date(),
+      showModalUser: false,
+      datePlanning: new Date(),
       localfr: fr,
+      detailsTicket: "",
+      schoolContacts: [],
+      detailsTicket: "",
+      detailsInter: "",
+      natures: [],
     };
   },
   methods: {
+    getValue() {
+      if (this.getHour.substr(0, 2) == "00") {
+        this.hourConverted = this.getHour.substr(3, 4) + "min";
+      } else {
+        this.hourConverted =
+          this.getHour.substr(0, 2) + "H:" + this.getHour.substr(3, 4) + "min";
+      }
+    },
     getUser: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
@@ -1815,7 +2302,7 @@ export default {
             console.log(result);
             this.user = result.data.data;
           })
-          .catch( (err) => {
+          .catch((err) => {
             localStorage.removeItem("auth-token");
             this.$router.push("/login");
           });
@@ -1836,7 +2323,7 @@ export default {
             console.log(result);
             this.schools = result.data;
           })
-          .catch((err) =>  {
+          .catch((err) => {
             localStorage.removeItem("auth-token");
             this.$router.push("/login");
           });
@@ -1926,55 +2413,55 @@ export default {
       this.$refs.backdrop.classList.toggle("show");
       ref.classList.toggle("show");
     },
-    addTicket: async function(e){
+    addTicket: async function (e) {
       e.preventDefault();
-      
       const token = localStorage.getItem("auth-token");
       if (token) {
         let form = e.target;
         let formdata = new FormData(form);
+        formdata.append("details", this.detailsTicket);
         await axios
-          .post("/api/saveTicket", formdata ,{
+          .post("/api/saveTicket", formdata, {
             headers: {
               Authorization: "Bearer " + token,
-            }
+            },
           })
           .then(async (result) => {
             this.tickets = result.data;
             form.reset();
             this.showModalAddTicket = !this.showModalAddTicket;
-            this.$emit('ticket-added');
-            
+            this.$emit("ticket-added");
           })
-          .catch(function (err) {
-          });
+          .catch(function (err) {});
       }
     },
-    addIntervention: async function(e){
+    addIntervention: async function (e) {
       e.preventDefault();
-      
+
       const token = localStorage.getItem("auth-token");
       if (token) {
         let form = e.target;
         let formdata = new FormData(form);
+        formdata.append("details", this.detailsInter);
         await axios
-          .post("/api/saveIntervention", formdata ,{
+          .post("/api/saveIntervention", formdata, {
             headers: {
               Authorization: "Bearer " + token,
-            }
+            },
           })
           .then(async (result) => {
             this.interventions = result.data;
             form.reset();
             this.showModalAddIntervention = !this.showModalAddIntervention;
-            this.$emit('intervention-added');
+            this.$emit("intervention-added");
           })
-          .catch(function (err) {
-          });
+          .catch(function (err) {});
       }
     },
-    toggleSideBar: function(){
-      document.getElementsByClassName('app')[0].classList.toggle("sidenav-toggled");
+    toggleSideBar: function () {
+      document
+        .getElementsByClassName("app")[0]
+        .classList.toggle("sidenav-toggled");
     },
     getAccountManagers: async function () {
       const token = localStorage.getItem("auth-token");
@@ -1986,8 +2473,26 @@ export default {
             },
           })
           .then(async (result) => {
-              this.accountManagers = result.data;
-           
+            this.accountManagers = result.data;
+          })
+          .catch(function (err) {
+            // localStorage.removeItem("auth-token");
+            // this.$router.push("/login");
+          });
+      }
+    },
+    getSchoolsContact: async function () {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        await axios
+          .get("/api/getSchoolsContact", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then(async (result) => {
+            this.schoolContacts = result.data;
+            console.log(this.schoolContacts);
           })
           .catch(function (err) {
             // localStorage.removeItem("auth-token");
@@ -2005,15 +2510,62 @@ export default {
             },
           })
           .then(async (result) => {
-              this.notifications = result.data;
-           
+            this.notifications = result.data;
           })
           .catch(function (err) {
             // localStorage.removeItem("auth-token");
             // this.$router.push("/login");
           });
       }
-    }
+    },
+    getNatures() {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        axios
+          .get("/api/natures", {
+            headers: {
+              Authorization: "Bearer" + token,
+            },
+          })
+          .then((result) => {
+            this.natures = result.data;
+          })
+          .catch((error) => {
+            error;
+          });
+      }
+    },
+    onFile(e) {
+      const files = e.target.files;
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => (this.user.img = reader.result);
+      console.log(this.user);
+    },
+    updateUser: async function (e) {
+      e.preventDefault();
+      const token = localStorage.getItem("auth-token");
+
+      if (token) {
+        let form = e.target;
+        let formData = new FormData(form);
+        formData.append("fonction", this.user.fonction);
+        formData.append("role_id", this.user.role_id);
+        formData.append("user", this.user.id);
+        await axios
+          .post("api/saveUser", formData, {
+            headers: {
+              Authorization: "Bearer" + token,
+            },
+          })
+          .then(async (result) => {
+            this.showModalUser = false;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
   },
   mounted() {
     this.initLayout();
@@ -2021,8 +2573,10 @@ export default {
     this.getTickets();
     this.getInterventions();
     this.getSchoolsList();
-    this.getAccountManagers();
     this.getNotifications();
+    this.getSchoolsContact();
+    this.getAccountManagers();
+    this.getNatures();
   },
   beforeDestroy() {
     unloadScript("/csm/assets/plugins/sidemenu/sidemenu.js")
@@ -2043,3 +2597,16 @@ export default {
   },
 };
 </script>
+
+<style>
+.table-responsive {
+  cursor: pointer;
+}
+.table-responsive:-webkit-scrollbar-track {
+  background-color: darkgrey;
+  border-radius: 20px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+</style>

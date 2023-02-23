@@ -35,8 +35,10 @@ class School extends Model
         'effectif_creche',
         'pricing',
         'checklists',
+        'deleted_at'
     ];
 
+    
     public function accountManager(){
         return $this->belongsTo(User::class,'account_manager','id');
     }
@@ -120,7 +122,6 @@ class School extends Model
 
     public static function getSchoolByAlias($alias){
         $school = School::where('web_link','LIKE','%/'.$alias)->first();
-
         return $school;
     }
 

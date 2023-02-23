@@ -89,7 +89,7 @@ class TrackingController extends Controller
     public function getTrackingMatrice(){
         $data = array();
 
-        $schools = School::all();
+        $schools = School::where('hide_at',0)->get();
         $criterias = TrackingCriteria::all();
 
         foreach ($schools as $school) {

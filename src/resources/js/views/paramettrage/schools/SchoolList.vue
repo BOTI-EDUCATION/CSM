@@ -31,6 +31,7 @@
         >
         </vue-select>
       </div>
+
       <div class="col-sm-12 col-12 col-md-3 text-right">
         <input
           type="text"
@@ -40,6 +41,7 @@
           class="form-control"
         />
       </div>
+
       <div class="col-sm-12 col-md-1 text-right">
         <router-link class="btn btn-info btn-icon me-3" to="/schools/map">
           <i class="fe fe-map"></i>
@@ -49,15 +51,16 @@
         </router-link>
       </div>
     </div>
+    
     <div class="row">
       <div
-        v-for="school in this.filteredSchools"
-        :key="school.id"
-        class="col-sm-12 col-md-3"
+      v-for="school in this.filteredSchools"
+      :key="school.id"
+      class="col-sm-12 col-md-3"
       >
-        <router-link class="text-info" :to="'/schools/view/' + school.id">
-          <div class="card hoverable full-row-card user-card overflow-hidden">
-            <div class="card-body text-center">
+      <router-link class="text-info" :to="'/schools/view/' + school.id">
+      <div class="card hoverable full-row-card user-card overflow-hidden">
+        <div class="card-body text-center">
                <span
                   class="avatar bg-white avatar-xxl bradius cover-image  mb-2"
                   :data-bs-image-src="school.logo"
@@ -78,25 +81,36 @@
                 ></span>
               <!-- <img :src="school.logo" class="rounded profile mb-2" alt="img" /> -->
               <h5 class="card-title text-dark mb-2">{{ school.name }}</h5>
+
               <!-- <p>{{ school.presentation }}</p> -->
               <!-- <span class="tag tag-blue mb-2">{{ school.role }}</span> -->
               <div class="actions">
                 <!-- <router-link :to="'/schools/edit/' + school.id">
                 <i class="fe fe-edit-2"></i>
-              </router-link>
+              </router-link> -->
               
-              <a
+              <!-- <a
                 @click="deleteSchool($event, school.id)"
                 href=""
                 class="text-danger"
               >
                 <i class="fe fe-trash-2"></i>
-              </a> -->
+              </a>
+
+              <a 
+                @click.prevent="hideSchool($event, school.id)" 
+                href=""
+                class="text-primary"
+              >
+                <i class="fe fe-eye"></i>
+              </a >  -->
+
               </div>
             </div>
+            
           </div>
         </router-link>
-      </div>
+        </div>
     </div>
     <!-- <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
@@ -194,6 +208,7 @@ export default {
     };
   },
   methods: {
+   
     getSchoolsList: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
@@ -235,70 +250,43 @@ export default {
           });
       }
     },
-    deleteSchool: async function (e, id) {
-      e.preventDefault();
-      const token = localStorage.getItem("auth-token");
-      if (token) {
-        this.$swal({
-          title: "Vous êtes sûr de vouloir supprimer cette école",
-          icon: "warning",
-          showConfirmButton: false,
-          showDenyButton: true,
-          showCancelButton: true,
-          denyButtonText: `Supprimer`,
-          cancelButtonText: `Annuler`,
-        }).then(async (result) => {
-          if (result.isDenied) {
-            await axios
-              .post(
-                "/api/deleteSchool/" + id,
-                {},
-                {
-                  headers: {
-                    Authorization: "Bearer " + token,
-                  },
-                }
-              )
-              .then((result) => {
-                this.schools = result.data;
-                this.filteredSchools = this.schools;
-              })
-              .catch(function (err) {
-                console.log(token);
-              });
-          }
-        });
-      } else {
-        localStorage.removeItem("auth-token");
-        this.$router.push("/login");
-      }
-    },
-    filterSchool: function () {
-      let search = this.filter.search;
-      let types = this.filter.type;
-      let acc_manager = this.filter.acc_manager;
-      this.filteredSchools = this.schools.filter((school) => {
-        let hasCommon = () => {
-          if ( types && types.length > 0) {
-            for (let i = 0; i < types.length; i++) {
-              for (let j = 0; j < school.types.length; j++) {
-                if (types[i] === school.types[j]) {
-                  return true;
-                }
-              }
-            }
 
-            return false;
-          } else {
-            return true;
-          }
-        };
-        return (
-          (search
-            ? school.name.toLowerCase().includes(search.toLowerCase())
-            : true) && hasCommon() && (acc_manager.length > 0?(school.responsable && acc_manager.indexOf(school.responsable.id) > -1?true:false):true)
-        );
-      });
+
+  
+
+    filterSchool() {
+       let search = this.filter.search;
+       let types = this.filter.type;
+       let acc_manager = this.filter.acc_manager;
+       if(search != null && types != null, acc_manager != null){
+         this.filteredSchools = this.schools.filter((school) => {
+           let hasCommon = () => {
+             if ( types && types.length > 0) {
+               for (let i = 0; i < types.length; i++) {
+                 for (let j = 0; j < school.types.length; j++) {
+                   if (types[i] === school.types[j]) {
+                     return true;
+                   }
+                 }
+               }
+               return false;
+             } else {
+               return true;
+             }
+           };
+           return (
+             (search ? school.name.toLowerCase().includes(search.toLowerCase())
+               : true) && hasCommon() && (acc_manager.length >  0 ?(school.responsable && acc_manager.indexOf(school.responsable.id) > -1 ? true:false ) :true )
+           );
+         });
+       }else if(search != null){
+        this.filteredSchools = this.schools.filter( (school) => {
+              if(school.name.toLowerCase().includes(search.toLowerCase())){
+                this.filteredSchools = school;
+                return this.filteredSchools;
+              }
+        });
+       }
     },
   },
   mounted() {

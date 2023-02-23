@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Test from './views/Test.vue'
 import Dashboard from './views/home/Dashboard.vue'
 import DashboardV2 from './views/home/DashboardV2.vue'
-
+import Nature from './views/Nature/nature-list.vue'
 import Documentation from './views/documentation/Documentation.vue'
 import DocumentationList from './views/documentation/DocumentationList.vue'
 import DocumentationForm from './views/documentation/DocumentationForm.vue'
@@ -35,6 +35,13 @@ import SchoolMap from './views/paramettrage/schools/SchoolMap.vue'
 
 import Config from './views/paramettrage/configs/Config.vue'
 import ConfigList from './views/paramettrage/configs/ConfigList.vue'
+
+// ! ABOUT TYPES,TEAMS AND RELEASES
+import ReleaseType from './views/type_releases/releaseType.vue'
+import Teams from './views/teams/team-list.vue'
+import Releases from './views/releases/time-line.vue'
+import NewRelease from './views/releases/add-time-line.vue'
+import ReleaseList from './views/releases/time-list.vue'
 
 import Tracking from './views/tracking/Tracking.vue'
 import Newevaluation from './views/tracking/Newevaluation.vue'
@@ -76,6 +83,7 @@ import LeadMap from './views/leads/LeadMap.vue'
 
 import Ticket from './views/tickets/Ticket.vue'
 import TicketList from './views/tickets/TicketList.vue'
+import TicketItem from './views/tickets/ticket-edit.vue'
 
 import Checkup from './views/Checkup.vue'
 
@@ -104,11 +112,20 @@ import NewsForme from './views/schoollife/NewsForme.vue'
 import NewsDetails from './views/schoollife/NewsDetails.vue'
 import QuoteDetails from './views/schoollife/QuoteDetails.vue'
 
+// ! FOUNDER CONNEXIONS
+import FounderConnexion from './views/founder/ListConx.vue'
 
+// ! Schools
+import DeletedSchool from './views/paramettrage/schools/DeletedSchools.vue'
+import DisabledSchool from './views/paramettrage/schools/DisabledSchools.vue'
+
+import acadmyThemes from './views/academy/themes/main-themes.vue'
+import acadmyCourses from './views/academy/courses/courses-themes.vue'
 Vue.use(Router);
 
 const routes = [
-    { path: '/', name: 'Dashboard', component: DashboardV2 },
+     { path: '/Dashboard', name: 'Dashboard', component: Dashboard },
+     { path: '/', name: 'Dashboard', component: DashboardV2 },
     // { path: '/dashboard', name: 'dashboardv2', component: DashboardV2 },
     { path: '/notifications', name: 'Notifications', component: Notifications },
     { path: '/contacts', name: 'Contacts', component: Contacts },
@@ -144,6 +161,7 @@ const routes = [
     { 
         path: '/ticket', name: 'Ticket', component: Ticket , children: [
             { path: '', component: TicketList },
+            { path: 'edit/ticket/:id', component: TicketItem },
         ]
 
     },
@@ -155,8 +173,15 @@ const routes = [
             { path: 'add', component: SchoolForm },
             { path: 'map', component: SchoolMap },
             { path: 'view/:id', component: SchoolItem },
-            { path: 'edit/:id', component: SchoolForm }
+            { path: 'edit/:id', component: SchoolForm },
         ]
+    },
+
+    {
+        path: '/deleted/schools', name:"DeletedSchools", component: DeletedSchool
+    },
+    {
+        path: '/disabled/schools', name:"DisabledSchools", component: DisabledSchool
     },
     
     {
@@ -249,15 +274,64 @@ const routes = [
         ]
     },
 
+    {
+        path:'/academy/themes',
+        component: acadmyThemes
+    },
+
+    {
+        path:'/academy/courses',
+        component:acadmyCourses,
+    },
+
+    {
+        path:'/founder/connexion',
+        component:FounderConnexion
+    },
+
+    {
+        path:'/nature',
+        component:Nature
+    },
+
+
+    {
+        path:'/types',
+        component:ReleaseType
+    },
+    {
+        path:'/teams',
+        component:Teams
+    },
+
+
+    {
+        path:'/releases', component:Releases, children:[
+            { path:'',    component:ReleaseList },
+            { path:'add', component:NewRelease },
+            { path:'edit/:id', component:NewRelease },
+        ]
+    },
+
+    
     { path: '*', name: '404', component: Page404 },
+
 ];
 
 const router = new Router({
     base: '/csm',
     linkActiveClass: 'active',
     mode: 'history',
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition){
+        console.log(savedPosition);
+        if(savedPosition){
+            return savedPosition;
+        }
+        return {left: 0, top: 0};
+    }
 });
+
 
 router.beforeEach((to, from, next) => {
     let tkn = localStorage.getItem('auth-token');

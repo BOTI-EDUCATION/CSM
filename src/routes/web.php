@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('app');
-// });
+Route::get('/artisan/{cmd}', function ($cmd) {
+    Artisan::call($cmd);
+});
 Route::get('/{component?}', function () {
     return view('app');
 })->where('component', '[\/\w\.-]*');

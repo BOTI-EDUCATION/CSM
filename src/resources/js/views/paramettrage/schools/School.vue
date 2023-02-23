@@ -9,7 +9,7 @@
           </li>
           <li class="breadcrumb-item active" aria-current="page">
              <router-link to="/schools"> Schools </router-link>
-            </li>
+          </li>
         </ol>
       </div>
     </div>

@@ -92,7 +92,7 @@ import { VueEditor } from "vue2-editor";
 
 export default {
     
-   
+
   components: {
     "vue-select":vSelect,
     "vue-editor": VueEditor

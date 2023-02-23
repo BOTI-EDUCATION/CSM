@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quotation extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
 
     protected $fillable = [
@@ -18,9 +19,9 @@ class Quotation extends Model
         'ville',
         'tel',
         'email',
-        'nom'
+        'nom',
+        'deleted_at'
     ];
-
     public function files(){
         return $this->hasMany(QuotationFile::class,'quotation_id','id');
     }

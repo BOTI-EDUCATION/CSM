@@ -12,8 +12,9 @@
       {{ item.label }}
       </a>
        <router-link :to="'/documentation/add/'+item.id" class="text-success"> <i class="fe fe-plus"></i> </router-link>
-       <router-link :to="'/documentation/edit/'+item.id" class="text-primary"> <i class="fe fe-edit-2"></i> </router-link>
-      <Tree @item-clicked="expand" :style="{'display': (!item.expand?'none':'inherit')}" :list="item.children" :isWrapper="false" />
+       <router-link :to="'/documentation/edit/'+item.id" class="text-primary"> <i class="fe fe-eye"></i> </router-link>
+       <Tree @item-clicked="expand" :style=" { 'display' : (!item.expand ? 'none': 'inherit' )} " :list="item.children" :isWrapper="false"/>
+
     </li>
   </ul>
 </template>

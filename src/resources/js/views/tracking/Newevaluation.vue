@@ -72,6 +72,7 @@ export default {
   data() {
     return {
       sections : [],
+      school_aliases: [],
       modes: [
         {
           label : 'School By School',
@@ -109,8 +110,7 @@ export default {
     },
     newEvaluation: function(){
       let checkedSections = this.sections.filter(section => (section.checked === true&&section.criterias.length>0));
-      
-
+    
       if(checkedSections.length == 0){
         this.$swal({
           title: 'You have to choose at least one section !',
@@ -149,14 +149,11 @@ export default {
         // }
         
       }
-
-
-
-      
-    }
+    },
   },
   mounted() {
     this.getTrackingSections();
+    this.get_school_links();
   },
 };
 </script>

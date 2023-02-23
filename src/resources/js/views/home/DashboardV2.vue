@@ -165,8 +165,7 @@
                       ticket.date
                     }}</span>
                   </h6>
-                  <p class="text-muted fs-12">
-                    {{ ticket.details }}
+                  <p class="text-muted fs-12" v-html="ticket.details">
                   </p>
                 </div>
                 <div class="ms-auto d-md-flex">

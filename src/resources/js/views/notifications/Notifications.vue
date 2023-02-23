@@ -37,13 +37,24 @@
                 <div class="media-body ms-3 d-flex">
                   <div class="">
                     <p class="fs-15 text-dark fw-bold mb-0">{{notif.label}}</p>
-                    <p class="mb-0 fs-13 text-dark">
-                      {{notif.details}}
-                    </p>
+                    <p class="mb-0 fs-13 text-dark" v-html="notif.details"></p>
+                    <div v-if="notif.dure">
+                      <p class="badge bg-info">Duration:
+                        {{ notif.dure }} 
+                      </p>
+                    </div>
+                 
                   </div>
-                  <div class="notify-time">
-                    <!-- <p class="mb-0 text-muted fs-11">2 Hrs ago</p> -->
+                  <div class="notify-time d-flex align-items-center justify-content-center">
+
                   </div>
+                </div>
+                <div class="main-avatar avatar-md online">
+                  <img
+                    alt="avatar"
+                    class="br-7"
+                    :src="notif.collaborateur.img"
+                    />
                 </div>
               </div>
             </div>
@@ -84,7 +95,10 @@ export default {
 
           });
       }
-    }
+    },
+  },
+  computed:{
+      
   },
   mounted() {
     this.getNotifications();

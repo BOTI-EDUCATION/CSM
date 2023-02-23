@@ -18,7 +18,8 @@ class AcademyCourse extends Model
         'type',
         'video',
         'content',
-        'ordre'
+        'ordre',
+        'theme_id'
     ];
 
     public function theme(){
@@ -28,6 +29,8 @@ class AcademyCourse extends Model
     public function quiz(){
         return $this->hasOne(AcademyQuiz::class,'course_id','id');
     }
+
+    public $timestamps = false;
 
 
     public function getNext(){

@@ -2,15 +2,23 @@
 
   <div class="row">
     <div class="col-12 text-right mb-4">
+
       <router-link class="btn btn-primary" :to="'/content/edit/'+content.id">
         <i class="fe fe-edit"></i> edit
       </router-link>
+
       <button v-if="content.visible" class="btn btn-warning" @click="changeVisibility(false)">
         <i class="fe fe-eye-off"></i> hide
       </button>
+
       <button v-else class="btn btn-success" @click="changeVisibility(true)">
         <i class="fe fe-eye"></i> show
       </button>
+
+      <button class="btn btn-danger" @click="deleteContent">
+        <i class="fe fe-trash"></i> Delete 
+      </button>
+
     </div>
     <div class="col-12">
       <div class="card">
@@ -36,6 +44,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 
 export default {
@@ -82,8 +91,34 @@ export default {
             this.$router.push("/content");
           });
       }
+    },
+    deleteContent: async function(){
+    const token = localStorage.getItem("auth-token");
+    if(token){
+      this.$swal({
+        title:"Are you sure to delete this Content ?",
+        icon: "warning",
+        showConfirmButton: false,
+        showDenyButton: true,
+        showCancelButton: true,
+        denyButtonText: `Supprimer`,
+        cancelButtonText: `Annuler`,
+      }).then( async result => {
+        if(result.isDenied){
+          await axios("/api/delete/content/" + this.content.id,{
+            headers:{
+              "Authorization": "Bearer" + token
+            }
+          }).then( () => {
+            this.$router.push("/content");
+          })
+        }
+      });
+     
     }
   },
+  },
+
   mounted() {
 
     this.getContent(this.$route.params.id);

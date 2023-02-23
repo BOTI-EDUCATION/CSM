@@ -12,6 +12,7 @@
             <div class="col-sm-12">
               <form @submit="sendSchool">
                 <div class="form-row">
+
                   <div class="form-group col-md-4">
                     <input
                       type="text"
@@ -22,6 +23,7 @@
                       v-model="formControls.name"
                     />
                   </div>
+
                   <div class="form-group col-md-4">
                     <input
                       type="text"
@@ -31,6 +33,7 @@
                       v-model="formControls.city"
                     />
                   </div>
+
                   <div class="form-group col-md-4">
                     <vue-select
                       class=""
@@ -43,6 +46,7 @@
                     >
                     </vue-select>
                   </div>
+
                   <div class="form-group col-md-4">
                     <input
                       type="text"
@@ -52,6 +56,7 @@
                       v-model="formControls.dateStart"
                     />
                   </div>
+
                   <div class="form-group col-md-4">
                     <input
                       type="text"
@@ -61,6 +66,7 @@
                       v-model="formControls.dateStartBoti"
                     />
                   </div>
+
                   <div class="form-group col-md-4">
                     <input
                       type="text"
@@ -70,6 +76,7 @@
                       v-model="formControls.localisation"
                     />
                   </div>
+
                   <div class="form-group col-md-6">
                     <textarea
                       name=""
@@ -79,6 +86,7 @@
                       v-model="formControls.adresse"
                     ></textarea>
                   </div>
+
                   <div class="form-group col-md-6">
                     <textarea
                       name=""
@@ -88,6 +96,7 @@
                       v-model="formControls.presentation"
                     ></textarea>
                   </div>
+
                   <div class="form-group col-md-6">
                     <vue-select
                       class=""
@@ -688,7 +697,12 @@ export default {
       axios
         .post("/api/saveSchool", formData, config)
         .then((response) => {
-          this.$router.push("/schools");
+          let params = this.$route.params.id;
+          if(params){
+            this.$router.push("/schools/view/" + params);
+          }else{
+            this.$router.push("/schools");
+          }
           // this.$router.back();
         })
         .catch(function (error) {

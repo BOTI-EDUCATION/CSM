@@ -10,15 +10,17 @@ use App\Models\School;
 use App\Models\SchoolChecklist;
 use App\Models\SchoolContact;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Stringable;
 
 class SchoolController extends Controller
 {
     public function schoolsList(){
         $data = array();
-        $schools = School::all();
+        $schools = School::where('hide_at',0)->get();
         foreach ($schools as $school) {
             $data[] = [
                 'id' => $school->id,
@@ -40,6 +42,91 @@ class SchoolController extends Controller
             ];
         }
         return response()->json($data);
+    }
+
+
+    // ! get the deleted schools
+    public function deletedSchools()
+    {
+        $data = [];
+        $schools = School::onlyTrashed()->get();
+        foreach($schools as $school){
+            $data[] = [
+                'id' => $school->id,
+                'name' => $school->name,
+                'effectif' => $school->effectif,
+                'cycles' => explode(',',$school->cycles),
+                'types' => explode(',',$school->types),
+                'city' => $school->city,
+                'presentation' => $school->presentation,
+                'adresse' => $school->adresse,
+                'localisation' => $school->localisation,
+                'link' => $school->link,
+                'logo' => $school->getLogo(),
+                'responsable' => !$school->accountManager?null:[
+                    'id' => $school->accountManager->id,
+                    'name' => $school->accountManager->getNomComplet(),
+                    'img' => $school->accountManager->getPicture(),
+                ]
+            ];
+        } 
+        return response()->json($data);
+    }
+
+    // ! get the hided schools
+    public function disabledSchools()
+    {
+        $data = [];
+        $schools = School::where('hide_at',1)->get();
+        foreach ($schools as $school) {
+            $data[] = [
+                'id' => $school->id,
+                'name' => $school->name,
+                'effectif' => $school->effectif,
+                'cycles' => explode(',',$school->cycles),
+                'types' => explode(',',$school->types),
+                'city' => $school->city,
+                'presentation' => $school->presentation,
+                'adresse' => $school->adresse,
+                'localisation' => $school->localisation,
+                'link' => $school->link,
+                'logo' => $school->getLogo(),
+                'responsable' => !$school->accountManager?null:[
+                    'id' => $school->accountManager->id,
+                    'name' => $school->accountManager->getNomComplet(),
+                    'img' => $school->accountManager->getPicture(),
+                ]
+            ];
+        }
+        // $data = $this->schoolsList();
+        return response()->json($data);
+    }
+
+    public function deleteSchool($id){
+        $school = School::find($id);
+        $school->delete();
+    }
+
+    public function softSchool($id)
+    {
+        $school = School::onlyTrashed()->where('id',$id)->first();
+        $school->restore();
+    }
+
+    // ! save the status of school that is disabled or not
+    public function disableSchool($id)
+    {
+        $school = School::find($id);
+        $school->hide_at = 1;
+        $school->save();
+    }
+
+    // ! save the enabled school
+    public function enabledSchool($id)
+    {
+        $school = School::find($id);
+        $school->hide_at = 0;
+        $school->save();
     }
 
     public function saveSchool(Request $request){
@@ -87,11 +174,13 @@ class SchoolController extends Controller
         }
         
         if($request->hasFile('banner')){
-            $filename = $school->id.'-'.Helpers::getAlias($school->name).'-banner.'.$request->banner->extension();
+            // $filename = $school->id.'-'.Helpers::getAlias($school->name).'-banner.'.$request->banner->extension();
+            $filename = $school->id.'-'.Helpers::getAlias($school->name).'-'.uniqid().'-banner.'.$request->banner->extension();
             $request->banner->storeAs('schools',$filename,'public');
             $school->update(['banner'=>$filename]);
         }
 
+        return $school;
         return response()->json('ok');
     }
 
@@ -139,13 +228,6 @@ class SchoolController extends Controller
         return response()->json($data);
     }
 
-    public function deleteSchool($id){
-        $school = School::find($id);
-        
-        $school->delete();
-
-        $this->schoolsList();
-    }
 
     public function getSchoolContacts($id){
 
@@ -156,7 +238,8 @@ class SchoolController extends Controller
         foreach ($school->contacts()->get() as $contact) {
             $contacts[] = [
                 'id' =>$contact->id,
-                'nom' => $contact->getNomComplet(),
+                'name' => $contact->name,
+                'last_name' => $contact->last_name,
                 'fonction' => $contact->function,
                 'email' => $contact->email,
                 'phone' => $contact->phone,
@@ -247,6 +330,28 @@ class SchoolController extends Controller
         }
 
         return $this->getSchoolContacts($id);
+    }
+
+
+    public function updateSchoolContact(Request $request)
+    {
+        // $school  = School::find($request->schoolId);
+        $contact = SchoolContact::find($request->id);
+
+        // $contact->school()->associate($school);
+
+        $contact->name      = $request->name;
+        $contact->last_name = $request->last_name;
+        $contact->email     = $request->email;
+        $contact->phone     = $request->phone;
+        $contact->function  = $request->function;
+        $contact->save();
+        if($request->hasFile('picture')){
+            $filename = $contact->id.'-'.$contact->name.'-'.$contact->last_name.'.'.$request->picture->extension();
+            $request->picture->storeAs('schools/contacts',$filename,'public');
+            $contact->update(['picture'=>$filename]);
+        }
+        return response()->json('updated successfully');
     }
 
     public function getContactFormInfo($id){
@@ -407,4 +512,10 @@ class SchoolController extends Controller
         return response()->json($tracking);
     }
 
+
+    public function school_links()
+    {
+        $school_links = School::select('web_link')->get();
+        return response()->json($school_links);
+    }
 }

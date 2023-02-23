@@ -13,7 +13,7 @@
         </ol>
       </div>
     </div>
-    <router-view @load-posts="updateCount" > </router-view>
+    <router-view @load-tutoriels="updateCount" > </router-view>
   </Layout>
 </template>
 

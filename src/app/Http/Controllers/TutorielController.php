@@ -21,6 +21,7 @@ class TutorielController extends Controller
                 'id'=> $tutoriel->id,
                 'label'=> $tutoriel->title,
                 'details'=> $tutoriel->presentation,
+                'youtube_id' => $tutoriel->youtube_id,
                 'image'=> $tutoriel->getImage(),
                 'views'=> 0,
             ];

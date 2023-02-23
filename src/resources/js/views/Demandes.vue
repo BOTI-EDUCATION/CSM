@@ -5,7 +5,7 @@
       <div>
         <ol class="breadcrumb">
           <li class="breadcrumb-item active" aria-current="page">
-            <router-link to="/demandes"> Requests </router-link>
+            <router-link to="/demandes"> Requests  </router-link>
           </li>
         </ol>
       </div>
@@ -25,7 +25,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="demande in demandes" :key="demande.id">
+                <tr v-for="demande in demandes" :key="demande.id" 
+                    :class="demande.handling.handled && demande.handling.comment != '' && demande.handling.comment != null ? ['bg-success','text-white']  : '' "
+                  >
+                  
                   <td>{{ demande.nom }}</td>
                   <td>{{ demande.email }}</td>
                   <td>{{ demande.tel }}</td>
@@ -35,9 +38,13 @@
                       href="javascript:void(0)"
                       @click="triggerDemandeModal(demande)"
                     >
-                      <i class="fe fe-eye"></i>
+                      <i 
+                      class="fe fe-eye"
+                      :class="demande.handling.handled && demande.handling.comment != '' && demande.handling.comment != null ? 'text-white' : '' "
+                      ></i>
                     </a>
-                  </td>
+                  </td>  
+                
                 </tr>
               </tbody>
             </table>
@@ -163,9 +170,13 @@
                   class="btn btn-secondary"
                   @click="handleQuotation"
                 >
-                  Enregistrer
+                  Enregistrer 
                 </button>
               </template>
+              <button class="btn btn-danger" @click="deleteDemande($event, showedDemande.id)" >
+                Supprimer
+              </button>
+    
             </div>
           </div>
         </div>
@@ -176,6 +187,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Layout from "../components/Layout.vue";
 export default {
   components: {
@@ -219,6 +231,7 @@ export default {
       this.$refs.backdrop.classList.toggle("show");
       ref.classList.toggle("show");
     },
+
     handleQuotation: async function() {
       const token = localStorage.getItem("auth-token");
       if (token) {
@@ -241,9 +254,50 @@ export default {
         this.$router.push("/login");
       }
     },
+    deleteDemande:async function(e, id){
+      const token = localStorage.getItem('auth-token');
+      if(token){
+        this.$swal({
+          title: "Vous êtes sûr de vouloir supprimer cette demande",
+          icon: "warning",
+          showConfirmButton: false,
+          showDenyButton: true,
+          showCancelButton: true,
+          denyButtonText: `supprimer`,
+          cancelButtonText: `Annuler`,
+        }).then( async (result) => {
+           if(result.isDenied){
+            
+            await axios.post(
+              "api/delete/demande/" + id,
+            {},
+            {
+              headers: {
+                  Authorization: "Bearer " + token,
+                }
+            }
+            ).then((result) => {
+              this.demandes = this.demandes.filter( (dem) => {
+                return dem.id != id ;
+              });
+              this.showDemandeModal = false;
+            }).catch(function (err) {
+                console.log(token);
+              });
+           }
+        })
+      }
+    }
   },
   mounted() {
     this.getDemandes();
   },
+  
 };
 </script>
+
+<style>
+  .swal2-container {
+    z-index: 10000 !important;
+  }
+</style>

@@ -53,6 +53,8 @@ class NotificationsController extends Controller
                 'id' => $i,
                 'label' => $item->label,
                 'details' => $item->details,
+                'dure'    => substr($item->dure, 0,2) == '00' ? substr($item->dure,3,2).'min': substr($item->dure, 0,2).'H'.substr($item->dure,3,2).'min',
+                'status' => $item->status,
                 'school' => [
                     'id' => $item->school->id,
                     'label' => $item->school->label,

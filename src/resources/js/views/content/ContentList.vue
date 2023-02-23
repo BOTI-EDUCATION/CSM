@@ -132,10 +132,10 @@ export default {
             },
           })
           .then(async (result) => {
-            console.log(result);
             this.contents = result.data;
             this.filteredContents = this.contents;
             this.$emit("load-contents", this.contents.length);
+            console.log(this.contents.length);
           })
           .catch(function (err) {
             // localStorage.removeItem("auth-token");
@@ -196,7 +196,6 @@ export default {
                     }
                 }
             }
-
             return false;
 
           }else{

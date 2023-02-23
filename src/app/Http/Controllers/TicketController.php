@@ -34,6 +34,11 @@ class TicketController extends Controller
         $ticket->nature = $request->nature;
         $ticket->genre = $request->genre;
         $ticket->priority = $request->priority;
+        $ticket->contact_id = $request->contact_id;
+        $ticket->responsable_id = $request->responsable_id;
+        $ticket->dure = $request->duree;
+        $ticket->hour = $request->hour;
+        $ticket->status = $request->status;
 
         $ticket->state = 'nouveau';
         $ticket->state_history = json_encode([  
@@ -80,6 +85,20 @@ class TicketController extends Controller
         return response()->json($tickets); 
 
     }
+
+
+    public function deleteTicket($id)
+    {
+        SchoolTicket::find($id)->delete();
+        return response()->json('Deleted');
+    }   
+
+    public function showTicket($id)
+    {
+        $ticket = SchoolTicket::find($id);
+        dd($ticket);
+    }
+    
 
     public function getTickets(){
         $user = Auth::user();

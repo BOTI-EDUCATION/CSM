@@ -16,7 +16,8 @@ class HelpBloc extends Model
         'label',
         'intro',
         'ordre',
-        'visible'
+        'visible',
+        'types'
     ];
 
     public static function getTree($helpbloc=null) {
@@ -77,7 +78,12 @@ class HelpBloc extends Model
     }
     
     public function getRolesAliases(){
-        return ($this->roles?json_decode($this->roles):[]);
+        return ( $this->roles ? json_decode($this->roles) : [] );
+    }
+
+    public function getTypesAliases()
+    {
+        return  $this->types ? json_decode($this->types) : [] ;
     }
 
         
