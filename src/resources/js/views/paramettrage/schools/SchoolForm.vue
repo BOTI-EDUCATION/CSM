@@ -47,7 +47,16 @@
                     </vue-select>
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
+                    <input
+                      type="date"
+                      class="form-control dateStart"
+                      placeholder="Année de lancement"
+                      v-model="formControls.dateStarts"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group col-md-3">
                     <input
                       type="text"
                       class="form-control"
@@ -57,7 +66,7 @@
                     />
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
                     <input
                       type="text"
                       class="form-control"
@@ -67,7 +76,7 @@
                     />
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
                     <input
                       type="text"
                       class="form-control"
@@ -474,6 +483,7 @@ import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
+
 export default {
   components: {
     Dropzone: vue2Dropzone,
@@ -521,6 +531,7 @@ export default {
         cycles: "",
         city: "",
         dateStart: "",
+        dateStarts: "",
         dateStartBoti: "",
         presentation: "",
         adresse: "",
@@ -577,6 +588,7 @@ export default {
               inscriptionCollege: result.data.inscription_college,
               priceLycee: result.data.price_lycee,
               inscriptionLycee: result.data.inscription_lycee,
+              dateStarts: result.data.dateStarts,
               dateStart: result.data.dateStart,
               dateStartBoti: result.data.dateStartBoti,
               cycles: result.data.cycles,
@@ -608,6 +620,15 @@ export default {
       }
     },
     getAccountManagers: async function () {
+
+      let date = new Date();
+      let d = date.getDate();
+      let m = date.getMonth()  != 10 ||  date.getMonth()  != 11 ? '0'+(date.getMonth() + 1) : date.getMonth() + 1 
+      let y = date.getFullYear();
+
+      this.formControls.dateStarts = `${y}-${m}-${d}`;
+
+
       const token = localStorage.getItem("auth-token");
       if (token) {
         await axios
@@ -640,6 +661,7 @@ export default {
       if (this.school.id) formData.append("school", this.school.id);
 
       formData.append("name", this.formControls.name);
+      formData.append("dateStarts", this.formControls.dateStarts);
       formData.append("dateStart", this.formControls.dateStart);
       formData.append("dateStartBoti", this.formControls.dateStartBoti);
       formData.append("effectifCreche", this.formControls.effectifCreche);

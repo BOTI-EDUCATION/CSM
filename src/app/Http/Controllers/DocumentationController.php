@@ -23,14 +23,12 @@ class DocumentationController extends Controller
             $british  = [HelpBloc::find($id)];
         } else {
             $noTypes  = HelpBloc::where([['parent_id', '!=', null], ['types', 'LIKE', '%[]%']])->orWhere([['parent_id', '!=', null], ['types', null]])->get();
-            $kinder   = HelpBloc::where('types', 'LIKE', '%kinder%')->get();
-            $school   = HelpBloc::Where('types', 'LIKE', '%school%')->get();
-
-            // !  BRITISH
-            $british  = HelpBloc::where('types', 'LIKE', '%british%')->get();
-
+            $kinder   = HelpBloc::where(array(['types', 'LIKE', '%kinder%'], ['parent_id', null]))->get();
+            $school   = HelpBloc::Where(array(['types', 'LIKE', '%school%'], ['parent_id', null]))->get();
+            $british  = HelpBloc::where(array(['types', 'LIKE', '%british%'], ['parent_id', null]))->get();
         }
 
+        // dd($school);
         $dataSchool   = array();
         $dataBritish  = array();
         $dataKinder   = array();
@@ -77,12 +75,18 @@ class DocumentationController extends Controller
 
 
         return response()->json([
-                'school' => $dataSchool, 
-                'british' => $dataBritish,
-                'kinder' => $dataKinder,
-                'noType' => $dataNoType
-            ],200);
+            'school' => $dataSchool,
+            'british' => $dataBritish,
+            'kinder' => $dataKinder,
+            'noType' => $dataNoType
+        ], 200);
+    }
 
+    public function  parentsTree()
+    {
+
+        $trees = HelpBloc::where('parent_id', null)->get();
+        return response()->json($trees);
     }
 
 
@@ -111,7 +115,7 @@ class DocumentationController extends Controller
         }
 
 
-        return response()->json(['byTypes' => $dataDynamicTypes],200);
+        return response()->json(['byTypes' => $dataDynamicTypes], 200);
     }
 
 
@@ -132,7 +136,6 @@ class DocumentationController extends Controller
     public function loadDocumentationSchool($id)
     {
         $documentation = HelpBloc::find($id);
-
         $result = [
             'title' => $documentation->label,
             'details' => $documentation->intro,
@@ -192,6 +195,7 @@ class DocumentationController extends Controller
             'details' => $documentation->intro,
             'roles' => $documentation->getRolesAliases(),
             'types' => $documentation->getTypesAliases(),
+            'parent_tree' => $documentation->parent_id,
             'parent' => ($documentation->parent ? [
                 'id' => $documentation->parent->id,
                 'title' => $documentation->parent->label
@@ -204,21 +208,28 @@ class DocumentationController extends Controller
     public function saveDocumentation(Request $request)
     {
 
+
+
         if ($request->id) {
             $documentation = HelpBloc::find($request->id);
         } else {
             $documentation = new HelpBloc();
         }
 
+        if ($request->parentTree) {
+            $documentation->parent_id = $request->parentTree;
+        }
+
+
         $documentation->label = $request->title;
         $documentation->intro = $request->details;
         $documentation->types = json_encode($request->types);
         $documentation->roles = json_encode($request->roles);
 
-        if ($request->parent) {
-            $parent = HelpBloc::find($request->parent);
-            $documentation->parent()->associate($parent);
-        }
+        // if ($request->parent) {
+        //     $parent = HelpBloc::find($request->parent);
+        //     $documentation->parent()->associate($parent);
+        // }
 
         $documentation->save();
 

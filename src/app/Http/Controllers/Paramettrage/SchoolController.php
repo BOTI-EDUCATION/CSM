@@ -6,6 +6,7 @@ use App\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Checklist;
 use App\Models\ChecklistItem;
+use App\Models\Lead;
 use App\Models\School;
 use App\Models\SchoolChecklist;
 use App\Models\SchoolContact;
@@ -18,9 +19,28 @@ use Stringable;
 
 class SchoolController extends Controller
 {
+
+    public function filter_school(){
+
+        $where = array();
+
+    }
+
+
     public function schoolsList(){
+
+
         $data = array();
         $schools = School::where('hide_at',0)->get();
+
+        $aliases = School::where('founder_alias',null)->get();
+
+        foreach ($aliases as     $school) {
+            $update = School::find($school->id);
+            $update->founder_alias = substr($school->name,0,4).substr(rand(),0,4);
+            $update->save();
+        }
+
         foreach ($schools as $school) {
             $data[] = [
                 'id' => $school->id,
@@ -33,12 +53,14 @@ class SchoolController extends Controller
                 'adresse' => $school->adresse,
                 'localisation' => $school->localisation,
                 'link' => $school->link,
-                'logo' => $school->getLogo(),
+                'logo' => $school->by_lead != 0 ? Lead::find($school->by_lead)->getLogo() : $school->getLogo(),
                 'responsable' => !$school->accountManager?null:[
                     'id' => $school->accountManager->id,
                     'name' => $school->accountManager->getNomComplet(),
                     'img' => $school->accountManager->getPicture(),
-                ]
+                ],
+                'alias' => $school->founder_alias,
+                'web_link' => $school->web_link,
             ];
         }
         return response()->json($data);
@@ -160,7 +182,7 @@ class SchoolController extends Controller
         $school->version_ios = $request->version_ios;
         $school->version_android = $request->version_android;
         $school->web_link = $request->web_link;
-        
+        $school->startDate = $request->dateStarts;
         $accmanager = User::find($request->accountManager);
 
         $school->accountManager()->associate($accmanager);
@@ -214,6 +236,7 @@ class SchoolController extends Controller
             'types' => ($school->types?explode(',',$school->types):[]),
             'links' => json_decode($school->social_links),
             'city' => $school->city,
+            'dateStarts' => $school->startDate,
             'dateStart' => $school->start_year,
             'dateStartBoti' => $school->first_year_boti,
             'presentation' => $school->presentation,
@@ -222,8 +245,8 @@ class SchoolController extends Controller
             'adresse' => $school->adresse,
             'web_link' => $school->web_link,
             'accountManager' => ( $school->accountManager?$school->accountManager->id:null),
-            'logo' => $school->getLogo(),
-            'banner' => $school->getBanner(),
+            'logo' => $school->by_lead != 0 ? Lead::find($school->by_lead)->getLogo() : $school->getLogo(),
+            'banner' => $school->by_lead != 0 ? Lead::find($school->by_lead)->getBanner() : $school->getBanner(),
         ];
         return response()->json($data);
     }

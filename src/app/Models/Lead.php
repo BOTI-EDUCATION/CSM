@@ -33,7 +33,27 @@ class Lead extends Model
         'evaluations',
         'effectif_creche',
         'pricing',
+        'status',
+        'source',
+        'comment',
+        'is_converted',
+        'created_by'
     ];
+
+    public static function states(){
+        $types = array(
+            'à-contacter' => 'à contacter', 
+            'Prospection' => 'Prospection', // by default
+            'négociation' => 'Négociation',
+            'contractualisation' => 'Contractualisation',
+            'facturation' => 'Facturation',
+            'on-boarding' => 'Onboarding',
+            'abandon' => 'Abandon',
+        );
+        return $types;
+    }
+
+    
 
 
     public function contacts(){
@@ -84,4 +104,8 @@ class Lead extends Model
         return $this->belongsTo(User::class, 'sales_manager','id');
     }
    
+    public function AuthenticatedUser()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }

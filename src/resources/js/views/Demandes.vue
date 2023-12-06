@@ -1,11 +1,11 @@
 <template>
   <Layout>
     <div class="page-header">
-      <h1 class="page-title">Requests</h1>
+      <h1 class="page-title">Requests ({{ demandes.length }})</h1>
       <div>
         <ol class="breadcrumb">
           <li class="breadcrumb-item active" aria-current="page">
-            <router-link to="/demandes"> Requests  </router-link>
+            <router-link to="/demandes"> Requests </router-link>
           </li>
         </ol>
       </div>
@@ -14,8 +14,14 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <table class="table">
-              <thead>
+            <v-table
+              :data="demandes"
+              :currentPage.sync="currentPage"
+              :pageSize="10"
+              @totalPagesChanged="totalPages = $event"
+              class="table"
+            >
+              <thead slot="head">
                 <tr>
                   <th>Nom</th>
                   <th>Email</th>
@@ -24,30 +30,46 @@
                   <th class="text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="demande in demandes" :key="demande.id" 
-                    :class="demande.handling.handled && demande.handling.comment != '' && demande.handling.comment != null ? ['bg-success','text-white']  : '' "
-                  >
-                  
-                  <td>{{ demande.nom }}</td>
-                  <td>{{ demande.email }}</td>
-                  <td>{{ demande.tel }}</td>
-                  <td>{{ demande.date }}</td>
+              <tbody slot="body" slot-scope="{ displayData }">
+                <tr
+                v-for="row in displayData" :key="row.guid"
+                  :class="
+                    row.handling.handled &&
+                    row.handling.comment != '' &&
+                    row.handling.comment != null
+                      ? ['bg-success', 'text-white']
+                      : ''
+                  "
+                >
+                  <td>{{ row.nom }}</td>
+                  <td>{{ row.email }}</td>
+                  <td>{{ row.tel }}</td>
+                  <td>{{ row.date }}</td>
                   <td class="text-center">
                     <a
                       href="javascript:void(0)"
-                      @click="triggerDemandeModal(demande)"
+                      @click="triggerDemandeModal(row)"
                     >
-                      <i 
-                      class="fe fe-eye"
-                      :class="demande.handling.handled && demande.handling.comment != '' && demande.handling.comment != null ? 'text-white' : '' "
+                      <i
+                        class="fe fe-eye"
+                        :class="
+                          row.handling.handled &&
+                          row.handling.comment != '' &&
+                          row.handling.comment != null
+                            ? 'text-white'
+                            : ''
+                        "
                       ></i>
                     </a>
-                  </td>  
-                
+                  </td>
                 </tr>
               </tbody>
-            </table>
+            </v-table>
+            <smart-pagination
+              :currentPage.sync="currentPage"
+              :totalPages="totalPages"
+              class="mb-2"
+            />
           </div>
         </div>
       </div>
@@ -116,7 +138,13 @@
                     </p>
                   </div>
                 </div>
-                <div class="row" v-if="!showedDemande.handling.handled || !showedDemande.handling.saved">
+                <div
+                  class="row"
+                  v-if="
+                    !showedDemande.handling.handled ||
+                    !showedDemande.handling.saved
+                  "
+                >
                   <div class="col-12">
                     <label class="custom-control custom-checkbox-md">
                       <input
@@ -142,7 +170,7 @@
                   </div>
                   <div class="col-12 col-md-9">
                     <p>
-                      {{ showedDemande.handling.handled?'Yes':'No' }}
+                      {{ showedDemande.handling.handled ? "Yes" : "No" }}
                     </p>
                   </div>
                   <div class="col-12 col-md-3">
@@ -150,14 +178,22 @@
                   </div>
                   <div class="col-12 col-md-9">
                     <p>
-                      {{ showedDemande.handling.comment?showedDemande.handling.comment:'-' }}
+                      {{
+                        showedDemande.handling.comment
+                          ? showedDemande.handling.comment
+                          : "-"
+                      }}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <template v-if="showedDemande.handling.handled && showedDemande.handling.saved" >
+              <template
+                v-if="
+                  showedDemande.handling.handled && showedDemande.handling.saved
+                "
+              >
                 <button
                   class="btn btn-secondary"
                   @click="showDemandeModal = !showDemandeModal"
@@ -166,17 +202,16 @@
                 </button>
               </template>
               <template v-else>
-                <button
-                  class="btn btn-secondary"
-                  @click="handleQuotation"
-                >
-                  Enregistrer 
+                <button class="btn btn-secondary" @click="handleQuotation">
+                  Enregistrer
                 </button>
               </template>
-              <button class="btn btn-danger" @click="deleteDemande($event, showedDemande.id)" >
+              <button
+                class="btn btn-danger"
+                @click="deleteDemande($event, showedDemande.id)"
+              >
                 Supprimer
               </button>
-    
             </div>
           </div>
         </div>
@@ -187,7 +222,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import Layout from "../components/Layout.vue";
 export default {
   components: {
@@ -198,6 +233,8 @@ export default {
       demandes: [],
       showDemandeModal: false,
       showedDemande: {},
+      totalPages: 0,
+      currentPage: 1,
     };
   },
   methods: {
@@ -232,19 +269,23 @@ export default {
       ref.classList.toggle("show");
     },
 
-    handleQuotation: async function() {
+    handleQuotation: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
         await axios
-          .post("/api/handleQuotation", {
-            demande: this.showedDemande.id,
-            handles: this.showedDemande.handling.handled,
-            comment: this.showedDemande.handling.comment
-          } ,{
-            headers: {
-              Authorization: "Bearer " + token,
+          .post(
+            "/api/handleQuotation",
+            {
+              demande: this.showedDemande.id,
+              handles: this.showedDemande.handling.handled,
+              comment: this.showedDemande.handling.comment,
             },
-          })
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          )
           .then(async (result) => {
             this.showDemandeModal = false;
           })
@@ -254,9 +295,9 @@ export default {
         this.$router.push("/login");
       }
     },
-    deleteDemande:async function(e, id){
-      const token = localStorage.getItem('auth-token');
-      if(token){
+    deleteDemande: async function (e, id) {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
         this.$swal({
           title: "Vous êtes sûr de vouloir supprimer cette demande",
           icon: "warning",
@@ -265,39 +306,45 @@ export default {
           showCancelButton: true,
           denyButtonText: `supprimer`,
           cancelButtonText: `Annuler`,
-        }).then( async (result) => {
-           if(result.isDenied){
-            
-            await axios.post(
-              "api/delete/demande/" + id,
-            {},
-            {
-              headers: {
-                  Authorization: "Bearer " + token,
+        }).then(async (result) => {
+          if (result.isDenied) {
+            await axios
+              .post(
+                "api/delete/demande/" + id,
+                {},
+                {
+                  headers: {
+                    Authorization: "Bearer " + token,
+                  },
                 }
-            }
-            ).then((result) => {
-              this.demandes = this.demandes.filter( (dem) => {
-                return dem.id != id ;
-              });
-              this.showDemandeModal = false;
-            }).catch(function (err) {
+              )
+              .then((result) => {
+                this.demandes = this.demandes.filter((dem) => {
+                  return dem.id != id;
+                });
+                this.showDemandeModal = false;
+              })
+              .catch(function (err) {
                 console.log(token);
               });
-           }
-        })
+          }
+        });
       }
-    }
+    },
   },
   mounted() {
     this.getDemandes();
   },
-  
+  computed: {
+    rows() {
+      return this.demandes.length;
+    },
+  },
 };
 </script>
 
 <style>
-  .swal2-container {
-    z-index: 10000 !important;
-  }
+.swal2-container {
+  z-index: 10000 !important;
+}
 </style>

@@ -23,7 +23,7 @@ class FounderConxController extends Controller
 
     public function index()
     {
-        $logs = FounderConnexion::orderBy('id', 'DESC')->get();
+        $logs = FounderConnexion::orderBy('id', 'DESC')->limit(3)->get();
         $data = [];
         foreach ($logs as $value) {
             $data[] = [

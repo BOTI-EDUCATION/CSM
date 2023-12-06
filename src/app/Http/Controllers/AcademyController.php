@@ -33,9 +33,10 @@ class AcademyController extends Controller
                 'icon' => 'mdi-clock-time-four',
                 'color' => 'warning'
             ];
+            $res['details'] = $item->details();
             $result[] = $res;
         }
-
+        
         return response()->json($result);
     }
 
@@ -94,7 +95,8 @@ class AcademyController extends Controller
                 'video' => $course->video,
                 'content' => $course->content,
                 'ordre' => $course->ordre,
-                'theme' => $course->theme->label
+                'theme' => $course->theme->label,
+                'min' => $course->min,
             ];
         }
         return response()->json([
@@ -115,6 +117,7 @@ class AcademyController extends Controller
         $course->content     = $request->content;
         $course->ordre       = $request->ordre;
         $course->theme_id    = $request->theme;
+        $course->min         = $request->min;
         $course->save();
 
         $data = [
@@ -127,6 +130,7 @@ class AcademyController extends Controller
             'content' => $course->content,
             'ordre' => $course->ordre,
             'theme' => $course->theme->label,
+            'min' => $course->min,
         ];
 
         return response()->json($data,201);
@@ -162,6 +166,8 @@ class AcademyController extends Controller
             'content' => $course->content,
             'theme_alias' => $course->theme->alias,
             'has_quiz' => ($course->quiz()->count() > 0 ? true : false),
+            'theme_label' => $course->theme->label,
+            'min' => $course->min
         ];
 
         return response()->json($result);

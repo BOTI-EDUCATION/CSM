@@ -37,10 +37,15 @@
         <!--Table-->
         <div>
             <div class="row">
-                <div class="col-md-6" style="cursor: pointer;" v-for="(article, index) in filteredArticles"  @click="shareDataArticle(article)">
-                <!-- blogDetailSchoolLife -->
+                <div class="col-md-6" style="cursor: pointer;" v-for="(article, index) in filteredArticles">
+                    <!-- blogDetailSchoolLife -->
                     <div class="row card p-5">
-                        <div class="row">
+                        <transition name="fade">
+                            <span class="btnDlt mb-3" @click.prevent="deleteArt(article.id)">
+                                delete
+                            </span>
+                        </transition>
+                        <div class="row" @click="shareDataArticle(article)">
                             <div class="col-md-4">
                                 <img alt="image" width="200" class="br-7" :src="article.image">
                             </div>
@@ -50,15 +55,17 @@
                                         <h3><strong>{{ article.label }}</strong></h3>
                                     </div>
                                     <div class="col-md-12">
-                                       <span class="row">
-                                        <span class="col-1 h4 p-3"><i class="bi bi-tags-fill"></i></span>
-                                        <span v-for="tag in article.keywords" class="col-3 text-center text-muted card h6 bg-light text-black p-2 mx-1">{{ tag.replaceAll('"', '') }} </span> 
-                                       </span>
+                                        <span class="row">
+                                            <span class="col-1 h4 p-3"><i class="bi bi-tags-fill"></i></span>
+                                            <span v-for="tag in article.keywords"
+                                                class="col-3 text-center text-muted card h6 bg-light text-black p-2 mx-1">{{
+                                                    tag.replaceAll('"', '') }} </span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -67,8 +74,29 @@
 
 
     </Layout>
-
 </template>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .5s
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+    {
+    opacity: 0
+}
+.btnDlt{
+    color: white;
+    padding: 6px 20px;
+    background-color: #FF7D63;
+    border-radius: 10px;
+    border: none;
+    width: 80px;
+}
+</style>
 
 <script>
 import Layout from "../../components/Layout.vue";
@@ -99,6 +127,35 @@ export default {
                 })
             location.reload();
         },
+
+        async deleteArt(id) {
+            const token = localStorage.getItem("auth-token");
+            this.$swal({
+        title: "Vous êtes sûr de vouloir supprimer cette article",
+        icon: "warning",
+        showConfirmButton: false,
+        showDenyButton: true,
+        showCancelButton: true,
+        denyButtonText: `Supprimer`,
+        cancelButtonText: `Annuler`,
+      }).then(async (result) => {
+        if(result.isDenied){
+            let axi = await axios.post(`api/deleteArt/${id}`, null, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+            }).then(res => {
+                this.filteredArticles = res.data.articles
+            })
+            console.log(axi);
+            this.ListeBlogs = axi.data.article
+
+        }
+
+
+      });
+        },
+
         filterArticles: function (e) {
             let value = e.target.value;
             console.log(value)
@@ -123,7 +180,7 @@ export default {
         },
         shareDataArticle(article) {
             // this.$router.push({ name: "listeOffres/view/"+offer.id, params: { data: offer } });
-            this.$router.push({ name: "BlogDetails", params: { id:article.id  } });
+            this.$router.push({ name: "BlogDetails", params: { id: article.id } });
         },
     },
     async mounted() {

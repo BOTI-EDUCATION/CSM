@@ -20,16 +20,6 @@
               />
             </router-link>
             <!-- LOGO -->
-            <!-- <div class="main-header-center ms-3 d-none d-lg-block">
-              <input
-                class="form-control"
-                placeholder="Search for results..."
-                type="search"
-              />
-              <button class="btn px-0 pt-2">
-                <i class="fe fe-search" aria-hidden="true"></i>
-              </button>
-            </div> -->
             <div class="d-flex order-lg-2 ms-auto header-right-icons">
               <div class="dropdown d-none">
                 <a
@@ -97,16 +87,14 @@
                       </div>
                     </div>
                     <!-- SEARCH -->
-
+                    <!-- TICKET -->
                     <div class="dropdown d-flex notifications">
                       <a class="nav-link icon" data-bs-toggle="dropdown"
                         ><i class="fa fa-receipt"></i>
                         <!-- <span class="pulse"></span> -->
                       </a>
                       <div
-                        class="
-                          dropdown-menu dropdown-menu-end dropdown-menu-arrow
-                        "
+                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                       >
                         <div class="drop-heading border-bottom">
                           <div class="d-flex">
@@ -142,12 +130,7 @@
                               :to="'schools/view/' + ticket.school.id"
                             >
                               <div
-                                class="
-                                  me-3
-                                  notifyimg
-                                  brround
-                                  box-shadow-primary
-                                "
+                                class="me-3 notifyimg brround box-shadow-primary"
                               >
                                 <img :src="ticket.school.img" alt="" />
                               </div>
@@ -175,25 +158,22 @@
                         >
                       </div>
                     </div>
+                    <!-- END TICKET -->
 
                     <div class="dropdown d-flex notifications">
-                      <a class="nav-link icon" data-bs-toggle="dropdown"
-                        ><i class="fa fa-calendar"></i>
+                      <a class="nav-link icon" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-question"></i>
                         <!-- <span class="pulse"></span> -->
                       </a>
+
                       <div
-                        class="
-                          dropdown-menu dropdown-menu-end dropdown-menu-arrow
-                        "
+                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                       >
                         <div class="drop-heading border-bottom">
                           <div class="d-flex">
                             <h6 class="mt-1 mb-0 fs-16 fw-semibold text-dark">
-                              Interventions
+                              Interventions CS
                             </h6>
-                            <!-- <div class="ms-auto">
-                              <button class="btn btn-link"><i class="fa fa-plus"></i></button>
-                            </div> -->
                             <div class="ms-auto">
                               <a
                                 ref="btnAddIntervention"
@@ -221,12 +201,7 @@
                               :to="'schools/view/' + intervention.school.id"
                             >
                               <div
-                                class="
-                                  me-3
-                                  notifyimg
-                                  brround
-                                  box-shadow-primary
-                                "
+                                class="me-3 notifyimg brround box-shadow-primary"
                               >
                                 <img :src="intervention.school.img" alt="" />
                               </div>
@@ -254,6 +229,37 @@
                         > -->
                       </div>
                     </div>
+
+                    <!-- SALES INTERVENTION -->
+                    <div class="dropdown d-flex header-settings">
+                      <a class="nav-link icon" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                      </a>
+                      <div
+                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                        style="width: 300px"
+                      >
+                        <div class="drop-heading border-bottom">
+                          <div class="d-flex">
+                            <h6 class="mt-1 mb-0 fs-16 fw-semibold text-dark">
+                              Interventions Sales
+                            </h6>
+                            <div class="ms-auto">
+                              <a
+                                @click="showModalSales = !showModalSales"
+                                href="javascript:void(0)"
+                                class="text-white bg-success px-2 py-1 bradius"
+                                ><i class="fa fa-plus"></i
+                              ></a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="dropdown-divider m-0"></div> -->
+                      </div>
+                    </div>
+                    <!-- END SALES INTERVENTION -->
+
                     <!-- MESSAGE-BOX -->
                     <div class="dropdown d-flex header-settings">
                       <a
@@ -280,9 +286,7 @@
                         />
                       </a>
                       <div
-                        class="
-                          dropdown-menu dropdown-menu-end dropdown-menu-arrow
-                        "
+                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                       >
                         <div class="drop-heading">
                           <div class="text-center">
@@ -371,18 +375,54 @@
                   ><span class="side-menu__label">Dashboard</span>
                 </router-link>
               </li>
-              <!-- <li class="slide">
+
+           
+              <!------------------------------- START DAILY-------------------------------------->
+              <li class="sub-category"><h3>DAILY</h3></li>
+              <li class="slide">
                 <router-link
                   exact
-                  to="/dashboard"
+                  to="/ticket"
                   class="side-menu__item"
                   data-bs-toggle="slide"
                 >
-                  <i class="side-menu__icon fe fe-home"></i
-                  ><span class="side-menu__label">Dashboard V2</span>
+                  <i class="side-menu__icon fe fe-file-text"></i
+                  ><span class="side-menu__label">Tickets</span>
                 </router-link>
-              </li> -->
-              <li class="sub-category"><h3>Gestion du relationnel</h3></li>
+
+                <router-link
+                  exact
+                  to="/Depenses/schools"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-filter"></i
+                  ><span class="side-menu__label">Depenses</span>
+                </router-link>
+
+                <router-  
+                  exact
+                  to="/cs/actions"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">CS Actions</span>
+                </router->
+                <router-link
+                  exact
+                  to="/actions/sales"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-filter"></i
+                  ><span class="side-menu__label">Sales Actions</span>
+                </router-link>
+              </li>
+              <!------------------------------- END DAILY-------------------------------------->
+
+              <!------------------------------- START SALES-------------------------------------->
+              <li class="sub-category"><h3>SALES</h3></li>
               <li class="slide">
                 <router-link
                   exact
@@ -402,26 +442,11 @@
                   <i class="side-menu__icon fe fe-filter"></i
                   ><span class="side-menu__label">Leads</span>
                 </router-link>
-                <router-link
-                  exact
-                  to="/checkup"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-check-circle"></i
-                  ><span class="side-menu__label">Checkup</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/usagetracking"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-trending-up"></i
-                  ><span class="side-menu__label">Usage Tracking</span>
-                </router-link>
               </li>
+              <!------------------------------- END SALES-------------------------------------->
 
+              <!------------------------------- START CS-------------------------------------->
+              <li class="sub-category"><h3>CS</h3></li>
               <li class="slide">
                 <a
                   class="side-menu__item"
@@ -463,72 +488,16 @@
                       ><span class="side-menu__label">Disabled School</span>
                     </router-link>
                   </li>
+                  <!-- <li class="side-menu-label1">
+                    <a href="javascript:void(0)">Depenses</a>
+                  </li> -->
                 </ul>
-              </li>
 
-              <li class="sub-category"><h3>School Jobs</h3></li>
-              <li class="slide">
-                <router-link
-                  exact
-                  to="/homeSchoolJobs"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-file-text"></i
-                  ><span class="side-menu__label">Home</span>
+                <router-link to="/tracking/evaluations" class="side-menu__item">
+                  <i class="side-menu__icon fe fe-server"></i>
+                  <span class="side-menu__label">Evaluations</span>
                 </router-link>
-                <router-link
-                  exact
-                  to="/listeCandidats"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-file-text"></i
-                  ><span class="side-menu__label">Candidates List</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/listeOffres"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-mail"></i
-                  ><span class="side-menu__label">Offers List</span>
-                </router-link>
-              </li>
-              <li class="sub-category"><h3>School Life</h3></li>
-              <li class="slide">
-                <router-link
-                  exact
-                  to="/listeBlogs"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-layout"></i
-                  ><span class="side-menu__label">Articles List</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/ListeQuotes"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-layout"></i
-                  ><span class="side-menu__label">Quotes</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/ListeNews"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-layout"></i
-                  ><span class="side-menu__label">News</span>
-                </router-link>
-              </li>
-              <li class="sub-category"><h3>FOUNDERS</h3></li>
 
-              <li class="slide">
                 <router-link
                   exact
                   to="/founder/connexion"
@@ -536,80 +505,22 @@
                   data-bs-toggle="slide"
                 >
                   <i class="side-menu__icon fe fe-layout"></i
-                  ><span class="side-menu__label">Logs</span>
+                  ><span class="side-menu__label">Founders logs</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/actions/export"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">Export Excel</span>
                 </router-link>
               </li>
-              <li class="sub-category"><h3>Gestion du contenu</h3></li>
+              <!------------------------------- END CS-------------------------------------->
 
-              <li class="slide">
-                <router-link
-                  exact
-                  to="/content"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-layout"></i
-                  ><span class="side-menu__label">Content Library</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/blog"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-layout"></i
-                  ><span class="side-menu__label">Blog</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/tutoriel"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-film"></i
-                  ><span class="side-menu__label">Tutoriel</span>
-                </router-link>
-                <router-link
-                  exact
-                  to="/documentation"
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                >
-                  <i class="side-menu__icon fe fe-book-open"></i
-                  ><span class="side-menu__label">Documentation</span>
-                </router-link>
-              </li>
-              <li class="slide">
-                <a
-                  class="side-menu__item"
-                  data-bs-toggle="slide"
-                  href="javascript:void(0)"
-                  ><i class="side-menu__icon fe fe-grid"></i
-                  ><span class="side-menu__label">Tracking</span
-                  ><i class="angle fe fe-chevron-right"></i
-                ></a>
-                <ul class="slide-menu">
-                  <li class="side-menu-label1">
-                    <a href="javascript:void(0)">Tracking</a>
-                  </li>
-                  <li>
-                    <router-link
-                      exact
-                      to="/tracking/evaluation"
-                      class="slide-item"
-                    >
-                      <i class="side-menu__icon fe fe-users"></i
-                      ><span class="side-menu__label">Evaluation</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link exact to="/tracking" class="slide-item">
-                      <i class="side-menu__icon fe fe-server"></i
-                      ><span class="side-menu__label">Matrice</span>
-                    </router-link>
-                  </li>
-                </ul>
-              </li>
+              <!------------------------------- START TECH -------------------------------------->
+              <li class="sub-category"><h3>TECH</h3></li>
               <li class="slide">
                 <a
                   class="side-menu__item"
@@ -642,7 +553,102 @@
                     </router-link>
                   </li>
                 </ul>
+                <router-link
+                  exact
+                  to="/errorstracker"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-alert-octagon"></i
+                  ><span class="side-menu__label">Errors Tracking</span>
+                </router-link>
               </li>
+              <!------------------------------- END TECH-------------------------------------->
+
+              <!------------------------------- START CONTENT-------------------------------------->
+              <li class="sub-category"><h3>CONTENTS</h3></li>
+              <li class="slide">
+                <router-link
+                  exact
+                  to="/content"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">Library</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/documentation"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-book-open"></i
+                  ><span class="side-menu__label">Documentation</span>
+                </router-link>
+              </li>
+              <!------------------------------- END CONTENT -------------------------------------->
+
+              <!------------------------------- START SCHOOL LIFE -------------------------------------->
+              <li class="sub-category"><h3>School Life</h3></li>
+              <a
+                class="side-menu__item"
+                data-bs-toggle="slide"
+                href="javascript:void(0)"
+                ><i class="side-menu__icon fe fe-grid"></i
+                ><span class="side-menu__label">School Life</span
+                ><i class="angle fe fe-chevron-right"></i
+              ></a>
+              <ul class="slide-menu">
+                <li>
+                  <router-link exact to="/Listcategory" class="slide-item">
+                    <i class="side-menu__icon fe fe-layout"></i
+                    ><span class="side-menu__label">Articles Category</span>
+                  </router-link>
+                </li>
+                <li>
+                  <router-link exact to="/listeBlogs" class="slide-item">
+                    <i class="side-menu__icon fe fe-layout"></i
+                    ><span class="side-menu__label">Articles List</span>
+                  </router-link>
+                </li>
+              </ul>
+              <!------------------------------- END SCHOOL LIFE -------------------------------------->
+
+              <!------------------------------- END SCHOOL JOBS -------------------------------------->
+              <li class="sub-category"><h3>School Jobs</h3></li>
+              <a
+                class="side-menu__item"
+                data-bs-toggle="slide"
+                href="javascript:void(0)"
+                ><i class="side-menu__icon fe fe-grid"></i
+                ><span class="side-menu__label">School Jobs</span
+                ><i class="angle fe fe-chevron-right"></i
+              ></a>
+              <ul class="slide-menu">
+                <li>
+                  <router-link exact to="/homeSchoolJobs" class="slide-item">
+                    <i class="side-menu__icon fe fe-file-text"></i
+                    ><span class="side-menu__label">Home</span>
+                  </router-link>
+                </li>
+
+                <li>
+                  <router-link exact to="/listeCandidats" class="slide-item">
+                    <i class="side-menu__icon fe fe-file-text"></i
+                    ><span class="side-menu__label">Candidates List</span>
+                  </router-link>
+                </li>
+
+                <li>
+                  <router-link exact to="/listeOffres" class="slide-item">
+                    <i class="side-menu__icon fe fe-mail"></i
+                    ><span class="side-menu__label">Offers List</span>
+                  </router-link>
+                </li>
+              </ul>
+              <!------------------------------- END SCHOOL JOBS -------------------------------------->
+
               <li class="sub-category"><h3>Administration</h3></li>
               <li class="slide">
                 <a
@@ -650,7 +656,7 @@
                   data-bs-toggle="slide"
                   href="javascript:void(0)"
                   ><i class="side-menu__icon fe fe-grid"></i
-                  ><span class="side-menu__label">Paramettrage</span
+                  ><span class="side-menu__label">Settings</span
                   ><i class="angle fe fe-chevron-right"></i
                 ></a>
                 <ul class="slide-menu">
@@ -677,6 +683,7 @@
                       ><span class="side-menu__label">Tracking Sections</span>
                     </router-link>
                   </li>
+
                   <li>
                     <router-link
                       exact
@@ -685,6 +692,17 @@
                     >
                       <i class="side-menu__icon fe fe-sliders"></i
                       ><span class="side-menu__label">Tracking Criterias</span>
+                    </router-link>
+                  </li>
+
+                  <li>
+                    <router-link
+                      exact
+                      to="/paramettrage/Checklists"
+                      class="slide-item"
+                    >
+                      <i class="side-menu__icon fe fe-sliders"></i
+                      ><span class="side-menu__label">Checklists</span>
                     </router-link>
                   </li>
 
@@ -708,22 +726,7 @@
                       ><span class="side-menu__label">Thèmes</span>
                     </router-link>
                   </li>
-                  <!-- <li>
-                    <router-link exact to="/" class="slide-item">
-                        <i class="side-menu__icon fe fe-users"></i
-                        ><span class="side-menu__label">Account Managers</span>
-                    </router-link>
-                  </li> -->
-                  <!-- <li>
-                    <router-link
-                      exact
-                      to="/paramettrage/schools"
-                      class="slide-item"
-                    >
-                      <i class="side-menu__icon fe fe-home"></i
-                      ><span class="side-menu__label">Schools</span>
-                    </router-link>
-                  </li> -->
+
                   <li class="slide">
                     <a
                       class="side-menu__item"
@@ -776,7 +779,7 @@
                   </li>
                 </ul>
               </li>
-              <router-link
+              <!-- <router-link
                 exact
                 to="/errorstracker"
                 class="side-menu__item"
@@ -784,8 +787,154 @@
               >
                 <i class="side-menu__icon fe fe-alert-octagon"></i
                 ><span class="side-menu__label">Errors Tracking</span>
-              </router-link>
-            </ul>
+              </router-link> -->
+              <!-- <li class="sub-category"><h3>Gestion du contenu</h3></li> -->
+
+              <!-- <li class="slide">
+                 <router-link
+                  exact
+                  to="/content"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">Content Library</span>
+                </router-link> 
+                <router-link
+                  exact
+                  to="/blog"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">Blog</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/tutoriel"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-film"></i
+                  ><span class="side-menu__label">Tutoriel</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/documentation"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-book-open"></i
+                  ><span class="side-menu__label">Documentation</span>
+                </router-link>
+              </li> -->
+              <!-- <li class="slide">
+                <a
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                  href="javascript:void(0)"
+                  ><i class="side-menu__icon fe fe-grid"></i
+                  ><span class="side-menu__label">Tracking</span
+                  ><i class="angle fe fe-chevron-right"></i
+                ></a>
+                <ul class="slide-menu">
+                  <li class="side-menu-label1">
+                    <a href="javascript:void(0)">Tracking</a>
+                  </li>
+
+                  <li>
+                    <router-link to="/tracking/indicators" class="slide-item">
+                      <i class="side-menu__icon fe fe-server"></i>
+                      <span>Indicators</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/tracking/evaluations" class="slide-item">
+                      <i class="side-menu__icon fe fe-server"></i>
+                      <span>Evaluations</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </li> -->
+              <!--  <li class="slide">
+                <router-link
+                  exact
+                  to="/ListeQuotes"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">Quotes</span>
+                </router-link> 
+                 <router-link
+                  exact
+                  to="/ListeNews"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-layout"></i
+                  ><span class="side-menu__label">News</span>
+                </router-link> 
+              </li> -->
+              <!-- <li class="slide">
+                <router-link
+                  exact
+                  to="/homeSchoolJobs"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-file-text"></i
+                  ><span class="side-menu__label">Home</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/listeCandidats"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-file-text"></i
+                  ><span class="side-menu__label">Candidates List</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/listeOffres"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-mail"></i
+                  ><span class="side-menu__label">Offers List</span>
+                </router-link>
+              </li> 
+            
+            <li>
+                    <router-link
+                      exact
+                      to="/Depenses/schools"
+                      class="slide-item"
+                    >
+                      <span class="side-menu__label">Depenses</span>
+                    </router-link>
+                  </li> 
+
+                        <router-link
+                  exact
+                  to="/checkup"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-check-circle"></i
+                  ><span class="side-menu__label">Checkup</span>
+                </router-link>
+                <router-link
+                  exact
+                  to="/usagetracking"
+                  class="side-menu__item"
+                  data-bs-toggle="slide"
+                >
+                  <i class="side-menu__icon fe fe-trending-up"></i
+                  ><span class="side-menu__label">Usage Tracking</span>
+                </router-link> 
+            --></ul>
             <div class="slide-right" id="slide-right">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -856,16 +1005,6 @@
           <div class="tabs-menu border-bottom">
             <!-- Tabs -->
             <ul class="nav panel-tabs">
-              <!-- <li class="">
-                <a href="#side1" data-bs-toggle="tab"
-                  ><i class="fe fe-settings me-1"></i>Feeds</a
-                >
-              </li>
-              <li>
-                <a href="#side2" data-bs-toggle="tab"
-                  ><i class="fe fe-message-circle"></i> Chat</a
-                >
-              </li> -->
               <li>
                 <a href="#side3" class="active" data-bs-toggle="tab"
                   ><i class="fe fe-anchor me-1"></i>Timeline</a
@@ -874,741 +1013,6 @@
             </ul>
           </div>
           <div class="tab-content">
-            <!-- <div class="tab-pane" id="side1">
-              <div class="p-3 fw-semibold ps-5">Feeds</div>
-              <div class="card-body pt-2">
-                <div class="browser-stats">
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle
-                          brround
-                          bg-primary-transparent
-                        "
-                        ><i class="fe fe-user text-primary"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">New user registered</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-x"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-secondary
-                          brround
-                          bg-secondary-transparent
-                        "
-                        ><i class="fe fe-shopping-cart text-secondary"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">New order delivered</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-x"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-danger
-                          brround
-                          bg-danger-transparent
-                        "
-                        ><i class="fe fe-bell text-danger"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">You have pending tasks</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-x"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-warning
-                          brround
-                          bg-warning-transparent
-                        "
-                        ><i class="fe fe-gitlab text-warning"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">New version arrived</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-x"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-pink
-                          brround
-                          bg-pink-transparent
-                        "
-                        ><i class="fe fe-database text-pink"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">Server #1 overloaded</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-x"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-info
-                          brround
-                          bg-info-transparent
-                        "
-                        ><i class="fe fe-check-circle text-info"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">New project launched</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-x"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="p-3 fw-semibold ps-5">Settings</div>
-              <div class="card-body pt-2">
-                <div class="browser-stats">
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle
-                          brround
-                          bg-primary-transparent
-                        "
-                        ><i class="fe fe-settings text-primary"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">General Settings</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-secondary
-                          brround
-                          bg-secondary-transparent
-                        "
-                        ><i class="fe fe-map-pin text-secondary"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">Map Settings</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-danger
-                          brround
-                          bg-danger-transparent
-                        "
-                        ><i class="fe fe-headphones text-danger"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">Support Settings</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-warning
-                          brround
-                          bg-warning-transparent
-                        "
-                        ><i class="fe fe-credit-card text-warning"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">Payment Settings</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-sm-2 mb-sm-0 mb-3">
-                      <span
-                        class="
-                          feeds
-                          avatar-circle avatar-circle-pink
-                          brround
-                          bg-pink-transparent
-                        "
-                        ><i class="fe fe-bell text-pink"></i
-                      ></span>
-                    </div>
-                    <div class="col-sm-10 ps-sm-0">
-                      <div
-                        class="
-                          d-flex
-                          align-items-end
-                          justify-content-between
-                          ms-2
-                        "
-                      >
-                        <h6 class="">Notification Settings</h6>
-                        <div>
-                          <a href="javascript:void(0)"
-                            ><i class="fe fe-settings me-1"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane" id="side2">
-              <div class="list-group list-group-flush">
-                <div class="pt-3 fw-semibold ps-5">Today</div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/2.jpg"
-                      style="
-                        background: url('/assets/images/users/2.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Addie Minstra
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Hey! there I' am available....
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/11.jpg"
-                      style="
-                        background: url('/assets/images/users/11.jpg') center
-                          center;
-                      "
-                      ><span class="avatar-status bg-success"></span
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Rose Bush
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Okay...I will be waiting for you
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/10.jpg"
-                      style="
-                        background: url('/assets/images/users/10.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Claude Strophobia
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Hi we can explain our new project......
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/13.jpg"
-                      style="
-                        background: url('/assets/images/users/13.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Eileen Dover
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        New product Launching...
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/12.jpg"
-                      style="
-                        background: url('/assets/images/users/12.jpg') center
-                          center;
-                      "
-                      ><span class="avatar-status bg-success"></span
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Willie Findit
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Okay...I will be waiting for you
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/15.jpg"
-                      style="
-                        background: url('/assets/images/users/15.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Manny Jah
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Hi we can explain our new project......
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/4.jpg"
-                      style="
-                        background: url('/assets/images/users/4.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Cherry Blossom
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Hey! there I' am available....
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="pt-3 fw-semibold ps-5">Yesterday</div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/7.jpg"
-                      style="
-                        background: url('/assets/images/users/7.jpg') center
-                          center;
-                      "
-                      ><span class="avatar-status bg-success"></span
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Simon Sais
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Schedule Realease......
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/9.jpg"
-                      style="
-                        background: url('/assets/images/users/9.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Laura Biding
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Hi we can explain our new project......
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/2.jpg"
-                      style="
-                        background: url('/assets/images/users/2.jpg') center
-                          center;
-                      "
-                      ><span class="avatar-status bg-success"></span
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Addie Minstra
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Contact me for details....
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/9.jpg"
-                      style="
-                        background: url('/assets/images/users/9.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Ivan Notheridiya
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Hi we can explain our new project......
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/14.jpg"
-                      style="
-                        background: url('/assets/images/users/14.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Dulcie Veeta
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        Okay...I will be waiting for you
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/11.jpg"
-                      style="
-                        background: url('/assets/images/users/11.jpg') center
-                          center;
-                      "
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Florinda Carasco
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        New product Launching...
-                      </p></a
-                    >
-                  </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center">
-                  <div class="me-2">
-                    <span
-                      class="avatar avatar-md brround cover-image"
-                      data-bs-image-src="/csm/assets/images/users/4.jpg"
-                      style="
-                        background: url('/assets/images/users/4.jpg') center
-                          center;
-                      "
-                      ><span class="avatar-status bg-success"></span
-                    ></span>
-                  </div>
-                  <div class="">
-                    <a href="chat.html">
-                      <div
-                        class="fw-semibold text-dark"
-                        data-bs-toggle="modal"
-                        data-target="#chatmodel"
-                      >
-                        Cherry Blossom
-                      </div>
-                      <p class="mb-0 fs-12 text-muted">
-                        cherryblossom@gmail.com
-                      </p></a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div> -->
             <div class="tab-pane active" id="side3">
               <ul
                 v-if="notifications.length > 0"
@@ -1675,6 +1079,282 @@
     </footer>
     <!-- FOOTER CLOSED -->
 
+    <!------------------------------  ADD SaLES INTERVENTIONS ------------------------------>
+    <transition
+      @enter="startTransitionModal($refs.modalAddSales)"
+      @after-enter="endTransitionModal($refs.modalAddSales)"
+      @before-leave="endTransitionModal($refs.modalAddSales)"
+      @after-leave="startTransitionModal($refs.modalAddSales)"
+    >
+      <div class="modal fade" v-if="showModalSales" ref="modalAddSales">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <form @submit="addInterventionLead" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Ajouter une Intervention (leads)
+                </h5>
+                <button
+                  class="close btn"
+                  @click="showModalSales = !showModalSales"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-label"> Lead </label>
+
+                        <select name="lead_id" class="form-control">
+                          <option value="">Leads</option>
+                          <option
+                            v-for="lead in leadsName"
+                            :key="lead"
+                            :value="lead.id"
+                          >
+                            {{ lead.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label"> Titre </label>
+
+                        <input
+                          type="text"
+                          required
+                          name="label"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label"> Sales Manager </label>
+                        <select name="sales_id" required class="form-control">
+                          <option
+                            v-for="sale in salesManager"
+                            :key="sale.id"
+                            :value="sale.id"
+                          >
+                            {{ sale.nom }}
+                          </option>
+                          <option value="4">DRIOUA Hayame</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label"> Date </label>
+                        <input
+                          type="datetime-local"
+                          class="form-control"
+                          name="date"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label"> Duration </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="duration"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label"> Nature </label>
+                        <select name="nature" class="form-control">
+                          <option value="presentation-commercial">
+                            Présentation commerciale
+                          </option>
+                          <option value="accompagnement">accompagnement</option>
+                          <option value="formation">Formation</option>
+                          <option value="appel">Appel</option>
+                          <option value="meeting">Meeting</option>
+                          <option value="rencontre">Rencontre</option>
+                          <option value="envoi-de-contrat">
+                            Envoi de Contrat
+                          </option>
+                          <option value="signature-de-contrat">
+                            Signature de contrat
+                          </option>
+                          <option value="envoi-facture">Envoi Facture</option>
+                          <option value="paiement">Paiement</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label"> Channel </label>
+                        <select name="channel" class="form-control">
+                          <option value="online">Online</option>
+                          <option value="presentiel">Présentiel</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label" for="status">Status</label>
+                        <select name="status" class="form-control">
+                          <option value="programmé">Programmé</option>
+                          <option value="en-attente">En attente</option>
+                          <option value="annulé">Annulé</option>
+                          <option value="réalisé">Réalisé</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <vue-editor id="" v-model="detailsLead"></vue-editor>
+                    </div>
+                    <!------------------------------  DEPENSES  ------------------------------>
+                    <div id="depense">
+                      <div class="col-md-12 mt-5 mb-3">
+                        <input
+                          name="costs"
+                          type="checkbox"
+                          id="deplacement"
+                          class="curs-point"
+                          v-model="depenses.sale.costs"
+                          @change="hasCosts($event, 'sale')"
+                        />
+                        <label for="deplacement" class="fw-bold curs-point"
+                          >Frais de déplacement</label
+                        >
+                      </div>
+                      <div class="col-md-12 mt-3" id="rubriques">
+                        <div class="row d-none" ref="choose_one">
+                          <template>
+                            <div
+                              class="col-md-12"
+                              v-for="(count, index) in depenses.sale
+                                .newRubrique"
+                              :key="count"
+                              :class="`rubrique-${index}`"
+                            >
+                              <div class="row align-items-center mb-3">
+                                <div class="col-md-5">
+                                  <select
+                                    name="rubrique[]"
+                                    id=""
+                                    class="form-control"
+                                  >
+                                    <option
+                                      v-for="rubrique in rubriques"
+                                      :key="rubrique"
+                                    >
+                                      {{ rubrique }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="col-md-5">
+                                  <input
+                                    type="number"
+                                    name="amount[]"
+                                    class="form-control total"
+                                    :class="`total-${index}`"
+                                    :required="
+                                      depenses.sale.costs ? true : false
+                                    "
+                                    @keyup="calcTheTotal('sale')"
+                                  />
+                                </div>
+
+                                <div v-if="index == 0" class="col-md-1">
+                                  <a
+                                    class="btn btn-rounded btn-light"
+                                    @click="newRubrique('sale')"
+                                  >
+                                    <i class="fa-solid fa-plus"></i>
+                                  </a>
+                                </div>
+
+                                <div
+                                  v-else-if="
+                                    index ==
+                                    depenses.sale.newRubrique -
+                                      depenses.sale.removedRubrique
+                                  "
+                                  class="col-md-1"
+                                >
+                                  <a
+                                    class="btn btn-rounded btn-light"
+                                    @click="newRubrique('sale')"
+                                  >
+                                    <i class="fa-solid fa-plus"></i>
+                                  </a>
+                                </div>
+
+                                <div
+                                  v-else-if="depenses.sale.removedRubrique == 1"
+                                  class="col-md-1"
+                                >
+                                  <a
+                                    class="btn btn-rounded btn-light"
+                                    @click="newRubrique('sale')"
+                                  >
+                                    <i class="fa-solid fa-plus"></i>
+                                  </a>
+                                </div>
+
+                                <div
+                                  class="col-md-1"
+                                  @click="removeRubrique(index, 'sale')"
+                                >
+                                  <a
+                                    class="btn btn-rounded btn-danger text-light"
+                                  >
+                                    <i class="fa-solid fa-trash-can"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <!---------------------------- TOTAL ---------------------------->
+                          <div class="row justify-content-center">
+                            <div class="col-md-6 text-center">
+                              <p class="fw-bold">Total</p>
+                            </div>
+                            <div class="col-md-6 text-center">
+                              <p class="fw-bold">{{ depenses.sale.total }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-secondary"
+                  @click="showModalSales = !showModalSales"
+                >
+                  Close
+                </button>
+                <button class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <!------------------------------  END  ------------------------------>
+
     <!------------------------------  ADD TICKET ------------------------------>
     <transition
       @enter="startTransitionModal($refs.modalAddTicket)"
@@ -1727,15 +1407,14 @@
                           :options="schools"
                           v-model="ticketSchool"
                           placeholder="School"
+                          @input="getDemanderBySchool"
                           searchable
                         >
                         </vue-select>
-                       
                       </div>
                     </div>
 
                     <div class="col-md-4" style="margin-top: 0.4rem">
-                     
                       <div class="form-group">
                         <label for="form-label"> Demandeur </label>
                         <input
@@ -1772,7 +1451,6 @@
                       <div class="form-group">
                         <label class="form-label"> Nature </label>
                         <select name="nature" class="form-control">
-                         
                           <option
                             v-for="nature in natures"
                             :value="nature.name"
@@ -1840,12 +1518,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="" class="form-label">Heure: </label>
-                        <input
-                          type="time"
-                          required
-                          name="hour"
-                          class="form-control"
-                        />
+                        <input type="time" name="hour" class="form-control" />
                       </div>
                     </div>
 
@@ -1862,7 +1535,6 @@
                           v-model="getHour"
                           @change="getValue"
                           value="00:00"
-                          required
                           name="duree"
                           class="form-control"
                         />
@@ -2020,10 +1692,8 @@
                       <div class="form-group">
                         <label class="form-label"> Duration </label>
                         <input
-                          type="number"
+                          type="text"
                           name="duration"
-                          min="1"
-                          value="1"
                           class="form-control"
                         />
                       </div>
@@ -2057,11 +1727,130 @@
                       </div>
                     </div>
 
+                    <div class="col-md-12 mb-3">
+                      <input
+                        type="file"
+                        name="photo_inter"
+                        class="form-control"
+                        @change="getImage"
+                      />
+                    </div>
+
                     <div class="col-md-12">
                       <vue-editor
                         id="details"
                         v-model="detailsInter"
                       ></vue-editor>
+                    </div>
+                  </div>
+                </div>
+                <!---------------------------- DEPENSES ---------------------------->
+                <div id="depense">
+                  <div class="col-md-12 mt-5 mb-3">
+                    <input
+                      name="costs"
+                      type="checkbox"
+                      id="deplacement"
+                      class="curs-point"
+                      v-model="depenses.cs.costs"
+                      @change="hasCosts($event, 'cs')"
+                    />
+                    <label for="deplacement" class="fw-bold curs-point"
+                      >Frais de déplacement</label
+                    >
+                  </div>
+                  <div class="col-md-12 mt-3" id="rubriques">
+                    <div class="row d-none" ref="choose_one">
+                      <template>
+                        <div
+                          class="col-md-12"
+                          v-for="(count, index) in depenses.cs.newRubrique"
+                          :key="count"
+                          :class="`rubrique-${index}`"
+                        >
+                          <div class="row align-items-center mb-3">
+                            <div class="col-md-5">
+                              <select
+                                name="rubrique[]"
+                                id=""
+                                class="form-control"
+                              >
+                                <option
+                                  v-for="rubrique in rubriques"
+                                  :key="rubrique"
+                                >
+                                  {{ rubrique }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col-md-5">
+                              <input
+                                type="number"
+                                name="amount[]"
+                                class="form-control total"
+                                :class="`total-${index}`"
+                                :required="depenses.cs.costs ? true : false"
+                                @keyup="calcTheTotal('cs')"
+                              />
+                            </div>
+
+                            <div v-if="index == 0" class="col-md-1">
+                              <a
+                                class="btn btn-rounded btn-light"
+                                @click="newRubrique('cs')"
+                              >
+                                <i class="fa-solid fa-plus"></i>
+                              </a>
+                            </div>
+
+                            <div
+                              v-else-if="
+                                index ==
+                                depenses.cs.newRubrique -
+                                  depenses.cs.removedRubrique
+                              "
+                              class="col-md-1"
+                            >
+                              <a
+                                class="btn btn-rounded btn-light"
+                                @click="newRubrique('cs')"
+                              >
+                                <i class="fa-solid fa-plus"></i>
+                              </a>
+                            </div>
+
+                            <div
+                              v-else-if="depenses.cs.removedRubrique == 1"
+                              class="col-md-1"
+                            >
+                              <a
+                                class="btn btn-rounded btn-light"
+                                @click="newRubrique('cs')"
+                              >
+                                <i class="fa-solid fa-plus"></i>
+                              </a>
+                            </div>
+
+                            <div
+                              class="col-md-1"
+                              @click="removeRubrique(index, 'cs')"
+                            >
+                              <a class="btn btn-rounded btn-danger text-light">
+                                <i class="fa-solid fa-trash-can"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                      <!---------------------------- TOTAL ---------------------------->
+                      <div class="row justify-content-center">
+                        <div class="col-md-6 text-center">
+                          <p class="fw-bold">Total</p>
+                        </div>
+                        <div class="col-md-6 text-center">
+                          <p class="fw-bold">{{ depenses.cs.total }}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2252,6 +2041,7 @@ export default {
   emits: ["ticket-added", "intervention-added"],
   data() {
     return {
+      school_id: null,
       getHour: null,
       hourConverted: null,
       user: {
@@ -2261,13 +2051,16 @@ export default {
         img: "",
       },
       ticketSchool: null,
+      ticketSchoolID: null,
       demandeur: null,
       interventionSchool: null,
+      interventionSchoolID: null,
       interventions: [],
       tickets: [],
       schools: [],
       notifications: [],
       accountManagers: [],
+      showModalSales: false,
       showModalAddTicket: false,
       showModalAddIntervention: false,
       showModalUser: false,
@@ -2278,9 +2071,87 @@ export default {
       detailsTicket: "",
       detailsInter: "",
       natures: [],
+      detailsLead: "",
+      salesManager: [],
+      leadsName: [],
+      rubriques: [],
+      depenses: {
+        cs: {
+          costs: null,
+          total: 0,
+          newRubrique: 1,
+          newRepat: 1,
+          removedRubrique: 1,
+        },
+        sale: {
+          costs: null,
+          total: 0,
+          newRubrique: 1,
+          newRepat: 1,
+          removedRubrique: 1,
+        },
+      },
+      csIntervImage: null,
     };
   },
   methods: {
+    getSalesManager: async function () {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        await axios
+          .get("/api/getSalesManagers", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then(async (result) => {
+            this.salesManager = result.data;
+          })
+          .catch(function (err) {
+            // localStorage.removeItem("auth-token");
+            // this.$router.push("/login");
+          });
+      }
+    },
+    getLeadsName: async function () {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        await axios
+          .get("/api/leads", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then(async (result) => {
+            this.leadsName = result.data;
+          })
+          .catch(function (err) {
+            // localStorage.removeItem("auth-token");
+            // this.$router.push("/login");
+          });
+      }
+    },
+    addInterventionLead: async function (e) {
+      e.preventDefault();
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        let form = e.target;
+        let formdata = new FormData(form);
+        formdata.append("details", this.detailsLead);
+        await axios
+          .post("/api/new-intervention-lead", formdata, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then(async (result) => {
+            // this.leads_interventions.push(result.data);
+            form.reset();
+            this.showModalSales = !this.showModalSales;
+          })
+          .catch(function (err) {});
+      }
+    },
     getValue() {
       if (this.getHour.substr(0, 2) == "00") {
         this.hourConverted = this.getHour.substr(3, 4) + "min";
@@ -2419,7 +2290,9 @@ export default {
       if (token) {
         let form = e.target;
         let formdata = new FormData(form);
+        console.log(formdata);
         formdata.append("details", this.detailsTicket);
+        formdata.append("school_id", this.ticketSchoolID);
         await axios
           .post("/api/saveTicket", formdata, {
             headers: {
@@ -2435,14 +2308,30 @@ export default {
           .catch(function (err) {});
       }
     },
+    // requiredAttribute : async function () {
+    //   let isChecked = this.depenses.costs;
+    //   let amountInput = document.querySelectorAll(".total");
+    //   console.log('length',amountInput.length,amountInput);
+    //   if (isChecked) {
+    //     for (let i = 0; i < amountInput.length; i++) {
+    //       amountInput[i].setAttribute("required", true);
+    //     }
+    //   } else {
+    //     for (let i = 0; i < amountInput.length; i++) {
+    //       amountInput[i].removeAttribute("required");
+    //     }
+    //   }
+    // },
     addIntervention: async function (e) {
+      // this.requiredAttribute();
       e.preventDefault();
-
       const token = localStorage.getItem("auth-token");
       if (token) {
         let form = e.target;
         let formdata = new FormData(form);
         formdata.append("details", this.detailsInter);
+        formdata.append("school_id", this.interventionSchoolID);
+        formdata.append("image", this.csIntervImage);
         await axios
           .post("/api/saveIntervention", formdata, {
             headers: {
@@ -2451,9 +2340,10 @@ export default {
           })
           .then(async (result) => {
             this.interventions = result.data;
-            form.reset();
             this.showModalAddIntervention = !this.showModalAddIntervention;
             this.$emit("intervention-added");
+            form.reset();
+            this.depenses.total = 0;
           })
           .catch(function (err) {});
       }
@@ -2566,6 +2456,117 @@ export default {
           });
       }
     },
+    getRubriques() {
+      const token = localStorage.getItem("auth-token");
+
+      if (token) {
+        axios
+          .get("/api/rubriques", {
+            headers: {
+              Authorization: "Bearer" + token,
+            },
+          })
+          .then((response) => {
+            this.rubriques = response.data;
+          });
+      }
+    },
+
+    hasCosts(e, which) {
+      let isChecked = this.depenses[which].costs;
+      let block = this.$refs.choose_one;
+      if (isChecked) {
+        block.classList.remove("d-none");
+        // this.requiredAttribute();
+      } else {
+        block.classList.add("d-none");
+        // this.requiredAttribute();
+      }
+    },
+
+    newRubrique(which) {
+      this.depenses[which].newRubrique += 1;
+      this.depenses[which].removedRubrique += 1;
+    },
+
+    removeRubrique(index, which) {
+      if (this.depenses[which].removedRubrique > 1) {
+        let elm = document.querySelector(`.rubrique-${index}`);
+        let total = document.querySelector(`.total-${index}`).value;
+        this.depenses.total = Number(this.depenses.total) - Number(total);
+        elm.remove();
+        this.depenses.removedRubrique -= 1;
+      }
+    },
+
+    calcTheTotal(which) {
+      let total = 0;
+      let elms = document.querySelectorAll(".total");
+      for (let i = 0; i < elms.length; i++) {
+        total += Number(elms[i].value);
+      }
+      this.depenses[which].total = total;
+      this.depenses[which].total.toLocaleString();
+    },
+    selectedSchoolId() {
+      console.log("path", this.$route.fullPath);
+      let check = this.$route.fullPath.includes("/schools/view/");
+      if (check) {
+        console.log(check);
+        const token = localStorage.getItem("auth-token");
+        if (token) {
+          axios
+            .get("/api/getSchoolFormInfo/" + this.$route.params.id, {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            })
+            .then((result) => {
+              this.school_id = result.data.name;
+              this.interventionSchool = this.school_id;
+              this.interventionSchoolID = result.data.id;
+              this.ticketSchool = result.data.name;
+              this.ticketSchoolID = result.data.id;
+            });
+
+          axios
+            .get("/api/getSchoolContactBySchool/" + this.$route.params.id, {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            })
+            .then((result) => {
+              this.schoolContacts = result.data;
+            });
+        }
+      } else {
+        this.school_id = null;
+        this.interventionSchoolID = null;
+        this.ticketSchoolID = null;
+      }
+    },
+    getDemanderBySchool() {
+      console.log("test", this.ticketSchool);
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        axios
+          .get("/api/getSchoolContactBySchool/" + this.ticketSchool, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((result) => {
+            this.schoolContacts = result.data;
+          });
+      }
+    },
+    getImage(e) {
+      let file = e.target.files[0];
+      this.csIntervImage = file;
+    },
+  },
+  beforeUpdate() {
+    this.selectedSchoolId();
   },
   mounted() {
     this.initLayout();
@@ -2577,7 +2578,11 @@ export default {
     this.getSchoolsContact();
     this.getAccountManagers();
     this.getNatures();
+    this.getSalesManager();
+    this.getLeadsName();
+    this.getRubriques();
   },
+
   beforeDestroy() {
     unloadScript("/csm/assets/plugins/sidemenu/sidemenu.js")
       .then(() => {})
@@ -2608,5 +2613,9 @@ export default {
 }
 .table-responsive::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.curs-point {
+  cursor: pointer;
 }
 </style>

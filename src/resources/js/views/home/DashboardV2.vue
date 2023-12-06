@@ -28,14 +28,14 @@
                 <div class="d-flex">
                   <div class="mt-2">
                     <h6 class="">Schools</h6>
-                    <h2 class="mb-0 number-font">{{schoolsStats.count}}</h2>
+                    <h2 class="mb-0 number-font">{{ schoolsStats.count }}</h2>
                   </div>
                   <div class="ms-auto"></div>
                 </div>
                 <span class="text-muted fs-12"
                   ><span class="text-secondary"
                     ><i class="fe fe-arrow-up-circle text-secondary"></i>
-                    {{schoolsStats.upratio}}%</span
+                    {{ schoolsStats.upratio }}%</span
                   >
                   Last week</span
                 >
@@ -48,14 +48,14 @@
                 <div class="d-flex">
                   <div class="mt-2">
                     <h6 class="">Tickets Buffer</h6>
-                    <h2 class="mb-0 number-font">{{ticketsStats.count}}</h2>
+                    <h2 class="mb-0 number-font">{{ ticketsStats.count }}</h2>
                   </div>
                   <div class="ms-auto"></div>
                 </div>
                 <span class="text-muted fs-12"
                   ><span class="text-pink"
                     ><i class="fe fe-arrow-down-circle text-pink"></i>
-                    {{ticketsStats.upratio}}%</span
+                    {{ ticketsStats.upratio }}%</span
                   >
                   Last 6 days</span
                 >
@@ -68,13 +68,16 @@
                 <div class="d-flex">
                   <div class="mt-2">
                     <h6 class="">Planned Actions</h6>
-                    <h2 class="mb-0 number-font">{{interventionStats.count}}</h2>
+                    <h2 class="mb-0 number-font">
+                      {{ interventionStats.count }}
+                    </h2>
                   </div>
                   <div class="ms-auto"></div>
                 </div>
                 <span class="text-muted fs-12"
                   ><span class="text-green"
-                    ><i class="fe fe-arrow-up-circle text-green"></i> {{interventionStats.upratio}}%</span
+                    ><i class="fe fe-arrow-up-circle text-green"></i>
+                    {{ interventionStats.upratio }}%</span
                   >
                   Last 9 days</span
                 >
@@ -93,8 +96,7 @@
                 </div>
                 <span class="text-muted fs-12"
                   ><span class="text-warning"
-                    ><i class="fe fe-arrow-up-circle text-warning"></i>
-                    0%</span
+                    ><i class="fe fe-arrow-up-circle text-warning"></i> 0%</span
                   >
                   Last year</span
                 >
@@ -105,7 +107,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xl-4 col-md-12">
+      <!-- <div class="col-xl-4 col-md-12">
         <div class="card">
           <div class="card-header">
             <h4 class="card-title fw-semibold">Last Notifications</h4>
@@ -130,7 +132,7 @@
                   </p>
                 </div>
                 <div class="ms-auto d-md-flex">
-                  <!-- <a
+                  <a
                     href="javascript:void(0)"
                     class="text-muted me-2"
                     data-bs-toggle="tooltip"
@@ -142,14 +144,58 @@
                   ></a>
                   <a href="javascript:void(0)" class="text-muted"
                     ><span class="fe fe-trash-2"></span
-                  ></a> -->
+                  ></a>
                 </div>
               </li>
             </ul>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-xl-4 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title fw-semibold">CS Interventions :</h4>
+          </div>
+          <div class="card-body pb-0 max-card-height">
+            <div class="table-responsive">
+              <div class="table text-center">
+                <tr>
+                  <td>School</td>
+                  <td>Cs-manager</td>
+                  <td>Title</td>
+                  <td>Date</td>
+                </tr>
+                <tr v-for="cs in dashboard.csIntervention" :key="cs">
+                  <td>
+                    <div class="align-items-center d-flex">
+                      <img
+                        :src="cs.school.img"
+                        alt="profile-lead"
+                        class="avatar profile-user brround cover-image me-2"
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="align-items-center d-flex">
+                      <img
+                        :src="cs.user"
+                        alt="csmanager"
+                        class="avatar profile-user brround cover-image me-2"
+                        srcset=""
+                      />
+                    </div>
+                  </td>
+                  <td style="vertical-align: middle">{{ cs.label }}</td>
+                  <td style="vertical-align: middle">
+                    {{ cs.date.day }}{{ cs.date.month }}
+                  </td>
+                </tr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-xl-4 col-md-12">
         <div class="card">
           <div class="card-header">
             <h4 class="card-title fw-semibold">Last requests</h4>
@@ -165,30 +211,61 @@
                       ticket.date
                     }}</span>
                   </h6>
-                  <p class="text-muted fs-12" v-html="ticket.details">
-                  </p>
+                  <p class="text-muted fs-12" v-html="ticket.details"></p>
                 </div>
                 <div class="ms-auto d-md-flex">
-                  <!-- <a
-                    href="javascript:void(0)"
-                    class="text-muted me-2"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title=""
-                    aria-label="Edit"
-                    data-bs-original-title="Edit"
-                    ><span class="fe fe-edit"></span
-                  ></a>
-                  <a href="javascript:void(0)" class="text-muted"
-                    ><span class="fe fe-trash-2"></span
-                  ></a> -->
+               
                 </div>
               </li>
             </ul>
           </div>
         </div>
+      </div> -->
+      <div class="col-xl-4 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title fw-semibold">Sales Interventions :</h4>
+          </div>
+          <div class="card-body pb-0 max-card-height">
+            <div class="table-responsive">
+              <div class="table text-center">
+                <tr>
+                  <td>School</td>
+                  <td>Sale-manager</td>
+                  <td>Title</td>
+                  <td>Date</td>
+                </tr>
+                <tr v-for="sale in dashboard.salesIntervention" :key="sale">
+                  <td>
+                    <div class="align-items-center d-flex">
+                      <img
+                        :src="sale.school.img"
+                        alt="profile-lead"
+                        class="avatar profile-user brround cover-image me-2"
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="align-items-center d-flex">
+                      <img
+                        :src="sale.user"
+                        alt="csmanager"
+                        class="avatar profile-user brround cover-image me-2"
+                        srcset=""
+                      />
+                    </div>
+                  </td>
+                  <td style="vertical-align: middle">{{ sale.label }}</td>
+                  <td style="vertical-align: middle">
+                    {{ sale.date.day }}{{ sale.date.month }}
+                  </td>
+                </tr>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-xl-4 col-lg-6 col-md-12">
+      <!-- <div class="col-xl-4 col-lg-6 col-md-12">
         <div class="card">
           <div class="card-header">
             <h4 class="card-title fw-semibold">Ticket's Buffer</h4>
@@ -228,6 +305,112 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="col-xl-4 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title fw-semibold">Last Tickets:</h4>
+          </div>
+          <div class="card-body max-card-height">
+            <div class="table-responsive">
+              <div class="table text-center">
+                <tr>
+                  <td>School</td>
+                  <td>Cs-manager</td>
+                  <td>Title</td>
+                  <td>Date</td>
+                </tr>
+                <template v-if="dashboard.lastTicket">
+                <tr  v-for="ticket in dashboard.lastTicket" :key="ticket">
+                  <td>
+                    <div class="align-items-center d-flex">
+                      <img
+                        :src="ticket.school.img"
+                        alt="profile-lead"
+                        class="avatar profile-user brround cover-image me-2"
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="align-items-center d-flex">
+                      <img
+                        :src="ticket.user"
+                        alt="csmanager"
+                        class="avatar profile-user brround cover-image me-2"
+                        srcset=""
+                      />
+                    </div>
+                  </td>
+                  <td style="vertical-align: middle">{{ ticket.label }}</td>
+                  <td style="vertical-align: middle">
+                    {{ ticket.date.day }}{{ ticket.date.month }}
+                  </td>
+                </tr>
+              </template>
+              <template v-else>
+                <tr>
+                  <td colspan="4"> <span class="alert alert-danger">No Available Tickets</span> </td>
+                </tr>
+              </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+            <div class="card overflow-hidden">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="mt-2">
+                    <h6 class="">Deleted Schools</h6>
+                    <h2 class="mb-0 number-font">{{  dashboard.activeSchool - schoolsStats.count }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+            <div class="card overflow-hidden">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="mt-2">
+                    <h6 class="">New Requests</h6>
+                    <h2 class="mb-0 number-font">{{ dashboard.requests }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+            <div class="card overflow-hidden">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="mt-2">
+                    <h6 class="">Leads</h6>
+                    <h2 class="mb-0 number-font">{{ dashboard.leads }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+            <div class="card overflow-hidden">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="mt-2">
+                    <h6 class="">Pending Tickets</h6>
+                    <h2 class="mb-0 number-font">{{ dashboard.ticket }}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </Layout>
@@ -253,6 +436,15 @@ export default {
   },
   data() {
     return {
+      dashboard: {
+        csIntervention: [],
+        salesIntervention: [],
+        lastTicket: [],
+        activeSchool: 0,
+        requests: 0,
+        leads: 0,
+        ticket: 0,
+      },
       schoolsStats: {},
       ticketsStats: {},
       interventionStats: {},
@@ -484,7 +676,7 @@ export default {
             },
           })
           .then(async (result) => {
-            let data = result.data
+            let data = result.data;
             this.schoolsStats = data.schools;
             this.ticketsStats = data.tickets;
             this.interventionStats = data.intervention;
@@ -499,6 +691,65 @@ export default {
     showAddIntervention: function () {
       this.$refs.layout.$refs.btnAddIntervention.click();
     },
+    cs_interventions() {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        axios
+          .get("/api/cs_interventions", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((result) => {
+            this.dashboard.csIntervention = result.data;
+          });
+      }
+    },
+    sales_interventions() {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        axios
+          .get("/api/sales_interventions", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((result) => {
+            this.dashboard.salesIntervention = result.data;
+          });
+      }
+    },
+    lastTickets() {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        axios
+          .get("/api/dash/tickets", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((result) => {
+            this.dashboard.lastTicket = result.data;
+          });
+      }
+    },
+    counts() {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        axios
+          .get("/api/dashborad/counts", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((result) => {
+            this.dashboard.leads = result.data.leads;
+            this.dashboard.requests = result.data.requests;
+            this.dashboard.activeSchool = result.data.schools;
+            this.dashboard.ticket = result.data.pendings;
+          });
+      }
+    },
   },
   mounted() {
     this.getUserList();
@@ -509,6 +760,10 @@ export default {
     this.getLastIntervention();
     this.getUserTicketBuffer();
     this.getDashboardStats();
+    this.cs_interventions();
+    this.sales_interventions();
+    this.lastTickets();
+    this.counts();
   },
 };
 </script>
@@ -543,5 +798,14 @@ table.vertical-align-middle td {
 
 .full-row-card {
   height: calc(100% - 1.5rem);
+}
+
+.max-card-height {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.va-middle {
+  vertical-align: middle;
 }
 </style>

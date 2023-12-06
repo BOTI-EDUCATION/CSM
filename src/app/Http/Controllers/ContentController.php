@@ -31,7 +31,6 @@ class ContentController extends Controller
     }
 
 
-
     public function saveContent(Request $request){
         
 
@@ -55,6 +54,7 @@ class ContentController extends Controller
             $request->image->storeAs('contents',$filename,'public');
             $content->update(['image'=>$filename]);
         }
+        
 
         return response()->json('ok');
     }

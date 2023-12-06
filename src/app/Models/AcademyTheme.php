@@ -60,20 +60,6 @@ class AcademyTheme extends Model
             return null;
         }
 
-        // $childtheme = AcademyTheme::getList(
-        //     array(
-        //         'where' => array(
-        //             'Parent' => $this->get('ID'),
-        //             'Ordre' => 1
-        //         )
-        //     )
-        // );
-
-        // if($childtheme){
-        //     return $childtheme[0]->getFirstCourse();
-        // }else{
-        //     return null;
-        // }
 
     }
 
@@ -81,17 +67,6 @@ class AcademyTheme extends Model
         $courses = AcademyCourse::where('theme_id','=',$this->id)
                                 ->orderBy('ordre')
                                 ->get();
-        
-        // getList(
-        //     array(
-        //         'where' => array(
-        //             'Theme' => $this->get('ID'),
-        //         ),
-        //         'order' => array(
-        //             'Ordre' => true
-        //         )
-        //     )
-        // );
 
         $result = array();
         foreach ($courses as $item) {
@@ -106,8 +81,23 @@ class AcademyTheme extends Model
                 'icon' => 'mdi-check-circle',
                 'color' =>'success' 
             ];
+            $res['min'] = $item->min;
+            $res['type_course'] = $item->type;
             $result[] = $res;
         }
+
+        return $result;
+    }
+
+
+    public function details()
+    {
+        $courses = AcademyCourse::where('theme_id',$this->id)->count();
+        $total_min = AcademyCourse::where('theme_id',$this->id)->sum('min');
+
+        $result = array();
+        $result['count_courses'] = $courses;
+        $result['total_minutes'] = $total_min;
 
         return $result;
     }

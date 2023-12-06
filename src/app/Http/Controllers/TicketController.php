@@ -14,14 +14,23 @@ class TicketController extends Controller
 {
     public function __construct()
     {
-        
     }
 
-    public function saveTicket(Request $request){
+    public function saveTicket(Request $request)
+    {
 
-        $ticket = new SchoolTicket();
 
-        $school = School::find($request->school);
+        if (isset($request->id) && $request->id) {
+            $ticket = SchoolTicket::find($request->id);
+        } else {
+            $ticket = new SchoolTicket();
+        }
+
+        // dd($ticket);
+
+        $school_id = $request->school_id != "null" && !$request->school ? $request->school_id : $request->school;
+
+        $school = School::find($school_id);
         $responsable = Auth::user();
 
         $ticket->school()->associate($school);
@@ -41,22 +50,22 @@ class TicketController extends Controller
         $ticket->status = $request->status;
 
         $ticket->state = 'nouveau';
-        $ticket->state_history = json_encode([  
-            ['etat'=>'nouveau','date'=>date('Y-m-d H:i:s')]
+        $ticket->state_history = json_encode([
+            ['etat' => 'nouveau', 'date' => date('Y-m-d H:i:s')]
         ]);
 
         $ticket->save();
 
-        if($request->hasFile('pieces')){
+        if ($request->hasFile('pieces')) {
             $i = 1;
             $filesArray = [];
             foreach ($request->pieces as $file) {
-                $filename = $ticket->id.'-'.Helpers::getAlias($ticket->label).'-'.$i.'.'.$file->extension();
-                $file->storeAs('tickets',$filename,'public');
+                $filename = $ticket->id . '-' . Helpers::getAlias($ticket->label) . '-' . $i . '.' . $file->extension();
+                $file->storeAs('tickets', $filename, 'public');
                 $filesArray[] = $filename;
                 ++$i;
             }
-            $ticket->update(['files'=>json_encode($filesArray)]);
+            $ticket->update(['files' => json_encode($filesArray)]);
         }
 
         $tickets = [];
@@ -65,9 +74,9 @@ class TicketController extends Controller
             $tickets[] = [
                 'id' => $ticket->id,
                 'school' => [
-                    'id'=>$ticket->school->id,
-                    'img'=>$ticket->school->getLogo(),
-                    'name'=>$ticket->school->name
+                    'id' => $ticket->school->id,
+                    'img' => $ticket->school->getLogo(),
+                    'name' => $ticket->school->name
                 ],
                 'label' => $ticket->label,
                 'details' => $ticket->details,
@@ -75,15 +84,16 @@ class TicketController extends Controller
             ];
         }
 
-        Notification::addEntry(
-            'ticket', 
-            $school , 
-            'Ajout d\'un ticket',
-            'Une ticket a été pour '.$school->label.' par '.$responsable->getNomComplet()
-        );
+        if ($school) {
+            Notification::addEntry(
+                'ticket',
+                $school,
+                'Ajout d\'un ticket',
+                'Une ticket a été pour ' . $school->label . ' par ' . $responsable->getNomComplet()
+            );
+        }
 
-        return response()->json($tickets); 
-
+        return response()->json($tickets);
     }
 
 
@@ -91,22 +101,22 @@ class TicketController extends Controller
     {
         SchoolTicket::find($id)->delete();
         return response()->json('Deleted');
-    }   
+    }
 
     public function showTicket($id)
     {
         $ticket = SchoolTicket::find($id);
-        dd($ticket);
     }
-    
 
-    public function getTickets(){
+
+    public function getTickets()
+    {
         $user = Auth::user();
         $tickets = [];
-        
-        foreach (SchoolTicket::has('school')->get() as $ticket) {
+
+        foreach (SchoolTicket::orderBy('created_at','desc')->get() as $ticket) {
             $school = null;
-            if($ticket->school){
+            if ($ticket->school) {
                 $school = [
                     'id' => $ticket->school->id,
                     'name' => $ticket->school->name,
@@ -115,10 +125,11 @@ class TicketController extends Controller
             }
 
             $user = [
-                'img'=>$ticket->responsable->getPicture(),
-                'name'=>$ticket->responsable->getNomComplet()
+                'img' => $ticket->responsable->getPicture(),
+                'name' => $ticket->responsable->getNomComplet(),
+                'id' => $ticket->responsable->id,
             ];
-            
+
             $infos = [
                 'channel' => [
                     'color' => 'primary',
@@ -154,13 +165,84 @@ class TicketController extends Controller
             ];
         }
 
-        return $tickets; 
+        return $tickets;
     }
 
-    public function updateTicketState(Request $request){
+
+    public function filters_ticket(Request $request)
+    {
+
+        $tickets = [];
+
+        $results = SchoolTicket::where([
+            $request->status && $request->status != 'status' ? ['state', $request->status] : ['state', '!=', null],
+            $request->school && $request->school != 'school' ?  ['school_id', $request->school] : ['school_id', '!=', null],
+            $request->responsable && $request->responsable != 'responsable' ? ['responsable_id', $request->responsable] : ['responsable_id', '!=', null]
+        ])->get();
+
+
+        foreach ($results as $ticket) {
+            $school = null;
+            if ($ticket->school) {
+                $school = [
+                    'id' => $ticket->school->id,
+                    'name' => $ticket->school->name,
+                    'img' => $ticket->school->getLogo()
+                ];
+            }
+
+            $user = [
+                'id' => $ticket->responsable->id,
+                'img' => $ticket->responsable->getPicture(),
+                'name' => $ticket->responsable->getNomComplet()
+            ];
+
+            $infos = [
+                'channel' => [
+                    'color' => 'primary',
+                    'label' => $ticket->channel
+                ],
+                'nature' => [
+                    'color' => 'primary',
+                    'label' => $ticket->nature
+                ],
+                'genre' => [
+                    'color' => 'primary',
+                    'label' => $ticket->genre
+                ],
+                'priority' => [
+                    'color' => 'primary',
+                    'label' => $ticket->priority
+                ],
+                'state' => [
+                    'color' => 'primary',
+                    'alias' => $ticket->state,
+                    'label' => $ticket->state
+                ],
+            ];
+
+            $tickets[] = [
+                'id' => $ticket->id,
+                'school' => $school,
+                'responsable' => $user,
+                'label' => $ticket->label,
+                'details' => $ticket->details,
+                'date' => $ticket->date,
+                'infos' => $infos
+            ];
+        }
+
+        return response()->json($tickets);
+    }
+
+
+
+
+    public function updateTicketState(Request $request)
+    {
 
         $ticket = SchoolTicket::find($request->ticket);
-        
+
         $history = json_decode($ticket->state_history);
 
         $history[] = [
@@ -175,6 +257,5 @@ class TicketController extends Controller
         $ticket->save();
 
         return response()->json('ok');
-
     }
 }

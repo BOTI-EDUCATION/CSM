@@ -33,6 +33,7 @@
                       id=""
                       placeholder="City"
                       v-model="formControls.city"
+                      required
                     />
                   </div>
                   <div class="form-group col-md-6">
@@ -81,6 +82,7 @@
                       placeholder="Adresse"
                       rows="3"
                       v-model="formControls.adresse"
+                      required
                     ></textarea>
                   </div>
                   <div class="form-group col-md-6">
@@ -116,6 +118,7 @@
                       v-model="formControls.salesManager"
                       placeholder="Sales Manager"
                       searchable
+                      required
                     >
                     </vue-select>
                   </div>
@@ -132,7 +135,7 @@
                     </div>
                     <div
                       class="row"
-                      v-if="formControls.cycles.includes('creche')"
+                      v-if="formControls.cycles ? formControls.cycles.includes('creche') : null"
                     >
                       <div class="col-md-3">
                         <label for=""> Crèche </label>
@@ -167,14 +170,14 @@
                     </div>
                     <div
                       class="row"
-                      v-if="formControls.cycles.includes('maternelle')"
+                      v-if="formControls.cycles ? formControls.cycles.includes('maternelle') : null"
                     >
                       <div class="col-md-3">
                         <label for=""> Maternelle </label>
                       </div>
                       <div
                         class="form-group col-md-3"
-                        v-if="formControls.cycles.includes('maternelle')"
+                        v-if="formControls.cycles ? formControls.cycles.includes('maternelle') : null"
                       >
                         <input
                           type="number"
@@ -186,7 +189,7 @@
                       </div>
                       <div
                         class="form-group col-md-3"
-                        v-if="formControls.cycles.includes('maternelle')"
+                        v-if="formControls.cycles ? formControls.cycles.includes('maternelle') : null"
                       >
                         <input
                           type="number"
@@ -198,7 +201,7 @@
                       </div>
                       <div
                         class="form-group col-md-3"
-                        v-if="formControls.cycles.includes('maternelle')"
+                        v-if="formControls.cycles ? formControls.cycles.includes('maternelle') : null"
                       >
                         <input
                           type="number"
@@ -211,7 +214,7 @@
                     </div>
                     <div
                       class="row"
-                      v-if="formControls.cycles.includes('primaire')"
+                      v-if="formControls.cycles ? formControls.cycles.includes('primaire') : null"
                     >
                       <div class="col-md-3">
                         <label for=""> Primaire </label>
@@ -246,7 +249,7 @@
                     </div>
                     <div
                       class="row"
-                      v-if="formControls.cycles.includes('college')"
+                      v-if="formControls.cycles ? formControls.cycles.includes('college') : null"
                     >
                       <div class="col-md-3">
                         <label for=""> Collège </label>
@@ -281,7 +284,7 @@
                     </div>
                     <div
                       class="row"
-                      v-if="formControls.cycles.includes('lycee')"
+                      v-if="formControls.cycles ? formControls.cycles.includes('lycee') : null"
                     >
                       <div class="col-md-3">
                         <label for=""> Lycee </label>
@@ -310,7 +313,7 @@
                           class="form-control"
                           id=""
                           placeholder="Insription Lycée"
-                          v-model="formControls.iffnsriptionLycee"
+                          v-model="formControls.inscriptionLycee"
                         />
                       </div>
                     </div>
@@ -380,6 +383,23 @@
                       @change="selectbanner"
                       id=""
                     />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="">Source</label>
+                    <select name="source"  class="form-control" v-model="formControls.source">
+                      <option value="" selected>Choisir un source</option>
+                      <option value="recommandation-équipe" :selected="formControls.source  == 'recommandation-équipe' ? true : false ">Recommandation de quelqu’un d’équipe</option>
+                      <option value="social-media" :selected="formControls.source  == 'social-media' ? true : false ">Social media</option>
+                      <option value="web-site" :selected="formControls.source  == 'web-site' ? true : false ">web site</option>
+                      <option value="recommandation-client" :selected="formControls.source  == 'recommandation-client' ? true : false ">recommandation d'un client</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="">Comment</label>
+                    <input type="text" class="form-control" name="comment"  v-model="formControls.comment">
+                    <!-- <textarea v-else name="comment" id="" cols="30" rows="5" class="form-control" v-model="formControls.comment" placeholder="Commantaire" ></textarea> -->
                   </div>
                 </div>
                 <div class="form-group text-end">
@@ -452,6 +472,8 @@ export default {
         salesManager: "",
         first_contact_date: "",
         last_contact_date: "",
+        source:"",
+        comment:"",
         links: {
           facebook: "",
           instagram: "",
@@ -503,6 +525,8 @@ export default {
               presentation: result.data.presentation,
               adresse: result.data.adresse,
               logo: result.data.logo,
+              source: result.data.source,
+              comment: result.data.comment,
               salesManager: result.data.salesManager,
               first_contact_date: result.data.first_contact_date,
               last_contact_date: result.data.last_contact_date,
@@ -558,6 +582,8 @@ export default {
       formData.append("banner", this.formControls.banner);
       formData.append("localisation", this.formControls.localisation);
       formData.append("salesManager", this.formControls.salesManager);
+      formData.append("source", this.formControls.source);
+      formData.append("comment", this.formControls.comment);
       formData.append(
         "first_contact_date",
         this.formControls.first_contact_date

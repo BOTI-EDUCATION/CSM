@@ -20,7 +20,8 @@ class SchoolIntervention extends Model
         'channel',
         'state',
         'state_history',
-        'edit_history'
+        'edit_history',
+        'image'
     ];
 
 
@@ -32,4 +33,9 @@ class SchoolIntervention extends Model
         return $this->belongsTo(User::class,'responsable_id','id');
     }
 
+
+    public function depenses()
+    {
+        return $this->hasMany(Depense::class);
+    }
 }

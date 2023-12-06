@@ -47,6 +47,11 @@ class School extends Model
         return $this->hasMany(SchoolContact::class,'school_id','id');
     }
 
+    public function checkup_tracking()
+    {
+        return $this->hasMany(Checkup_tracking::class);
+    }
+    
     public function interventions(){
         return $this->hasMany(SchoolIntervention::class,'school_id','id');
     }

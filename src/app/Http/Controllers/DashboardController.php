@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Helpers;
 use App\Mail\NotifyMail;
 use App\Models\Contact;
+use App\Models\Lead;
+use App\Models\Lead_interv;
 use App\Models\Quotation;
 use App\Models\School;
 use App\Models\SchoolIntervention;
@@ -215,7 +215,7 @@ class DashboardController extends Controller
     {
         $data = array();
 
-        $schools = School::all();
+        $schools = School::where(array(['hide_at', 0], ['deleted_at', null]))->get();
         $schools_now = School::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
         $schools_past = School::where('created_at', '<', Carbon::now()->subWeek()->endOfWeek())->get();
 
@@ -374,5 +374,112 @@ class DashboardController extends Controller
         $quotation->delete();
         // $quotation->save();
         return response()->json('it ok');
+    }
+
+
+
+    public function cs_interventions()
+    {
+        $schools = SchoolIntervention::orderBy('created_at', "DESC")->limit(10)->get();
+        $interventions = [];
+        foreach ($schools as $intervention) {
+            $user = User::find($intervention->responsable_id);
+            $school = School::find($intervention->school_id);
+            if($school){
+                $interventions[] = [
+                    'id' => $intervention->id,
+                    'school' => [
+                        'id' => $school->id,
+                        'img' => $school->getLogo(),
+                        'name' => $school->name
+                    ],
+                    'label' => $intervention->label,
+                    'user' => $user->getPicture(),
+                    'date' => [
+                        'day' => Helpers::dateFormat($intervention->created_at, '%d'),
+                        'month' => Helpers::dateFormat($intervention->created_at, '%b'),
+                        
+                    ]
+                ];
+            }
+        }
+
+        return response()->json($interventions);
+    }
+
+
+    public function sales_interventions()
+    {
+        $interventions = Lead_interv::orderby('created_at', 'DESC')->limit(10)->get();
+        $data = [];
+
+        foreach ($interventions as $intervention) {
+            $user = User::find($intervention->sales_id);
+            $lead = Lead::find($intervention->leads_id);
+            if($lead){
+                $data[] = [
+                    'user' => $user->getPicture(),
+                    'date' => [
+                        'day' => Helpers::dateFormat($intervention->created_at, '%d'),
+                        'month' => Helpers::dateFormat($intervention->created_at, '%b')
+                    ],
+                    'school' => [
+                        'img' => $lead->getLogo(),
+                        'name' => $lead->name
+                    ],
+                    'label' => $intervention->label
+                ];
+            }
+        }
+
+        return response()->json($data);
+    }
+
+
+
+    public function tickets(){
+
+        $tickets = SchoolTicket::orderBy('created_at', 'DESC')->limit(10)->get();
+
+        $data = [];
+        foreach($tickets as $ticket){
+            $school = School::find($ticket->school_id);
+            $user = User::find($ticket->responsable_id);
+            if($school){
+                $data[] = [
+                    'label' => $ticket->label,
+                    'date' => [
+                        'day' => Helpers::dateFormat($ticket->created_at, '%d'),
+                        'month' => Helpers::dateFormat($ticket->created_at, '%b')
+                    ],
+                    'school' => [
+                        'id' => $school->id,
+                        'name' => $school->name,
+                        'img' => $school->getLogo()
+                    ],
+                    'user' => $user->getPicture()
+                ];
+            }
+        }
+
+        return response()->json($data);
+    }
+
+
+
+    public function counts(){
+
+        $schools = School::all()->count();
+        $pendings = SchoolTicket::where('status', 'encours')->count();
+        $leads = Lead::where('is_converted',0)->count();
+        $requests = Quotation::where('handling', null)->count();
+        $data = [
+            'schools' => $schools,
+            'pendings' => $pendings,
+            'leads' => $leads,
+            'requests' => $requests
+        ];
+
+        return response()->json($data);
     }
 }

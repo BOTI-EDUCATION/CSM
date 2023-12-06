@@ -25,7 +25,7 @@
                   style="scrollbar-color: red yellow"
                 >
                   <v-table
-                    class="table text-nowrap text-md-nowrap mb-2"
+                    class="table text-nowrap text-md-nowrap mb-2 text-center"
                     :data="connexions"
                     :currentPage.sync="currentPage"
                     :pageSize="10"
@@ -39,7 +39,7 @@
                         <td>Device</td>
                         <td>Navigateur</td>
                         <td>Date</td>
-                        <td style="widtd: 120px">User agent</td>
+                        <td style="width: 120px">User agent</td>
                       </tr>
                     </thead>
                     <tbody slot="body" slot-scope="{displayData}">
@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped>
-tbody,
+/* tbody,
 td,
 tfoot,
 th,
@@ -129,7 +129,7 @@ tr {
   border-color: inherit;
   border-style: solid;
   border-width: 3px;
-}
+} */
 
 td p {
   word-break: break-all;

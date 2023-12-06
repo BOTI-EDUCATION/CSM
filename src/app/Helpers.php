@@ -21,7 +21,7 @@ class Helpers
 
 	public static function dateFormat($date, $format = '')
 	{
-		setlocale(LC_TIME, 'fr_FR', 'fr-FR', 'fra', 'french', 'fr');
+		setlocale(LC_TIME, 'fr_FR', 'fr-FR', 'fra', 'french', 'fr'); // get the location
 		if ($date instanceof DateTime || $date instanceof \DateTime) $date = $date->getTimeStamp();
 		if (getType($date) === 'string') $date = strtotime($date);
 		if (!$format) $format = '%d %b %Y';

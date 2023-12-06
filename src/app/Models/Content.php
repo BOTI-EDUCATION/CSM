@@ -24,7 +24,7 @@ class Content extends Model
         if(!$this->image){
             $image = null;
             preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $this->details, $image);
-            if(isset($image['src'])&&$image['src']){
+            if(isset($image['src'])&&$image['src'] && str_contains($image['src'], 'http') ){
                 $url = $image['src'];
                 $info = pathinfo($url);
                 $contents = file_get_contents($url);

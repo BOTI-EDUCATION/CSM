@@ -103,4 +103,13 @@ class User extends Authenticatable implements JWTSubject
             return $this->notifications()->get();
         }
     }
+
+    public function articles() {
+        return $this->hasMany(Article::class);
+    }
+
+    public function leads()
+    {
+        return $this->hasMany(Lead::class);
+    }
 }

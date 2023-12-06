@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateCheckupTrackingsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('checkup_trackings', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('school')->onDelete('cascade');
+            $table->foreign('school')->references("id")->on('schools');
+            $table->string('indicator');
+            $table->dateTime('date');
+            $table->string('value');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('checkup_trackings');
+    }
+}

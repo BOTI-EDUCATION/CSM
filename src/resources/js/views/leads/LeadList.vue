@@ -1,14 +1,29 @@
 <template>
   <div>
     <div class="row mb-4">
-      <div class="col-sm-12 text-right">
-        <router-link class="btn btn-info btn-icon me-3" to="/leads/map">
-          <i class="fe fe-map"></i>
-        </router-link>
-        <router-link class="btn btn-primary" to="/leads/add">
-          <i class="fe fe-plus"></i>
-          Add a new lead
-        </router-link>
+      <div class="col-sm-12 .col-md-12 text-right flex-end">
+        <div class="col-md-3 text-right">
+          <input
+            type="text"
+            placeholder="Search by school"
+            v-model="keySearch"
+            @keyup="filterOnLead($event)"
+            class="form-control"
+          />
+        </div>
+        <div class="col-md-3">
+          <router-link class="btn btn-success me-3" to="/leads/kanban">
+            <i class="fa-solid fa-arrow-right"></i>
+
+          </router-link>
+          <router-link class="btn btn-info btn-icon me-3" to="/leads/map">
+            <i class="fe fe-map"></i>
+          </router-link>
+          <router-link class="btn btn-primary" to="/leads/add">
+            <i class="fe fe-plus"></i>
+           
+          </router-link>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -16,83 +31,113 @@
         <div class="card overflow-hidden">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-12">
-                <table class="table text-nowrap text-md-nowrap mb-0">
-                  <thead>
-                    <tr>
-                      <th>School</th>
-                      <th>Sales Manager</th>
-                      <th>City</th>
-                      <th>Effectif</th>
-                      <th>Last Contact</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody v-if="this.leads.length > 0">
-                    <tr v-for="lead in this.leads" :key="lead.id">
-                      <td>
-                        <div class="align-items-center d-flex" >
-                        <img
-                          :src="lead.logo"
-                          alt="profile-lead"
-                          class="avatar profile-user brround cover-image me-2"
-                        />
-                        {{ lead.name }}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="align-items-center d-flex" >
-                        <template v-if="lead.sales_manager">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="table-responsive">
+                  <!-- <table class="table text-nowrap text-md-nowrap mb-0"> -->
+                  <v-table
+                    class="table text-nowrap text-md-nowrap mb-2"
+                    :data="filtredLeads"
+                    :currentPage.sync="currentPage"
+                    :pageSize="10"
+                    @totalPagesChanged="totalPages = $event"
+                  >
+                    <!-- v-for="lead in this.filtredLeads" -->
+                    <thead slot="head">
+                      <tr>
+                        <th>School</th>
+                        <th>Sales Manager</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Source</th>
+                        <th>Comment</th>
+                        <th>Creation Date</th>
+                        <th>Last Contact</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody slot="body" slot-scope="{ displayData }">
+                      <tr v-for="row in displayData" :key="row.guid">
 
-                        <img
-                          :src="lead.sales_manager.img"
-                          alt="profile-lead"
-                          class="avatar profile-user brround cover-image me-2"
-                        />
-                        {{ lead.sales_manager.name }}
-                        </template>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="align-items-center d-flex" >
-                        {{lead.city}}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="align-items-center d-flex" >
-                        {{lead.effectif}}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="align-items-center d-flex" >
-                        {{lead.last_contact}}
-                        </div>
-                      </td>
-                      <td>
-                        <div class="align-items-center d-flex" >
-                        <router-link class="mx-2"
-                          :to="'/leads/edit/' + lead.id"
-                        >
-                          <i class="fe fa-lg fe-edit-2"></i>
-                        </router-link>
-                         <router-link class="mx-2"
-                          :to="'/leads/view/' + lead.id"
-                        >
-                          <i class="fe fa-lg fe-eye"></i>
-                         </router-link>
-                        
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else>
-                    <tr>
-                      <td colspan="5" class="text-center">
-                        <h6>Aucun utilisateur n'est créé</h6>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              <img
+                                :src="row.logo"
+                                alt="profile-lead"
+                                class="avatar profile-user brround cover-image me-2"
+                              />
+                             <router-link :to="'leads/view/'+row.id"> {{ row.name }}</router-link>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex justify-content-center">
+                              <template v-if="row.sales_manager">
+                                <img
+                                  :src="row.sales_manager.img"
+                                  alt="profile-lead"
+                                  class="avatar profile-user brround cover-image me-2"
+                                />
+                                <!-- {{ row.sales_manager.name }} -->
+                              </template>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              {{ row.city }}
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              <span class="badge rounded-pill bg-info" v-if="row.status && row.status != 'null'">{{
+                                row.status
+                              }}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex" v-if="row.source && row.source != 'null'">
+                              {{ row.source }}
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex" v-if="row.comment && row.comment != 'null'">
+                              {{ row.comment }}
+                            </div>
+                          </td>
+                          <td>
+                            {{ row.created_at }}
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              {{ row.last_contact }}
+                            </div>
+                          </td>
+                          <td>
+                            <div class="align-items-center d-flex">
+                              <a href="https://www.google.com/maps" target="_blank" v-if="row.localisation && row.adresse" class="btn btn-sm btn-danger text-light me-1 mx-1">
+                                <i class="fa-solid fa-location-dot"></i>
+                              </a>
+                              <router-link
+                                class="btn btn-sm btn-warning text-dark me-1 mx-1"
+                                :to="'/leads/edit/' + row.id"
+                              >
+                                <i class="fe fa-lg fe-edit-2"></i>
+                              </router-link>
+                              <router-link
+                                class="btn btn-sm btn-info text-light me-1 mx-1"
+                                :to="'/leads/view/' + row.id"
+                              >
+                                <i class="fe fa-lg fe-eye"></i>
+                              </router-link>
+                            </div>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </v-table>
+                  <smart-pagination
+                    :currentPage.sync="currentPage"
+                    :totalPages="totalPages"
+                    class="mb-2"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -104,13 +149,25 @@
 
 <script>
 export default {
-  emits:[ 'load-leads' ],
+  emits: ["load-leads"],
   data() {
     return {
       leads: [],
+      filtredLeads: [],
+      keySearch: "",
+      totalPages: 0,
+      currentPage: 1,
     };
   },
   methods: {
+    filterOnLead() {
+      this.filtredLeads = this.leads.filter((ld) => {
+        if (ld.name.toLowerCase().includes(this.keySearch.toLowerCase())) {
+          this.filtredLeads = ld;
+          return this.filtredLeads;
+        }
+      });
+    },
     getLeadsList: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
@@ -123,7 +180,9 @@ export default {
           .then(async (result) => {
             console.log(result);
             this.leads = result.data;
-            this.$emit('load-leads',this.leads.length)
+            this.filtredLeads = this.leads;
+            console.log("leads...", this.filtredLeads);
+            this.$emit("load-leads", this.leads.length);
           })
           .catch(function (err) {
             localStorage.removeItem("auth-token");
@@ -146,16 +205,20 @@ export default {
         }).then(async (result) => {
           if (result.isDenied) {
             await axios
-              .post("/api/deleteLead/" + id, {} , {
-                headers: {
-                  Authorization: "Bearer " + token,
+              .post(
+                "/api/deleteLead/" + id,
+                {},
+                {
+                  headers: {
+                    Authorization: "Bearer " + token,
+                  },
                 }
-              })
+              )
               .then((result) => {
                 this.leads = result.data;
               })
               .catch(function (err) {
-                console.log(token)
+                console.log(token);
               });
           }
         });
@@ -168,10 +231,16 @@ export default {
   mounted() {
     this.getLeadsList();
   },
+  computed: {
+    rows() {
+      return this.filtredLeads.length;
+    },
+  },
 };
 </script>
 
 <style scoped>
+
 .text-right {
   text-align: right;
 }
@@ -186,10 +255,16 @@ export default {
 .user-card .actions > * {
   flex: 1;
 }
-a .hoverable{
-  transition: all ease-in-out .4s;
+a .hoverable {
+  transition: all ease-in-out 0.4s;
 }
-a .hoverable:hover{
-      box-shadow: 0px 6px 15px 0px #33333344;
+a .hoverable:hover {
+  box-shadow: 0px 6px 15px 0px #33333344;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
 }
 </style>

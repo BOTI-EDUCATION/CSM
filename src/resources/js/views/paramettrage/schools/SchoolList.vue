@@ -51,124 +51,54 @@
         </router-link>
       </div>
     </div>
-    
+
     <div class="row">
       <div
-      v-for="school in this.filteredSchools"
-      :key="school.id"
-      class="col-sm-12 col-md-3"
+        v-for="school in this.filteredSchools"
+        :key="school.id"
+        class="col-sm-12 col-md-3"
       >
-      <router-link class="text-info" :to="'/schools/view/' + school.id">
-      <div class="card hoverable full-row-card user-card overflow-hidden">
-        <div class="card-body text-center">
-               <span
-                  class="avatar bg-white avatar-xxl bradius cover-image  mb-2"
-                  :data-bs-image-src="school.logo"
-                  :style="
-                    ' background: url(\'' +
-                    school.logo +
-                    '\') center center'
-                  "
-                >
-                  <span v-if="school.responsable" class="avatar-icons">
-                    <img
-                      :src="school.responsable.img"
-                      class="rounded"
-                      :alt="school.responsable.name"
-                      data-bs-toggle="tooltip" data-bs-placement="bottom"
-                      :data-bs-title="school.responsable.name"
-                    /> </span
-                ></span>
-              <!-- <img :src="school.logo" class="rounded profile mb-2" alt="img" /> -->
+        <router-link class="text-info" :to="'/schools/view/' + school.id">
+          <div class="card hoverable full-row-card user-card overflow-hidden">
+            <div class="card-body text-center">
+              <span
+                class="avatar bg-white avatar-xxl bradius cover-image mb-2"
+                :data-bs-image-src="school.logo"
+                :style="
+                  ' background: url(\'' + school.logo + '\') center center'
+                "
+              >
+                <span v-if="school.responsable" class="avatar-icons">
+                  <img
+                    :src="school.responsable.img"
+                    class="rounded"
+                    :alt="school.responsable.name"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    :data-bs-title="school.responsable.name"
+                  /> </span
+              ></span>
               <h5 class="card-title text-dark mb-2">{{ school.name }}</h5>
 
-              <!-- <p>{{ school.presentation }}</p> -->
-              <!-- <span class="tag tag-blue mb-2">{{ school.role }}</span> -->
-              <div class="actions">
-                <!-- <router-link :to="'/schools/edit/' + school.id">
-                <i class="fe fe-edit-2"></i>
-              </router-link> -->
-              
-              <!-- <a
-                @click="deleteSchool($event, school.id)"
-                href=""
-                class="text-danger"
-              >
-                <i class="fe fe-trash-2"></i>
-              </a>
-
-              <a 
-                @click.prevent="hideSchool($event, school.id)" 
-                href=""
-                class="text-primary"
-              >
-                <i class="fe fe-eye"></i>
-              </a >  -->
-
+              <div class="">
+                <span
+                  class="badge boti-bg-purple fw-bold"
+                  style="font-size: 16px"
+                  >{{ school.alias }}</span
+                >
+                <p
+                  v-if="!school.web_link"
+                  class="badge boti-bg-danger fw-bold"
+                  style="font-size: 13px; margin-top: 5px"
+                >
+                  doesn't have the web link
+                </p>
               </div>
             </div>
-            
           </div>
         </router-link>
-        </div>
-    </div>
-    <!-- <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
-        <div class="card overflow-hidden">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-12">
-                <table class="table text-nowrap text-md-nowrap mb-0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Image</th>
-                      <th>Nom Complet</th>
-                      <th>Role</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody v-if="this.users.length > 0">
-                    <tr v-for="user in this.users" :key="user.id">
-                      <td>{{ user.id }}</td>
-                      <td>
-                        <img
-                          :src="user.img"
-                          alt="profile-user"
-                          class="avatar profile-user brround cover-image"
-                        />
-                      </td>
-                      <td>{{ user.prenom }} {{ user.nom }}</td>
-                      <td>{{ user.role }}</td>
-                      <td>
-                        <router-link
-                          :to="'/paramettrage/users/edit/' + user.id"
-                        >
-                          <i class="fe fe-edit-2"></i>
-                        </router-link>
-                        <a href="" class="text-warning">
-                          <i class="fe fe-x-circle"></i>
-                        </a>
-                        <a href="" class="text-danger">
-                          <i class="fe fe-trash-2"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody v-else>
-                    <tr>
-                      <td colspan="5" class="text-center">
-                        <h6>Aucun utilisateur n'est créé</h6>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -208,7 +138,6 @@ export default {
     };
   },
   methods: {
-   
     getSchoolsList: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
@@ -223,8 +152,12 @@ export default {
             this.schools = result.data;
             this.filteredSchools = this.schools;
             this.$emit("load-schools", this.schools.length);
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            const tooltipTriggerList = document.querySelectorAll(
+              '[data-bs-toggle="tooltip"]'
+            );
+            const tooltipList = [...tooltipTriggerList].map(
+              (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+            );
           })
           .catch(function (err) {
             // localStorage.removeItem("auth-token");
@@ -232,7 +165,7 @@ export default {
           });
       }
     },
-    getAccountManagers: async function(){
+    getAccountManagers: async function () {
       const token = localStorage.getItem("auth-token");
       if (token) {
         await axios
@@ -251,42 +184,79 @@ export default {
       }
     },
 
-
-  
-
     filterSchool() {
-       let search = this.filter.search;
-       let types = this.filter.type;
-       let acc_manager = this.filter.acc_manager;
-       if(search != null && types != null, acc_manager != null){
-         this.filteredSchools = this.schools.filter((school) => {
-           let hasCommon = () => {
-             if ( types && types.length > 0) {
-               for (let i = 0; i < types.length; i++) {
-                 for (let j = 0; j < school.types.length; j++) {
-                   if (types[i] === school.types[j]) {
-                     return true;
-                   }
-                 }
-               }
-               return false;
-             } else {
-               return true;
-             }
-           };
-           return (
-             (search ? school.name.toLowerCase().includes(search.toLowerCase())
-               : true) && hasCommon() && (acc_manager.length >  0 ?(school.responsable && acc_manager.indexOf(school.responsable.id) > -1 ? true:false ) :true )
-           );
-         });
-       }else if(search != null){
-        this.filteredSchools = this.schools.filter( (school) => {
-              if(school.name.toLowerCase().includes(search.toLowerCase())){
-                this.filteredSchools = school;
-                return this.filteredSchools;
+      let search = this.filter.search;
+      let types = this.filter.type;
+      let acc_manager = this.filter.acc_manager;
+      if (search != null && types != null && acc_manager != null) {
+        this.filteredSchools = this.schools.filter((school) => {
+          let hasCommon = () => {
+            if (types && types.length > 0) {
+              for (let i = 0; i < types.length; i++) {
+                for (let j = 0; j < school.types.length; j++) {
+                  if (types[i] === school.types[j]) {
+                    return true;
+                  }
+                }
               }
+              return false;
+            } else {
+              return true;
+            }
+          };
+          return (
+            (search
+              ? school.name.toLowerCase().includes(search.toLowerCase())
+              : true) &&
+            hasCommon() &&
+            (acc_manager.length > 0
+              ? school.responsable &&
+                acc_manager.indexOf(school.responsable.id) > -1
+                ? true
+                : false
+              : true)
+          );
         });
-       }
+      } else if (search == null && types != null && acc_manager == null) {
+        if (types != "") {
+          this.filteredSchools = this.schools.filter((school) => {
+            return school.types[0] == types;
+          });
+          this.$emit("load-schools", this.filteredSchools.length);
+        } else {
+          this.$emit("load-schools", this.schools.length);
+          return (this.filteredSchools = this.schools);
+        }
+      } else if (search != null && types == null && acc_manager == null) {
+        this.filteredSchools = this.schools.filter((school) => {
+          if (school.name.toLowerCase().includes(search.toLowerCase())) {
+            this.filteredSchools = school;
+            return this.filteredSchools;
+          }
+        });
+        this.$emit("load-schools", this.filteredSchools.length);
+      } else if (search == null && types == null && acc_manager != null) {
+        if (acc_manager.length > 0) {
+          this.filteredSchools = this.schools.filter((school) => {
+            if (school.responsable.id) {
+              return school.responsable.id == acc_manager;
+            }
+          });
+          this.$emit("load-schools", this.filteredSchools.length);
+        } else {
+          this.$emit("load-schools", this.schools.length);
+          return (this.filteredSchools = this.schools);
+        }
+      } else if (search == null && types != null && acc_manager != null) {
+        this.filteredSchools = this.schools.filter((school) => {
+          if (school.responsable.id) {
+            return (
+              school.types[0] == types && school.responsable.id == acc_manager
+            );
+          }
+        });
+        this.$emit("load-schools", this.filteredSchools.length);
+      }
     },
   },
   mounted() {
@@ -316,5 +286,15 @@ a .hoverable {
 }
 a .hoverable:hover {
   box-shadow: 0px 6px 15px 0px #33333344;
+}
+
+.boti-bg-purple {
+  background-color: #f3f5ff !important;
+  color: #3846ae !important;
+}
+
+.boti-bg-danger {
+  background-color: #fff4f4 !important;
+  color: #f65e40 !important;
 }
 </style>

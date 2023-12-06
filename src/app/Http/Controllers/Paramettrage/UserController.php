@@ -71,6 +71,7 @@ class UserController extends Controller
     public function saveUser(Request $request)
     {
 
+
         if ($request->user) {
             $user = User::find($request->user);
             $user->nom = $request->nom;
@@ -78,6 +79,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->telephone = $request->telephone;
             $user->adresse = ($request->adresse ? $request->adresse : '');
+            $user->enabled = $request->enabled == "true" ? 1 : 0;
         } else {
             $user = new User();
             $user->nom = $request->nom;
@@ -86,14 +88,14 @@ class UserController extends Controller
             $user->telephone = $request->telephone;
             $user->fonction = $request->fonction;
             $user->adresse = ($request->adresse ? $request->adresse : '');
-            $user->enabled = ($request->enabled && $request->enabled != 'false' ? 1 : 0);
+            $user->enabled = $request->enabled == "true" ? 1 : 0;
             $user->password = Hash::make($request->email);
             $user->role_id  = $request->role_id;
             $role = Role::find($request->role);
             $user->role()->associate($role);
         }
 
-       
+
 
         if ($request->hasFile('image')) {
             $filename = $user->id . hexdec(uniqid()) . '-' . $user->nom . '-' . $user->prenom . '.' . $request->image->extension();
@@ -109,7 +111,7 @@ class UserController extends Controller
 
     public function getAccountManagers()
     {
-        $users = User::query()->where('role_id', '=', 3)->get();
+        $users = User::query()->where(array(['role_id', '=', 3], ['enabled', 1]))->get();
         $data  = [];
         foreach ($users as $key => $user) {
             $data[] = [
@@ -127,9 +129,37 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+
+    public function getManagers()
+    {
+        $managers = User::whereIn('role_id', [3, 4])->where('enabled', 1)->get();
+        $data = [];
+        foreach ($managers as $user) {
+            $data[] = [
+                'id' => $user->id,
+                'role' => $user->role->Label,
+                'nom' => $user->nom . ' ' . $user->prenom,
+                'email' => $user->email,
+                'telephone' => $user->telephone,
+                'fonction' => $user->fonction,
+                'adresse' => $user->adresse,
+                'image' => $user->getPicture(),
+                'enabled' => ($user->enabled ? true : false)
+            ];
+        }
+
+        return response()->json($data);
+    }
+
     public function getSchoolsContact()
     {
         $contacts = SchoolContact::all();
+        return response()->json($contacts);
+    }
+
+    public function getSchoolContactBySchool($school)
+    {
+        $contacts = SchoolContact::where('school_id', $school)->get();
         return response()->json($contacts);
     }
 
@@ -180,7 +210,7 @@ class UserController extends Controller
                 'school' => $school,
                 'label' => $intervention->label,
                 'details' => $intervention->details,
-                'date' => date('d M Y H:i',strtotime($intervention->date))
+                'date' => date('d M Y H:i', strtotime($intervention->date))
             ];
         }
 
@@ -201,10 +231,9 @@ class UserController extends Controller
         return response()->json();
     }
 
-
     public function getSalesManagers()
     {
-        $users = User::query()->where('role_id', '=', 4)->get();
+        $users = User::query()->where([['role_id', '=', 4], ['enabled', 1]])->get();
         $data = [];
         foreach ($users as $key => $user) {
             $data[] = [

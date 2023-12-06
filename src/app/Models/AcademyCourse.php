@@ -19,7 +19,8 @@ class AcademyCourse extends Model
         'video',
         'content',
         'ordre',
-        'theme_id'
+        'theme_id',
+        'min'
     ];
 
     public function theme(){

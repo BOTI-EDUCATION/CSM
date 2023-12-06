@@ -57,6 +57,7 @@
                         <th>Description</th>
                         <th>Ordre</th>
                         <th>Type</th>
+                        <th>Min</th>
                         <th>Content</th>
                         <th>Actions</th>
                       </tr>
@@ -81,6 +82,7 @@
                             {{ course.type }}</span
                           >
                         </td>
+                         <td> {{ course.min }} min</td>
                         <td>
                           <a
                             :href="course.video"
@@ -122,6 +124,7 @@
                         <th>Description</th>
                         <th>Ordre</th>
                         <th>Type</th>
+                        <th>Min</th>
                         <th>Content</th>
                       </tr>
                     </thead>
@@ -146,6 +149,8 @@
                             {{ course.type }}</span
                           >
                         </td>
+                        <td> {{ course.min }} min</td>
+
                         <td>
                           <a
                             :href="course.video"
@@ -287,16 +292,24 @@
                 </div>
 
                 <div v-if="selected == 'video'" class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label"
-                    >youtube link</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="link"
-                    v-model="course.video"
-                    required
-                  />
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label"
+                      >youtube link</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="link"
+                      v-model="course.video"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                      <label for="min" class="form-label"> Minute  </label>
+                      <input type="number" name="min" class="form-control">
+                  </div>
+
                 </div>
 
                 <div
@@ -313,6 +326,12 @@
                     v-model="course.video"
                     required
                   />
+
+                  <div class="mt-3">
+                      <label for="min" class="form-label"> Minute  </label>
+                      <input type="number" name="min" class="form-control">
+                  </div>
+
                 </div>
 
                 <div v-if="selected == 'html'" class="mb-3">
@@ -413,6 +432,7 @@ export default {
         ordre: "",
         id: "",
         alias: "",
+        min:''
       },
       enabled: false,
       saveBtn: false,
@@ -460,6 +480,7 @@ export default {
       this.course.content = "";
       this.course.ordre = "";
       this.course.alias = "";
+      this.course.min = "";
       this.newModal = true;
     },
     newCourse: async function (e) {
@@ -490,6 +511,7 @@ export default {
                       cour.video  = result.data.video;
                       cour.content  = result.data.content;
                       cour.type  = result.data.type;
+                      cour.mi  = result.data.min;
                     }
                 } );
             })
@@ -527,6 +549,7 @@ export default {
           this.course.content = cour.content;
           this.course.ordre = cour.ordre;
           this.course.alias = cour.alias;
+          this.course.min = cour.min;
         }
         this.courseModalTitle = `Editer le cours ${this.course.label} `;
         this.selected = "";

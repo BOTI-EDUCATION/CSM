@@ -8,9 +8,16 @@
               <div class="col-12 col-md-4">
                 <label for="" class="">Category</label>
               </div>
-              <div class="col-12 col-md-8">
-                {{ document ? document.title : "-" }}
+              <div class="col-md-8">
+                <select  class="form-control" v-model="formControls.parentTree">
+                  <option v-for="tree in trees" :key="tree.id" :value="tree.id" :selected="formControls && formControls.parent == tree.id ? true : false">
+                    {{ tree.label }}
+                  </option>
+                </select>
               </div>
+              <!-- <div class="col-12 col-md-8">
+                {{ document ? document.title : "-" }}
+              </div> -->
             </div>
 
             <div class="row mb-3">
@@ -57,7 +64,6 @@
                   placeholder="Types"
                   searchable
                 >
-
                 </vue-select>
               </div>
             </div>
@@ -72,21 +78,33 @@
             </div>
             <div class="row">
               <div class="col-12 text-right">
-
-                <button class="btn btn-primary" @click="$router.back()">Cancel</button>
-
-                <button @click="saveDocumentation" class="btn btn-info" v-if="!formControls.id">
-                    Enregister
+                <button class="btn btn-primary" @click="$router.back()">
+                  Cancel
                 </button>
 
-                <button @click="saveDocumentation" class="btn btn-warning text-dark" v-if="formControls.id">
-                    Modifier
+                <button
+                  @click="saveDocumentation"
+                  class="btn btn-info"
+                  v-if="!formControls.id"
+                >
+                  Enregister
                 </button>
-              
-                <button @click="deleteDoc" class="btn btn-danger" v-if="formControls.id">
+
+                <button
+                  @click="saveDocumentation"
+                  class="btn btn-warning text-dark"
+                  v-if="formControls.id"
+                >
+                  Modifier
+                </button>
+
+                <button
+                  @click="deleteDoc"
+                  class="btn btn-danger"
+                  v-if="formControls.id"
+                >
                   Supprimer
                 </button>
-
               </div>
             </div>
           </div>
@@ -124,9 +142,9 @@ export default {
           label: "Account Manager",
         },
         {
-          id:"enseignant",
+          id: "enseignant",
           label: "Enseignant",
-        }
+        },
       ],
       types: [
         {
@@ -148,8 +166,10 @@ export default {
         title: "",
         details: "",
         roles: [],
-        types:[]
+        types: [],
+        parentTree:null,
       },
+      trees: [],
     };
   },
   methods: {
@@ -172,10 +192,10 @@ export default {
                 details: "",
                 roles: [],
                 types: [],
+                parentTree:null,
               };
             } else if (this.$route.path.includes("/edit/")) {
               this.document = result.data.parent;
-
               this.formControls = {
                 parent: result.data.parent ? result.data.parent.id : null,
                 id: result.data.id,
@@ -183,8 +203,25 @@ export default {
                 details: result.data.details,
                 roles: result.data.roles,
                 types: result.data.types,
+                parentTree:result.data.parent_tree
               };
             }
+          })
+          .catch(function (err) {});
+      }
+    },
+    treeParents: async function () {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        await axios
+          .get("/api/trees/docs", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((result) => {
+            this.trees = result.data;
+            console.log('trees',this.trees);
           })
           .catch(function (err) {});
       }
@@ -219,37 +256,42 @@ export default {
           .catch(function (err) {});
       }
     },
-    deleteDoc: async function (e){
+    deleteDoc: async function (e) {
       e.preventDefault();
       const token = localStorage.getItem("auth-token");
-      if(token){
+      if (token) {
         this.$swal({
-          title:`Are you sure to delete this Doc ${this.formControls.title} ?`,
-          icon:'warning',
+          title: `Are you sure to delete this Doc ${this.formControls.title} ?`,
+          icon: "warning",
           showConfirmButton: false,
           showDenyButton: true,
           showCancelButton: true,
           denyButtonText: `Delete`,
           cancelButtonText: `Cancel`,
         }).then(async (result) => {
-          if(result.isDenied){
-            await axios.post("/api/doc/delete/" + this.formControls.id,{},
-            {
-              headers: {
+          if (result.isDenied) {
+            await axios
+              .post(
+                "/api/doc/delete/" + this.formControls.id,
+                {},
+                {
+                  headers: {
                     Authorization: "Bearer " + token,
                   },
-            }
-            ).then( () => {
-              this.$router.push("/documentation");
-            })
+                }
+              )
+              .then(() => {
+                this.$router.push("/documentation");
+              });
           }
-        })
+        });
       }
-    }
+    },
   },
   mounted() {
     // this.getRole();
     this.getDocumentation(this.$route.params.id);
+    this.treeParents();
   },
 };
 </script>

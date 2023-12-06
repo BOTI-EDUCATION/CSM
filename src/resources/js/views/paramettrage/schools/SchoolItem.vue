@@ -108,7 +108,13 @@
                                 style="justify-content: flex-end"
                                 class="unstyled-list d-flex"
                               >
-                                <li v-if="school.version_android" class="me-3">
+                                <li
+                                  v-if="
+                                    school.version_android &&
+                                    school.version_android != 'null'
+                                  "
+                                  class="me-3"
+                                >
                                   <svg
                                     fill="#32de84"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +130,13 @@
                                     school.version_android
                                   }}</span>
                                 </li>
-                                <li v-if="school.version_ios" class="me-3">
+                                <li
+                                  v-if="
+                                    school.version_ios &&
+                                    school.version_ios != 'null'
+                                  "
+                                  class="me-3"
+                                >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -157,10 +169,6 @@
                                       alt=""
                                     />
                                   </a>
-                                  <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Livello_1" x="0px" y="0px" width="48px" height="48px" viewBox="0 0 814 1000" enable-background="new 0 0 814 1000" xml:space="preserve">
-                                  <path d="M788.1,340.9c-5.8,4.5-108.2,62.2-108.2,190.5c0,148.4,130.3,200.9,134.2,202.2c-0.6,3.2-20.7,71.9-68.7,141.9  c-42.8,61.6-87.5,123.1-155.5,123.1s-85.5-39.5-164-39.5c-76.5,0-103.7,40.8-165.9,40.8s-105.6-57-155.5-127  C46.7,790.7,0,663,0,541.8c0-194.4,126.4-297.5,250.8-297.5c66.1,0,121.2,43.4,162.7,43.4c39.5,0,101.1-46,176.3-46  C618.3,241.7,720.7,244.3,788.1,340.9z M554.1,159.4c31.1-36.9,53.1-88.1,53.1-139.3c0-7.1-0.6-14.3-1.9-20.1  c-50.6,1.9-110.8,33.7-147.1,75.8c-28.5,32.4-55.1,83.6-55.1,135.5c0,7.8,1.3,15.6,1.9,18.1c3.2,0.6,8.4,1.3,13.6,1.3  C464,230.7,521.1,200.3,554.1,159.4z"/>
-                                  </svg>
-                                  <span class="ms-2">{{school.web_link}}</span> -->
                                 </li>
                               </ul>
                             </div>
@@ -347,65 +355,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <h6>Eleves</h6>
-              <div class="main-profile-contact-list d-flex">
-                <div class="">
-                  <div class="media d-flex mb-4">
-                    <div class="media-icon bg-secondary bradius me-3 mt-1">
-                      <i class="fe fe-edit fs-20 text-white"></i>
-                    </div>
-                    <div class="media-body">
-                      <span class="text-muted">Posts</span>
-                      <div class="fw-semibold fs-25">328</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mt-5 mt-md-0">
-                  <div class="media mb-4">
-                    <div
-                      class="media-icon bg-danger bradius text-white me-3 mt-1"
-                    >
-                      <span class="mt-3">
-                        <i class="fe fe-users fs-20"></i>
-                      </span>
-                    </div>
-                    <div class="media-body">
-                      <span class="text-muted">Followers</span>
-                      <div class="fw-semibold fs-25">937k</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mt-5 mt-md-0">
-                  <div class="media">
-                    <div
-                      class="media-icon bg-primary text-white bradius me-3 mt-1"
-                    >
-                      <span class="mt-3">
-                        <i class="fe fe-cast fs-20"></i>
-                      </span>
-                    </div>
-                    <div class="media-body">
-                      <span class="text-muted">Following</span>
-                      <div class="fw-semibold fs-25">2,876</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mt-5 mt-md-0">
-                  <div class="media">
-                    <div
-                      class="media-icon bg-primary text-white bradius me-3 mt-1"
-                    >
-                      <span class="mt-3">
-                        <i class="fe fe-cast fs-20"></i>
-                      </span>
-                    </div>
-                    <div class="media-body">
-                      <span class="text-muted">Following</span>
-                      <div class="fw-semibold fs-25">2,876</div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>
@@ -415,7 +364,7 @@
               <div class="card-title">Checklists</div>
               <div class="card-options">
                 <button
-                  @click="showModalChecklist = !showModalChecklist"
+                  @click="showModalChecklist = true"
                   type="button"
                   class="btn btn-icon p-1 btn-success"
                 >
@@ -423,7 +372,10 @@
                 </button>
               </div>
             </div>
-            <div class="card-body" v-if="schoolChecklists.length > 0">
+            <div
+              class="card-body"
+              v-if="schoolChecklists && schoolChecklists.length > 0"
+            >
               <div
                 class="card card-collapsed borders"
                 v-for="checklist in schoolChecklists"
@@ -431,10 +383,7 @@
               >
                 <a
                   href="javascript:void(0)"
-                  class="
-                    card-options-collapse card-header
-                    br-te-3 br-ts-3 br-be-3 br-bs-3
-                  "
+                  class="card-options-collapse card-header br-te-3 br-ts-3 br-be-3 br-bs-3"
                   data-bs-toggle="card-collapse"
                 >
                   <div class="card-title w-100">
@@ -527,14 +476,7 @@
                     <p class="text-muted fs-10 mb-0">{{ contact.email }}</p>
                   </div>
                   <div
-                    class="
-                      s
-                      valign-middle
-                      text-end
-                      overflow-visible
-                      mt-2
-                      d-grid
-                    "
+                    class="s valign-middle text-end overflow-visible mt-2 d-grid"
                   >
                     <a
                       target="_blank"
@@ -717,72 +659,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="col-md-2 mb-2">
-                  <div class="princing-item border border-primary">
-                    <div class="pricing-divider text-center p-2 h-100 ">
-                      <span class="text-primary">
-                        <i class="fa fa-print fa-2x"></i>
-                      </span>
-                      <h4 class="display-6 text-primary fw-bold my-2">120</h4>
-                      <h5 class="text-primary pe-0 mb-2">Attestations Imprimées</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                  <div class="princing-item border border-primary">
-                    <div class="pricing-divider text-center p-2 h-100 ">
-                      <span class="text-primary">
-                        <i class="fa fa-puzzle-piece fa-2x"></i>
-                      </span>
-                      <h4 class="display-6 text-primary fw-bold my-2">120</h4>
-                      <h5 class="text-primary pe-0 mb-2">Jeux Educatifs Partagés</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                  <div class="princing-item border border-primary">
-                    <div class="pricing-divider text-center p-2 h-100 ">
-                      <span class="text-primary">
-                        <i class="fa fa-readme fa-2x"></i>
-                      </span>
-                      <h4 class="display-6 text-primary fw-bold my-2">120</h4>
-                      <h5 class="text-primary pe-0 mb-2">Cahier de Textes Enregistré</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                  <div class="princing-item border border-primary">
-                    <div class="pricing-divider text-center p-2 h-100 ">
-                      <span class="text-primary">
-                        <i class="fa fa-readme fa-2x"></i>
-                      </span>
-                      <h4 class="display-6 text-primary fw-bold my-2">120</h4>
-                      <h5 class="text-primary pe-0 mb-2">Cahier de Textes Enregistré</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                  <div class="princing-item border border-primary">
-                    <div class="pricing-divider text-center p-2 h-100 ">
-                      <span class="text-primary">
-                        <i class="fa fa-readme fa-2x"></i>
-                      </span>
-                      <h4 class="display-6 text-primary fw-bold my-2">120</h4>
-                      <h5 class="text-primary pe-0 mb-2">Cahier de Textes Enregistré</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                  <div class="princing-item border border-primary">
-                    <div class="pricing-divider text-center p-2 h-100 ">
-                      <span class="text-primary">
-                        <i class="fa fa-readme fa-2x"></i>
-                      </span>
-                      <h4 class="display-6 text-primary fw-bold my-2">120</h4>
-                      <h5 class="text-primary pe-0 mb-2">Cahier de Textes Enregistré</h5>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
           </div>
@@ -829,23 +705,19 @@
           </div>
           <div class="card-body">
             <table class="table border vertical-align-middle table-hover mb-0">
-              <tbody v-if="tickets.length > 0">
+              <tbody v-if="tickets">
                 <tr v-for="ticket in tickets" :key="ticket.id">
                   <td class="text-center">
                     <!-- <i class="fa fa-3x text-success fa-check-circle mb-2"></i>
                     <br> -->
                     <span
-                      class="
-                        tag tag-sm tag-rounded tag-success
-                        bg-success
-                        text-nowrap
-                      "
+                      class="tag tag-sm tag-rounded tag-success bg-success text-nowrap"
                       >{{ ticket.nature }}</span
                     >
                   </td>
                   <td>
                     <h5>{{ ticket.label }}</h5>
-                    <span v-html="ticket.details"></span> 
+                    <span v-html="ticket.details"></span>
                   </td>
                   <td class="text-center">
                     <span
@@ -912,8 +784,10 @@
                     {{ intervention.date.month }}
                   </td>
                   <td>
-                    <h5>{{ intervention.label }}</h5>
-                   <span v-html="intervention.details "></span> 
+                    <h5>
+                      {{ intervention.label }}
+                    </h5>
+                    <span v-html="intervention.details"></span>
                   </td>
                   <td style="width: 25%">
                     <span class="tag tag-rounded tag-primary text-nowrap">{{
@@ -937,10 +811,7 @@
     <transition
       @enter="startTransitionModal($refs.modalAddContact)"
       @after-enter="endTransitionModal($refs.modalAddContact)"
-      @before-leave="
-        endTransitionModal($refs.modalAddContact);
-        clearForm();
-      "
+      @before-leave="endTransitionModal($refs.modalAddContact)"
       @after-leave="startTransitionModal($refs.modalAddContact)"
     >
       <div class="modal fade" v-if="showModalAddContact" ref="modalAddContact">
@@ -1050,10 +921,7 @@
     <transition
       @enter="startTransitionModal($refs.modalChecklist)"
       @after-enter="endTransitionModal($refs.modalChecklist)"
-      @before-leave="
-        endTransitionModal($refs.modalChecklist);
-        clearForm();
-      "
+      @before-leave="endTransitionModal($refs.modalChecklist)"
       @after-leave="startTransitionModal($refs.modalChecklist)"
     >
       <div class="modal fade" v-if="showModalChecklist" ref="modalChecklist">
@@ -1116,7 +984,7 @@
                 <button
                   type="button"
                   class="btn btn-secondary"
-                  @click="showModalChecklist = !showModalChecklist"
+                  @click="showModalChecklist = false"
                 >
                   Close
                 </button>
@@ -1751,7 +1619,7 @@ export default {
             this.schoolChecklists = result.data;
             // e.target.querySelector('button').disabled = false;
             form.reset();
-            this.showModalChecklist = !this.showModalChecklist;
+            this.showModalChecklist = false;
           })
           .catch(function (err) {});
       }
@@ -1910,7 +1778,6 @@ export default {
     },
     updateContact: async function (e) {
       e.preventDefault();
-
       const token = localStorage.getItem("auth-token");
       if (token) {
         let form = e.target;
